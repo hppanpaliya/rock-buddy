@@ -54,6 +54,5 @@ run()
 setInterval(async () => { //generates new token every 50 minutes
   let newToken = await generateToken()
   process.env.AUTH_TOKEN = newToken
-  console.log(process.env.AUTH_TOKEN)
   }, 3000000)
 

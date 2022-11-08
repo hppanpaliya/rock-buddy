@@ -1,11 +1,15 @@
 const axios = require('axios')
 const SpotifyWebApi = require('spotify-web-api-node');
+const helper = require('../helper')
+const {validateSearchTerm} = helper.validations
 
 
 
 async function searchArtists(searchTerm, offset=20){
 
     //1. validate 
+    if(arguments.length < 1) throw "Invalid number of arguments."
+    searchTerm = validateSearchTerm({searchTerm: searchTerm})
 
     //2. configure token and query
     const api_url = `https://api.spotify.com/v1/search?query=${searchTerm}%20genre:rock&type=artist`;
@@ -16,7 +20,7 @@ async function searchArtists(searchTerm, offset=20){
                 }
     });
 
-    let results = data.data
+    let results = data.data.artists
     return results;
 
 
@@ -26,7 +30,9 @@ async function searchArtists(searchTerm, offset=20){
 async function searchTracks(searchTerm, offset=20){
 
     //1. validate 
-
+    if(arguments.length < 1) throw "Invalid number of arguments.";
+    searchTerm = validateSearchTerm({searchTerm: searchTerm});
+    
     //2. configure token and query
     const api_url = `https://api.spotify.com/v1/search?query=${searchTerm}%20genre:rock&type=track`;
 
@@ -36,7 +42,7 @@ async function searchTracks(searchTerm, offset=20){
                 }
     });
 
-    let results = data.data
+    let results = data.data.tracks;
     return results;
 
 }
@@ -44,6 +50,8 @@ async function searchTracks(searchTerm, offset=20){
 async function searchAlbums(searchTerm, offset=0){
 
     //1. validate 
+    if(arguments.length < 1) throw "Invalid number of arguments.";
+    searchTerm = validateSearchTerm({searchTerm: searchTerm});
 
     //2. configure token and query
     let spotifyApi = new SpotifyWebApi({
@@ -59,8 +67,6 @@ async function searchAlbums(searchTerm, offset=0){
     data = data.body.albums
 
     return data;
-
-
 
 }
 
