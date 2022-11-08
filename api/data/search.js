@@ -65,41 +65,8 @@ async function searchAlbums(searchTerm, offset=0){
 }
 
 
-async function test(authOptions){
-    try{
-        // await searchArtists("pink floyd")
-
-    }catch(e){
-        console.log(e)
-    }
-}
-
 module.exports ={
     searchArtists,
     searchAlbums,
     searchTracks
 }
-
-
-
-
-
-
-// async function generateToken(){
-//     var client_id = '8accb0b6bde847479dbbe3b84de47da2'; // Your client id
-//     var client_secret = '904a75323e014acead321af7806f3130'; // Your secret
-   
-//     const data = await axios.request({
-//         url: "https://accounts.spotify.com/api/token",
-//         method: "POST",
-//         headers: {
-//             'Content-Type': 'application/x-www-form-urlencoded',
-//             "Authorization": 'Basic ' + (new Buffer(client_id + ':' + client_secret).toString('base64')),
-//         },
-//         params: {
-//             grant_type: "client_credentials",
-//           }
-//     })
-//     return data.data.access_token
-
-// }

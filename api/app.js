@@ -21,7 +21,8 @@ configRoutes(app);
 async function generateToken(){
     var client_id = process.env.CLIENT_ID; 
     var client_secret = process.env.CLIENT_SECRET; 
-   
+    
+    console.log("Generating bearer token...")
     const data = await axios.request({
         url: "https://accounts.spotify.com/api/token",
         method: "POST",
@@ -33,6 +34,7 @@ async function generateToken(){
             grant_type: "client_credentials",
           }
     })
+    console.log("Successfully generated Spotify Bearer token.")
     return data.data.access_token
 }
 
@@ -49,4 +51,9 @@ async function run(){
 
 run()
 
+setInterval(async () => { //generates new token every 50 minutes
+  let newToken = await generateToken()
+  process.env.AUTH_TOKEN = newToken
+  console.log(process.env.AUTH_TOKEN)
+  }, 3000000)
 
