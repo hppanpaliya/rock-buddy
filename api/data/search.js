@@ -8,42 +8,16 @@ async function searchArtists(searchTerm, offset=20){
     //1. validate 
 
     //2. configure token and query
-    let spotifyApi = new SpotifyWebApi({
-        clientId:  process.env.CLIENT_ID,
-        clientSecret: process.env.CLIENT_SECRET,
-        redirectUri: 'localhost:4000'
-      });
+    const api_url = `https://api.spotify.com/v1/search?query=${searchTerm}%20genre:rock&type=artist`;
 
-    spotifyApi.setAccessToken(process.env.AUTH_TOKEN);
-
-    //3. query spotify
-    let data = await spotifyApi.searchArtists(searchTerm, {"offset": offset});
-    data = data.body.artists
-
-    // 4.filter data for only rock artists
-    let filtered = []
-    data.items.forEach(artist => {
-        let rockArtist = false
-        if(artist.genres.length == 0){
-            return
-        };
-       
-        artist.genres.forEach(genre =>{
-            if (genre.indexOf("rock") !== -1){
-                rockArtist = true
-                return;
-            }
-        })
-
-        if(rockArtist){
-            filtered.push(artist)
-        }
+    const data = await axios.get(api_url, {
+      headers: {
+        'Authorization': `Bearer ${process.env.AUTH_TOKEN}`
+                }
     });
 
-    //5. set data as filtered artists
-    data.items = filtered
-
-    return data;
+    let results = data.data
+    return results;
 
 
 
@@ -54,19 +28,16 @@ async function searchTracks(searchTerm, offset=20){
     //1. validate 
 
     //2. configure token and query
-    let spotifyApi = new SpotifyWebApi({
-        clientId:  process.env.CLIENT_ID,
-        clientSecret: process.env.CLIENT_SECRET,
-        redirectUri: 'localhost:4000'
-      });
+    const api_url = `https://api.spotify.com/v1/search?query=${searchTerm}%20genre:rock&type=track`;
 
-    spotifyApi.setAccessToken(process.env.AUTH_TOKEN);
+    const data = await axios.get(api_url, {
+      headers: {
+        'Authorization': `Bearer ${process.env.AUTH_TOKEN}`
+                }
+    });
 
-    //3. query spotify
-    let data = await spotifyApi.searchTracks(searchTerm, {"offset": offset});
-    data = data.body.tracks    
-
-    return data;
+    let results = data.data
+    return results;
 
 }
 
@@ -87,35 +58,13 @@ async function searchAlbums(searchTerm, offset=0){
     let data = await spotifyApi.searchAlbums(searchTerm, {"offset": offset, "limit": 50});
     data = data.body.albums
 
-
-    //4.filter data for only rock artists
-    // let filtered = []
-    // data.items.forEach(album => {
-    //     let rockAlbum = false
-    //     if(album.genres.length == 0){
-    //         return
-    //     };
-       
-    //     album.genres.forEach(genre =>{
-    //         if (genre.indexOf("rock") !== -1){
-    //             rockAlbum = true
-    //             return;
-    //         }
-    //     })
-
-    //     if(rockAlbum){
-    //         filtered.push(album)
-    //     }
-    // });
-
-    //5. set data as filtered artists
-    // data.items = filtered
-
     return data;
 
 
 
 }
+
+
 async function test(authOptions){
     try{
         // await searchArtists("pink floyd")
