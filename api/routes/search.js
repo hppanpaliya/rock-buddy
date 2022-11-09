@@ -71,7 +71,7 @@ router.route("/songs")
             let term = validateSearchTerm(request.body);
 
             //2. query api
-            let data = await searchTracks(term)
+            let data = await searchTracks(term, 0)
            
             //3. check if no results
             if(data.items.length === 0){

@@ -5,14 +5,14 @@ const {validateSearchTerm} = helper.validations
 
 
 
-async function searchArtists(searchTerm, offset=20){
+async function searchArtists(searchTerm, offset=0){
 
     //1. validate 
     if(arguments.length < 1) throw "Invalid number of arguments."
     searchTerm = validateSearchTerm({searchTerm: searchTerm})
 
     //2. configure token and query
-    const api_url = `https://api.spotify.com/v1/search?query=${searchTerm}%20genre:rock&type=artist`;
+    const api_url = `https://api.spotify.com/v1/search?query=${searchTerm}%20genre:rock&type=artist&offset=${offset}`;
 
     const data = await axios.get(api_url, {
       headers: {
@@ -27,14 +27,14 @@ async function searchArtists(searchTerm, offset=20){
 
 }
 
-async function searchTracks(searchTerm, offset=20){
+async function searchTracks(searchTerm, offset=0){
 
     //1. validate 
     if(arguments.length < 1) throw "Invalid number of arguments.";
     searchTerm = validateSearchTerm({searchTerm: searchTerm});
-    
+
     //2. configure token and query
-    const api_url = `https://api.spotify.com/v1/search?query=${searchTerm}%20genre:rock&type=track`;
+    const api_url = `https://api.spotify.com/v1/search?query=${searchTerm}%20genre:rock&type=track&limit=50&offset=${offset}`;
 
     const data = await axios.get(api_url, {
       headers: {
