@@ -15,7 +15,8 @@ router.route("/artists")
     .get(async (request, response) =>{
         try {
             //1. validate 
-            let term = validateSearchTerm(request.body)
+            // let term = validateSearchTerm(request.body)
+            let term = request.query.term;
 
             //2. query
             let data = await searchArtists(term)
@@ -42,7 +43,8 @@ router.route("/albums")
         try {
 
             //1. validate term
-            let term = validateSearchTerm(request.body);
+            // let term = validateSearchTerm(request.body);
+            let term = request.query.term;
 
             //2. query api
             let data = await searchAlbums(term)
@@ -68,7 +70,9 @@ router.route("/songs")
         try {
 
             //1. validate term
-            let term = validateSearchTerm(request.body);
+            // let term = validateSearchTerm(request.body);
+            let term = request.query.term;
+
 
             //2. query api
             let data = await searchTracks(term, 0)
