@@ -1,5 +1,7 @@
 const vals = require('./validations');
+const constants = require('./constants');
 
 module.exports = {
-    validations: vals
+    validations: vals,
+	constants: constants
 }

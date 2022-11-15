@@ -11,6 +11,17 @@ function validateSearchTerm(body){
     return term; 
 }
 
+function checkString(str) { 
+	if(!str) throw `Error: You must supply an a string.`;
+	if(typeof(str) !== 'string') throw `Error: Input must be of type  string.`;
+	str = str.trim();
+	if(str.length === 0) throw `Error: Input must not be empty.`;
+	return str;
+}
+
+
+
 module.exports = {
-    validateSearchTerm
+    validateSearchTerm,
+	checkString
 }

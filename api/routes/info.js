@@ -1,0 +1,60 @@
+const express = require("express");
+const router = express.Router();
+const redis = require('redis');
+const client = redis.createClient();
+client.connect().then(() => {});
+
+const helper = require('../helper')
+const { checkString } = helper.validations;
+const data = require('../data');
+const info = data.info;
+
+router.get('/:type(artist|album|track)/:id', async (req, res, next) => { 
+	try { 
+		req.params.id = checkString(req.params.id);
+	} catch (e) { 
+		return res.status(400).json({error: e});
+	}
+	next();
+});
+
+// Sample id: 0TnOYISbd1XYRBk9myaseg
+router.get('/artist/:id', async (req, res) => {
+	try {
+		let foundArtist = await info.getArtistById(req.params.id);
+		return res.json(foundArtist);
+	} catch (e) {
+		if(e.response && e.response.status) {
+			return res.status(e.response.status).json({error: e});
+		}
+		return res.status(500).json({error: e});
+	}
+});
+
+// Sample id: 4aawyAB9vmqN3uQ7FjRGTy
+router.get('/album/:id', async (req, res) => {
+	try {
+		let foundAlbum = await info.getAlbumById(req.params.id);
+		return res.json(foundAlbum);
+	} catch (e) {
+		if(e.response && e.response.status) {
+			return res.status(e.response.status).json({error: e});
+		}
+		return res.status(500).json({error: e});
+	}
+});
+
+// Sample id: 11dFghVXANMlKmJXsNCbNl
+router.get('/track/:id', async (req, res) => {
+	try {
+		let foundTrack = await info.getTrackById(req.params.id);
+		return res.json(foundTrack);
+	} catch (e) {
+		if(e.response && e.response.status) {
+			return res.status(e.response.status).json({error: e});
+		}
+		return res.status(500).json({error: e});
+	}
+});
+
+module.exports = router;
