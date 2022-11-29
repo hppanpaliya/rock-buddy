@@ -5,12 +5,16 @@ import ResultCard from './ResultCard';
 import SearchType from './SearchType';
 import Container from 'react-bootstrap/Container';
 import SearchBar from './SearchBar';
+import Pagnation from './Pagnation';
 
 
 const Search = (props) => {
     const [loading, setLoading] = useState(true);
     const [searchType, setSearchType] = useState('artists') //default search type upon page referesh
     const [searchTerm, setSearchTerm] = useState('');
+    const [page, setPage] = useState(0);
+    const [next, setNext] = useState(null);
+    const [previous, setPrevious] = useState(null)
     const [searchData, setSearchData] = useState(undefined)
     const [_404Flag, set404Flag] = useState(false);
     const [_400Flag, set400Flag] = useState(false);
@@ -25,16 +29,18 @@ const Search = (props) => {
     
             const data = await axios({
                 method: 'GET',
-                url: `http://localhost:4000/search/${searchType}?term=${searchTerm}`,
+                url: `http://localhost:4000/search/${searchType}?term=${searchTerm}&page=${page}`,
                 headers: { "Content-Type": "application/json" }, 
-            })
-            
+            });
+
             if(data.data.items.length === 0){
               set404Flag(true);
             }
 
             else{
               setSearchData(data.data.items);
+              setNext(data.data.next);
+              setPrevious(data.data.previous);
               set400Flag(false);
               set404Flag(false);
             }
@@ -56,7 +62,7 @@ const Search = (props) => {
         else{
           setLoading(false)
         }
-      }, [searchTerm, searchType]);
+      }, [searchTerm, searchType, page, setPage]);
 
  
     if (loading) {
@@ -71,7 +77,7 @@ const Search = (props) => {
       return(
         <div>
             <SearchType setSearchType={setSearchType} setSearchData={setSearchData}></SearchType>
-            <SearchBar setSearchTerm={setSearchTerm} term={searchType}/>
+            <SearchBar setSearchTerm={setSearchTerm} setPage={setPage} term={searchType}/>
             <br />
             <br />
             <h1>Sorry, no results found</h1>
@@ -84,7 +90,7 @@ const Search = (props) => {
       return(
         <div>
           <SearchType setSearchType={setSearchType} setSearchData={setSearchData}></SearchType>
-          <SearchBar setSearchTerm={setSearchTerm} term={searchType}/>
+          <SearchBar setSearchTerm={setSearchTerm} setPage={setPage} term={searchType}/>
           <br />
           <br />
           <h1>400: Invalid Search Term</h1>
@@ -96,8 +102,9 @@ const Search = (props) => {
     return(
       <div>
         <SearchType setSearchType={setSearchType} setSearchData={setSearchData}></SearchType>
-        <SearchBar setSearchTerm={setSearchTerm} term={searchType}/>
-        <Container>
+        <SearchBar setSearchTerm={setSearchTerm}  setPage={setPage} term={searchType}/>
+        <Pagnation setPage={setPage} page={page} next={next} prev={previous}></Pagnation>
+        <Container style={{alignContent: "center"}}>
           <ResultCard searchData={searchData} searchType={searchType}></ResultCard>
         </Container>    
       </div>
