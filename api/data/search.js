@@ -24,8 +24,6 @@ async function searchArtists(searchTerm, page){
     let results = data.data.artists
     return results;
 
-
-
 }
 
 async function searchTracks(searchTerm, page){

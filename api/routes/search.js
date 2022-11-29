@@ -18,7 +18,7 @@ router.route("/artists")
 
             // let term = validateSearchTerm(request.body)
             let term = request.query.term;
-            let page = request.query.page;
+            let page = request.query.page || 0;
 
             //2. query
             let data = await searchArtists(term, page)
@@ -48,7 +48,7 @@ router.route("/albums")
 
             // let term = validateSearchTerm(request.body);
             let term = request.query.term;
-            let page = request.query.page;
+            let page = request.query.page || 0;
 
             //2. query api
             let data = await searchAlbums(term, page)
@@ -77,7 +77,7 @@ router.route("/songs")
 
             // let term = validateSearchTerm(request.body);
             let term = request.query.term;
-            let page = request.query.page;
+            let page = request.query.page || 0;
 
             //2. query api
             let data = await searchTracks(term, page)
