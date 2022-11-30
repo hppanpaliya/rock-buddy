@@ -7,6 +7,7 @@ const SearchBar = (props) =>{
      */
       const handleChange = (e) => {
           props.setSearchTerm(e.target.value);
+          props.setPage(0); //if the search term ever changes, we MUST reset the pagnation back to 0
         };
         
       return (
