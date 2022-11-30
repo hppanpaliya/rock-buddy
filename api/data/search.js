@@ -52,7 +52,17 @@ async function searchTracks(searchTerm, page){
     if(arguments.length < 1) throw "Invalid number of arguments.";
     searchTerm = validateSearchTerm({searchTerm: searchTerm});
 
-    //2. configure token and query
+    //2. check if term & page num in redis
+    let key = searchTerm + "_" + page.toString() //the format for caching song pages is <searchTerm_pageNum>
+    let songPage = await client.hGet('songPage', key);
+    if(songPage){
+        console.log(`song page found in redis`)
+        let songs = await client.hGet('songPage', key);
+        return JSON.parse(songs);
+    };
+
+
+    //3. otherwise configure token and query API
     let offset = page*20;
     const api_url = `https://api.spotify.com/v1/search?query=${searchTerm}%20genre:rock&type=track&offset=${offset}`;
 
@@ -62,7 +72,12 @@ async function searchTracks(searchTerm, page){
                 }
     });
 
+    //4. add to redis
     let results = data.data.tracks;
+    console.log(`Song page not found. Adding to redis.`)
+    await client.hSet('songPage', key, JSON.stringify(results));
+
+    //5. return
     return results;
 
 }
@@ -77,7 +92,6 @@ async function searchAlbums(searchTerm, page){
     let key = searchTerm + "_" + page.toString() //the format for caching album pages is <searchTerm_pageNum>
     let albumPage = await client.hGet('albumPage', key);
     if(albumPage){
-        console.log(`album page found in redis`)
         let albums = await client.hGet('albumPage', key);
         return JSON.parse(albums);
     };
@@ -109,7 +123,6 @@ async function searchAlbums(searchTerm, page){
     };
 
     //5. add to redis
-    console.log(`Album page not found. Adding to redis.`)
     await client.hSet('albumPage', key, JSON.stringify(results));
 
     //6. return
