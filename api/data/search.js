@@ -31,7 +31,15 @@ async function searchArtists(searchTerm, page){
     if(arguments.length < 1) throw "Invalid number of arguments."
     searchTerm = validateSearchTerm({searchTerm: searchTerm})
 
-    //2. configure token and query
+    //2. check if term & page num in redis
+    let key = searchTerm + "_" + page.toString() //the format for caching song pages is <searchTerm_pageNum>
+    let artistPage = await client.hGet('artistPage', key);
+    if(artistPage){
+        let artists = await client.hGet('artistPage', key);
+        return JSON.parse(artists);
+    };
+
+    //3. otherwise configure token and query API
     let offset = page*20;
     const api_url = `https://api.spotify.com/v1/search?query=${searchTerm}%20genre:rock&type=artist&offset=${offset}`;
 
@@ -41,7 +49,11 @@ async function searchArtists(searchTerm, page){
                 }
     });
 
+    //4. add to redis
     let results = data.data.artists
+    await client.hSet('artistPage', key, JSON.stringify(results))
+
+    //5. return
     return results;
 
 }
@@ -56,11 +68,9 @@ async function searchTracks(searchTerm, page){
     let key = searchTerm + "_" + page.toString() //the format for caching song pages is <searchTerm_pageNum>
     let songPage = await client.hGet('songPage', key);
     if(songPage){
-        console.log(`song page found in redis`)
         let songs = await client.hGet('songPage', key);
         return JSON.parse(songs);
     };
-
 
     //3. otherwise configure token and query API
     let offset = page*20;
