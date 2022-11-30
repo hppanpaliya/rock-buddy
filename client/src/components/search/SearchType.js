@@ -9,10 +9,12 @@ const SearchType = (props) =>{
     
     let setSearchType = props.setSearchType
     let setSearchData = props.setSearchData
+    let setPage = props.setPage
 
     const onSiteChanged = (e) => {
         setSearchData(undefined) //need to clear the old state search data when the search type is changed
         setSearchType(e.target.value) //sets new search type value in state
+        setPage(0) //must reset pagnation if search type changes
     };
 
     return(

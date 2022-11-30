@@ -76,7 +76,7 @@ const Search = (props) => {
     else if(_404Flag){
       return(
         <div>
-            <SearchType setSearchType={setSearchType} setSearchData={setSearchData}></SearchType>
+            <SearchType setSearchType={setSearchType} setSearchData={setSearchData} setPage={setPage}></SearchType>
             <SearchBar setSearchTerm={setSearchTerm} setPage={setPage} term={searchType}/>
             <br />
             <br />
@@ -89,7 +89,7 @@ const Search = (props) => {
     else if (_400Flag){
       return(
         <div>
-          <SearchType setSearchType={setSearchType} setSearchData={setSearchData}></SearchType>
+          <SearchType setSearchType={setSearchType} setSearchData={setSearchData} setPage={setPage}></SearchType>
           <SearchBar setSearchTerm={setSearchTerm} setPage={setPage} term={searchType}/>
           <br />
           <br />
@@ -101,7 +101,7 @@ const Search = (props) => {
         
     return(
       <div>
-        <SearchType setSearchType={setSearchType} setSearchData={setSearchData}></SearchType>
+        <SearchType setSearchType={setSearchType} setSearchData={setSearchData} setPage={setPage}></SearchType>
         <SearchBar setSearchTerm={setSearchTerm}  setPage={setPage} term={searchType}/>
         <Pagnation setPage={setPage} page={page} next={next} prev={previous}></Pagnation>
         <Container style={{alignContent: "center"}}>
