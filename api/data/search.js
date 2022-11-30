@@ -49,9 +49,16 @@ async function searchArtists(searchTerm, page){
                 }
     });
 
-    //4. add to redis
+    //4. add page to redis
     let results = data.data.artists
     await client.hSet('artistPage', key, JSON.stringify(results))
+
+    //4a. add each artist to redis to optimize album search speed
+    for(let i=0; i<results.items.length;  i++){
+      let id = results.items[i].id;
+      await client.hSet('artistById', id, "true");
+    };
+
 
     //5. return
     return results;
@@ -147,13 +154,11 @@ async function checkIfRock(id){
   id = id.toString()
 
   //2. check if in redis
-  // console.log(`checking redis for artist id ${id}...`)
-    let artistSearch = await client.hGet('artistById', id);
-    if(artistSearch){
-        // console.log(`artist ID ${id} found in redis`)
-        let artist = await client.hGet('artistById', id);
-        artist = (artist === 'true')
-        return artist;
+  let artistSearch = await client.hGet('artistById', id);
+  if(artistSearch){
+    let artist = await client.hGet('artistById', id);
+    artist = (artist === 'true')
+    return artist;
     }
 
   //3. if not in redis, configure token and query
@@ -178,7 +183,6 @@ async function checkIfRock(id){
   }
 
   //4. add artist to redis
-  // console.log(`Artist ${id} not found. Adding to redis.`);
   await client.hSet('artistById', id, isRock.toString());
 
   //5. return
