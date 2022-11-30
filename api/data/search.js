@@ -69,8 +69,8 @@ async function searchAlbums(searchTerm, page){
     searchTerm = validateSearchTerm({searchTerm: searchTerm});
     
     //2. configure tolken and query
-    let offset = page*20;
-    const api_url = `https://api.spotify.com/v1/search?query=${searchTerm}%20&type=album&offset=${offset}`;
+    let offset = page*50;
+    const api_url = `https://api.spotify.com/v1/search?query=${searchTerm}%20&type=album&limit=50&offset=${offset}`;
 
     const data = await axios.get(api_url, {
       headers: {
@@ -114,7 +114,7 @@ async function checkIfRock(id){
     });
   
   let genres = data.data.genres;
-  
+
   //3. check if rock
   let isRock = false;
   for(let i=0;i<genres.length;  i++){
