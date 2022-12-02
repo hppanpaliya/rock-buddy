@@ -4,7 +4,8 @@ import axios from 'axios';
 
 import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
-
+import Carousel from 'react-bootstrap/Carousel';
+import Stack from 'react-bootstrap/Stack';
 
 const InfoPage = () => { 
     
@@ -46,7 +47,10 @@ const InfoPage = () => {
 
 
 	const ArtistPage = () => {
+		const artistData = infoData.foundArtist;
+		const artistTopTracks = infoData.foundArtistTopTracks;
 		return (
+			<div>
 			<Card style={{ 
 				width: '52rem',
 				align: 'center',
@@ -54,15 +58,14 @@ const InfoPage = () => {
 				marginRight: 'auto',
 				}}>
 				<Card.Header>
-					<h1>{infoData.name}</h1>
+					<h1>{artistData.name}</h1>
 				</Card.Header>
 				<Card.Body>
-					<Card.Img style={{width: '66%'}} src={infoData.images[0].url} />
-					<Card.Text>
+					<Card.Img style={{width: '66%'}} src={artistData.images[0].url} />
 						<h3>Genres</h3>
 						<ListGroup style={{width: '12rem', align: 'center', marginLeft: 'auto', marginRight: 'auto',}}>
 							{ 
-								infoData.genres.map((genre) => { 
+								artistData.genres.map((genre) => { 
 									genre = genre.split(" ").map(word => { return word[0].toUpperCase() + word.substring(1)}).join(" ")
 									return(
 										<ListGroup.Item>{genre}</ListGroup.Item>
@@ -70,10 +73,70 @@ const InfoPage = () => {
 								})
 							}
 						</ListGroup>
-						<h3>Followers: {infoData.followers.total}</h3>
-					</Card.Text>
-				</Card.Body>
-			</Card>
+						<h3>Followers: {artistData.followers.total}</h3>
+					</Card.Body>
+				</Card>
+
+					<Carousel
+						style={{
+							width: '42rem',
+							align: 'center',
+							marginLeft: 'auto',
+							marginRight: 'auto',
+						}}
+					>
+						{
+							artistTopTracks.tracks.reduce( (acc, track, index, array) => {
+								if( index % 2 === 0) acc.push(array.slice(index, index + 2));
+								return acc;
+							}, [])
+							.map((track) => {
+								console.log(track);
+								return (
+										<Carousel.Item>
+											<Stack
+											    direction="horizontal"
+												className="h-100 justify-content-center align-items-center"
+												gap={3}
+												max-width="10%"
+												max-height="10%"
+											>
+												<Card>
+													<img
+														className="d-block w-100"
+														src={track[0].album.images[0].url}
+														alt="First slide"
+														/>
+													<Carousel.Caption>
+														<h3>{track[0].name}</h3>
+														<p>{track[0].album.name}</p>
+													</Carousel.Caption>
+												</Card>
+												{
+													track.length === 2
+													?
+													<Card>
+														<img
+															className="d-block w-100"
+															src={track[1].album.images[0].url}
+															alt="First slide"
+															/>
+														<Carousel.Caption>
+															<h3>{track[1].name}</h3>
+															<p>{track[1].album.name}</p>
+														</Carousel.Caption>
+													</Card>
+													: null
+												}
+
+											</Stack>
+										</Carousel.Item>
+								)
+							})
+						}
+					</Carousel>
+			
+			</div>
 		);
 	};
 	const AlbumPage = () => {
@@ -104,20 +167,6 @@ const InfoPage = () => {
 
 	}
 
-
-
-        // <div>
-        //     <p>I am the Info component.</p>
-        //     <p>The id is: {id}</p>
-        //     <p>The category is: {category}</p>
-        //     <p>Album: {infoData.name}</p>
-        //     {/* <p>Genres: {infoData.genres.length !== 0 ? infoData.genres : "No Genres Listed"}</p> */}
-        //     <img src={infoData.images[0].url}></img>
-        //     <p>Release Date: {infoData.release_date}</p>
-        
-        // </div>
-
-    
 };
 
 export default InfoPage;
