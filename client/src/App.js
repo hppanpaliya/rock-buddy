@@ -7,7 +7,7 @@ import {BrowserRouter as Router, Route, Link, Routes} from 'react-router-dom';
 import Home from './components/home'
 import Search from './components/search/Search';
 import Error404 from './components/404'
-import InfoPage from './components/InfoPage';
+import InfoPage from './components/info/InfoPage';
 
 
 function App() {

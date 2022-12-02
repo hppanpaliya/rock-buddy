@@ -7,6 +7,7 @@ client.connect().then(() => {});
 const helper = require('../helper')
 const { checkString } = helper.validations;
 const data = require('../data');
+const { default: axios } = require("axios");
 const info = data.info;
 
 router.get('/:type(artist|album|track)/:id', async (req, res, next) => { 
@@ -22,8 +23,10 @@ router.get('/:type(artist|album|track)/:id', async (req, res, next) => {
 router.get('/artist/:id', async (req, res) => {
 	try {
 		let foundArtist = await info.getArtistById(req.params.id);
-		return res.json(foundArtist);
+		let foundArtistTopTracks = await info.getArtistTopTracksById(req.params.id);
+		return res.json({foundArtist: foundArtist, foundArtistTopTracks: foundArtistTopTracks});
 	} catch (e) {
+		console.log(e);
 		if(e.response && e.response.status) {
 			return res.status(e.response.status).json({error: e});
 		}
@@ -54,6 +57,18 @@ router.get('/track/:id', async (req, res) => {
 			return res.status(e.response.status).json({error: e});
 		}
 		return res.status(500).json({error: e});
+	}
+});
+
+router.get('/test', async (req, res) => { 
+	try { 
+		let { data } = await axios.get(
+			'http://api.music-story.com/oauth/request_token?oauth_consumer_key=<VOTRE CONSUMER KEY>&oauth_signature=<SIGNATURE OAUTH>'
+
+		)
+	} catch(e) { 
+		console.log(e);
+		res.json({error: e});
 	}
 });
 

@@ -61,8 +61,34 @@ async function getTrackById(id) {
 	return response.data;
 }
 
+async function getArtistTopTracksById(id) { 
+	id = checkString(id);
+	
+	const response = await axios.get(`${SPOTIFY_API_BASE_URL}/artists/${id}/top-tracks?country=US`,
+		{
+			headers: { 'Authorization': `Bearer ${process.env.AUTH_TOKEN}` }
+		}
+	);
+	return response.data;
+
+}
+
+async function getArtistAlbumsById(id) { 
+	id = checkString(id);
+	
+	const response = await axios.get(`${SPOTIFY_API_BASE_URL}/artists/${id}/albums`,
+		{
+			headers: { 'Authorization': `Bearer ${process.env.AUTH_TOKEN}` }
+
+		}
+	);
+	return response.data;
+}
+
 module.exports ={
 	getArtistById,
 	getAlbumById,
-	getTrackById
+	getTrackById,
+	getArtistTopTracksById,
+	getArtistAlbumsById
 }
