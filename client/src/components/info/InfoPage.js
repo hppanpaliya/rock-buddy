@@ -7,6 +7,8 @@ import ListGroup from 'react-bootstrap/ListGroup';
 import Carousel from 'react-bootstrap/Carousel';
 import Stack from 'react-bootstrap/Stack';
 
+import '../../InfoPage.css';
+
 const InfoPage = () => { 
     
     let { id } = useParams();
@@ -107,10 +109,12 @@ const InfoPage = () => {
 														src={track[0].album.images[0].url}
 														alt="First slide"
 														/>
-													<Carousel.Caption>
-														<h3>{track[0].name}</h3>
-														<p>{track[0].album.name}</p>
-													</Carousel.Caption>
+														{/* <Carousel.Caption className='carousel-caption'>
+															<h3>{track[0].name}</h3>
+															<p>{track[0].album.name}</p>
+														</Carousel.Caption>		 */}
+
+
 												</Card>
 												{
 													track.length === 2
@@ -121,10 +125,10 @@ const InfoPage = () => {
 															src={track[1].album.images[0].url}
 															alt="First slide"
 															/>
-														<Carousel.Caption>
+														{/* <Carousel.Caption className='carousel-caption'>
 															<h3>{track[1].name}</h3>
 															<p>{track[1].album.name}</p>
-														</Carousel.Caption>
+														</Carousel.Caption> */}
 													</Card>
 													: null
 												}
