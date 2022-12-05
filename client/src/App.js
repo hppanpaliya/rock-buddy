@@ -5,6 +5,7 @@ import {BrowserRouter as Router, Route, Link, Routes} from 'react-router-dom';
 
 //components
 import Home from './components/home'
+import Navbarcustom from './components/navbar';
 import Search from './components/search/Search';
 import Error404 from './components/404'
 import SignIn from "./components/firebase/SignIn";
@@ -21,23 +22,23 @@ import InfoPage from './components/info/InfoPage';
 
 function App() {
 
-    const auth = useSelector((state) => state.auth);
+    // const auth = useSelector((state) => state.auth);
 
-    useEffect(() => {
-      console.log("App.js");
-      const f = async () => {
-        firebaseApp.auth().onAuthStateChanged(async (user) => {
-          if (auth.user && !auth.loading) {
-            return await refresh(user.displayName, user.email);
-          }
-          if (!user && !authenticated) {
-            dispatch(logout());
-          }
-        });
-        await firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION);
-      };
-      f();
-    }, []);
+    // useEffect(() => {
+    //   console.log("App.js");
+    //   const f = async () => {
+    //     firebaseApp.auth().onAuthStateChanged(async (user) => {
+    //       if (auth.user && !auth.loading) {
+    //         return await refresh(user.displayName, user.email);
+    //       }
+    //       if (!user && !authenticated) {
+    //         dispatch(logout());
+    //       }
+    //     });
+    //     await firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION);
+    //   };
+    //   f();
+    // }, []);
 
 
 
@@ -47,6 +48,7 @@ function App() {
       <header className="App-header">
        <h1>Rock Buddy</h1>
       </header>
+      <Navbarcustom></Navbarcustom>
       <div className='App-body'>
         <Routes>
           <Route exact path='/' element={<Home />} />
