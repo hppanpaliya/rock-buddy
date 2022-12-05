@@ -7,6 +7,7 @@ import {BrowserRouter as Router, Route, Link, Routes} from 'react-router-dom';
 import Home from './components/home'
 import Search from './components/search/Search';
 import Error404 from './components/404'
+import InfoPage from './components/info/InfoPage';
 
 
 function App() {
@@ -20,7 +21,7 @@ function App() {
         <Routes>
           <Route exact path='/' element={<Home />} />
           <Route exact path='/search' element={<Search />} />
-
+          <Route path='/info/:category/:id' element={<InfoPage/>}/>
           <Route exact path='*' element={<Error404/>}/>
         </Routes>
       </div>
