@@ -90,6 +90,11 @@ async function getTrackById(id) {
 	}
 }
 
+/**
+ * 
+ * @param {string} id 
+ * @returns {object} top tracks for artist
+ */
 async function getArtistTopTracksById(id) { 
 
 	id = checkString(id);
@@ -112,6 +117,11 @@ async function getArtistTopTracksById(id) {
 
 }
 
+/**
+ * 
+ * @param {string} id 
+ * @returns {object} albums for artist
+ */
 async function getArtistAlbumsById(id) { 
 	id = checkString(id);
 	const exists = await client.exists(`artist.${id}.albums`);

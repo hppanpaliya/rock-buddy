@@ -19,9 +19,9 @@ router.get('/:type(artist|album|track)/:id', async (req, res, next) => {
 // Sample id: 0TnOYISbd1XYRBk9myaseg
 router.get('/artist/:id', async (req, res) => {
 	try {
-		let foundArtist = await info.getArtistById(req.params.id);
-		let foundArtistTopTracks = await info.getArtistTopTracksById(req.params.id);
-		let foundArtistAlbums = await info.getArtistAlbumsById(req.params.id);
+		const foundArtist = await info.getArtistById(req.params.id);
+		const foundArtistTopTracks = await info.getArtistTopTracksById(req.params.id);
+		const foundArtistAlbums = await info.getArtistAlbumsById(req.params.id);
 		return res.json({foundArtist: foundArtist, foundArtistTopTracks: foundArtistTopTracks, foundArtistAlbums: foundArtistAlbums});
 	} catch (e) {
 		console.log(e);
