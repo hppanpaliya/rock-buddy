@@ -17,13 +17,13 @@ const ArtistPage = (props) => {
 			align: 'center',
 			marginLeft: 'auto',
 			marginRight: 'auto',
-			}}>
+		}}>
 			<Card.Header>
 				<h1>{artistData.name}</h1>
 			</Card.Header>
 			<Card.Body>
-				<Card.Img style={{width: '66%'}} src={artistData.images[0].url} />
-					<h3>Genres</h3>
+				<Card.Img style={{width: '66%'}} src={artistData.images[0].url} alt={artistData.name} />
+					<h2>Genres</h2>
 					<ListGroup style={{width: '12rem', align: 'center', marginLeft: 'auto', marginRight: 'auto',}}>
 						{ 
 							artistData.genres.map((genre) => { 
@@ -66,6 +66,9 @@ const ArtistPage = (props) => {
 													src={track[0].album.images[0].url}
 													alt="First slide"
 													/>
+													<Carousel.Caption>
+														<h3>{track[0].name}</h3>
+													</Carousel.Caption>
 											</Card>
 											{
 												track.length === 2
@@ -75,6 +78,9 @@ const ArtistPage = (props) => {
 														src={track[1].album.images[0].url}
 														alt="First slide"
 														/>
+													<Carousel.Caption>
+														<h3>{track[1].name}</h3>
+													</Carousel.Caption>
 												</Card>
 												: null
 											}
