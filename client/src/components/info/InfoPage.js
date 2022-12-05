@@ -51,6 +51,7 @@ const InfoPage = () => {
 	const ArtistPage = () => {
 		const artistData = infoData.foundArtist;
 		const artistTopTracks = infoData.foundArtistTopTracks;
+		const artistAlbums = infoData.foundArtistAlbums;
 		return (
 			<div>
 			<Card style={{ 
@@ -78,7 +79,6 @@ const InfoPage = () => {
 						<h3>Followers: {artistData.followers.total}</h3>
 					</Card.Body>
 				</Card>
-
 					<Carousel
 						style={{
 							width: '42rem',
@@ -105,30 +105,18 @@ const InfoPage = () => {
 											>
 												<Card>
 													<img
-														className="d-block w-100"
 														src={track[0].album.images[0].url}
 														alt="First slide"
 														/>
-														{/* <Carousel.Caption className='carousel-caption'>
-															<h3>{track[0].name}</h3>
-															<p>{track[0].album.name}</p>
-														</Carousel.Caption>		 */}
-
-
 												</Card>
 												{
 													track.length === 2
 													?
 													<Card>
 														<img
-															className="d-block w-100"
 															src={track[1].album.images[0].url}
 															alt="First slide"
 															/>
-														{/* <Carousel.Caption className='carousel-caption'>
-															<h3>{track[1].name}</h3>
-															<p>{track[1].album.name}</p>
-														</Carousel.Caption> */}
 													</Card>
 													: null
 												}
@@ -139,7 +127,60 @@ const InfoPage = () => {
 							})
 						}
 					</Carousel>
-			
+					<Carousel
+						style={{
+							width: '42rem',
+							align: 'center',
+							marginLeft: 'auto',
+							marginRight: 'auto',
+						}}
+					>
+						{
+							artistAlbums.items.reduce( (acc, track, index, array) => {
+								if( index % 2 === 0) acc.push(array.slice(index, index + 2));
+								return acc;
+							}, [])
+							.map((album) => {
+								console.log(album);
+								return (
+										<Carousel.Item>
+											<Stack
+											    direction="horizontal"
+												className="h-100 justify-content-center align-items-center"
+												gap={3}
+												max-width="10%"
+												max-height="10%"
+											>
+												<Card>
+													<img
+														src={album[0].images[0].url}
+														alt="First slide"
+														/>
+														<Carousel.Caption>
+															<h3>{album[0].name}</h3>
+														</Carousel.Caption>
+												</Card>
+												{
+													album.length === 2
+													?
+													<Card>
+														<img
+															src={album[1].images[0].url}
+															alt="First slide"
+															/>
+														<Carousel.Caption>
+															<h3>{album[1].name}</h3>
+														</Carousel.Caption>
+													</Card>
+													: null
+												}
+
+											</Stack>
+										</Carousel.Item>
+								)
+							})
+						}
+					</Carousel>
 			</div>
 		);
 	};

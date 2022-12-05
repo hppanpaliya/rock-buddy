@@ -24,7 +24,8 @@ router.get('/artist/:id', async (req, res) => {
 	try {
 		let foundArtist = await info.getArtistById(req.params.id);
 		let foundArtistTopTracks = await info.getArtistTopTracksById(req.params.id);
-		return res.json({foundArtist: foundArtist, foundArtistTopTracks: foundArtistTopTracks});
+		let foundArtistAlbums = await info.getArtistAlbumsById(req.params.id);
+		return res.json({foundArtist: foundArtist, foundArtistTopTracks: foundArtistTopTracks, foundArtistAlbums: foundArtistAlbums});
 	} catch (e) {
 		console.log(e);
 		if(e.response && e.response.status) {

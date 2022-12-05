@@ -70,18 +70,27 @@ async function getArtistTopTracksById(id) {
 		}
 	);
 	return response.data;
-
 }
 
 async function getArtistAlbumsById(id) { 
 	id = checkString(id);
 	
-	const response = await axios.get(`${SPOTIFY_API_BASE_URL}/artists/${id}/albums`,
+	const response = await axios.get(`${SPOTIFY_API_BASE_URL}/artists/${id}/albums?include_groups=album&market=US`,
 		{
 			headers: { 'Authorization': `Bearer ${process.env.AUTH_TOKEN}` }
 
 		}
 	);
+	const seenNames = [];
+	response.data.items = response.data.items.filter((album) => {
+		if(seenNames.includes(album.name.toLowerCase())){
+			return false;
+		}
+			
+		seenNames.push(album.name.toLowerCase());
+		return true;
+	});
+
 	return response.data;
 }
 
