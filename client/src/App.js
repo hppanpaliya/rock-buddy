@@ -16,6 +16,8 @@ import Chat from "./components/firebase/Chat";
 import firebaseApp from './components/firebase/Firebase';
 import { useSelector } from 'react-redux';
 import { logout } from "./store/features/auth/";
+import InfoPage from './components/info/InfoPage';
+
 
 function App() {
 
@@ -41,49 +43,24 @@ function App() {
 
   return (
     <Router>
-      <div className="App">
-        {/* <header className="App-header">
-          <h1>Rock Buddy</h1>
-        </header> */}
-        <nav style={{ display: "inline" }}>
-          <ul style={{ display: "inline", listStyleType: "none" }}>
-            <li>
-              <Link to="/">Home</Link>
-            </li>
-            <li>
-              <Link to="/search">Search</Link>
-            </li>
-            <li>
-              <Link to="/signin">Sign In</Link>
-            </li>
-            <li>
-              <Link to="/signup">Sign Up</Link>
-            </li>
-            <li>
-              <Link to="/signout">Sign Out</Link>
-            </li>
-            <li>
-              <Link to="/changepassword">Change Password</Link>
-            </li>
-            <li>
-              <Link to="/chat">Chat</Link>
-            </li>
-          </ul>
-        </nav>
-        <div className="App-body">
-          <Routes>
-            <Route exact path="/" element={<Home />} />
-            <Route path="/" element={<PrivateRoute />}>
-              <Route exact path="/search" element={<Search />} />
-              <Route exact path="/changePassword" element={<ChangePassword />} />
-              <Route exact path="/chat" element={<Chat />} />
-            </Route>
+    <div className="App">
+      <header className="App-header">
+       <h1>Rock Buddy</h1>
+      </header>
+      <div className='App-body'>
+        <Routes>
+          <Route exact path='/' element={<Home />} />
+          <Route exact path='/search' element={<Search />} />
+          <Route path='/info/:category/:id' element={<InfoPage/>}/>
+          <Route exact path="/changePassword" element={<ChangePassword />} />
+            <Route exact path="/chat" element={<Chat />} />
+
             <Route exact path="/signIn" element={<SignIn />} />
             <Route exact path="/signOut" element={<SignOut />} />
             <Route exact path="/signUp" element={<SignUp />} />
-            <Route exact path="*" element={<Error404 />} />
-          </Routes>
-        </div>
+          <Route exact path='*' element={<Error404/>}/>
+        </Routes>
+      </div>
       </div>
     </Router>
   );

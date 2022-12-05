@@ -14,7 +14,11 @@
     "react": "^18.2.0",
     "react-bootstrap": "^2.6.0",
     "react-dom": "^18.2.0",
+<<<<<<< HEAD
     "react-redux": "^8.0.5",
+=======
+    "react-multi-carousel": "^2.8.2",
+>>>>>>> 5bc4022d63eabbc4f8436915428244dd211f4b84
     "react-router-dom": "^6.4.3",
     "react-scripts": "5.0.1",
     "redux": "^4.2.0",
