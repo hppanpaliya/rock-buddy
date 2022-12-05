@@ -52,8 +52,11 @@ function App() {
           <Route exact path='/' element={<Home />} />
           <Route exact path='/search' element={<Search />} />
           <Route path='/info/:category/:id' element={<InfoPage/>}/>
-          <Route exact path="/changePassword" element={<ChangePassword />} />
-            <Route exact path="/chat" element={<Chat />} />
+
+          <Route path="/" element={<PrivateRoute/>}>
+             <Route exact path="/changePassword" element={<ChangePassword />} />
+              <Route exact path="/chat" element={<Chat />} />
+          </Route>
 
             <Route exact path="/signIn" element={<SignIn />} />
             <Route exact path="/signOut" element={<SignOut />} />
