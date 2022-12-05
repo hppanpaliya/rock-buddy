@@ -25,7 +25,7 @@ const TrackPage = (props) => {
 					<p>Artists:</p>
 					{
 						trackData.artists.map((artist) => { 
-							return <p>{artist.name}</p>
+							return <p key={artist.id}>{artist.name}</p>
 						})
 					}
 				</Card.Body>
