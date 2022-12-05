@@ -79,6 +79,7 @@ const InfoPage = () => {
 						<h3>Followers: {artistData.followers.total}</h3>
 					</Card.Body>
 				</Card>
+				    <h3>Top Tracks</h3>
 					<Carousel
 						style={{
 							width: '42rem',
@@ -127,6 +128,7 @@ const InfoPage = () => {
 							})
 						}
 					</Carousel>
+					<h3>Albums</h3>
 					<Carousel
 						style={{
 							width: '42rem',
