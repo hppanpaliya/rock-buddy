@@ -1,9 +1,6 @@
 import React from 'react';
 
 import Card from 'react-bootstrap/Card';
-import ListGroup from 'react-bootstrap/ListGroup';
-import Carousel from 'react-bootstrap/Carousel';
-import Stack from 'react-bootstrap/Stack';
 
 const TrackPage = (props) => {
 	const trackData = props.infoData.foundTrack;

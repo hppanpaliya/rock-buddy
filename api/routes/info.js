@@ -23,7 +23,7 @@ router.get('/artist/:id', async (req, res) => {
 		const foundArtist = await info.getArtistById(req.params.id);
 		const foundArtistTopTracks = await info.getArtistTopTracksById(req.params.id);
 		const foundArtistAlbums = await info.getArtistAlbumsById(req.params.id);
-		const foundArtistDescription = await info.getArtistDescription(foundArtist.name);
+		const foundArtistDescription = await info.getArtistDescription(req.params.id, foundArtist.name);
 		return res.json(
 			{
 				foundArtist: foundArtist, 

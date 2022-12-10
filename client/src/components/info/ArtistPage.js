@@ -12,7 +12,7 @@ const ArtistPage = (props) => {
 	const artistAlbums = props.infoData.foundArtistAlbums
 	const artistDescription = props.infoData.foundArtistDescription;
 
-	const MAX_DESC_LENGTH = 400;
+	const MAX_DESC_LENGTH = 300;
 	const [descShowMore, setDescShowMore] = useState(false);
 	
 

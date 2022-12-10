@@ -97,21 +97,37 @@ async function getArtistAlbumsById(id) {
 	}
 }
 
-async function getArtistDescription(artistName) { 
+/**
+ * 
+ * @param {string} id 
+ * @param {string} artistName 
+ * @returns {string} description of artist
+ */
+async function getArtistDescription(id, artistName) { 
 	
-	const searchResponse = await axios.get(`${GENIUS_API_BASE_URL}/search?q=${artistName}`, 
-		{
-			headers: { 'Authorization': `Bearer ${process.env.GENIUS_ACCESS_TOKEN}` }
-		}
-	);
-	const artistId = searchResponse.data.response.hits[0].result.primary_artist.id;
-	const artistResponse = await axios.get(`${GENIUS_API_BASE_URL}/artists/${artistId}?text_format=plain`,
-		{
-			headers: { 'Authorization': `Bearer ${process.env.GENIUS_ACCESS_TOKEN}` }
-		}
-	);
-	const description = artistResponse.data.response.artist.description.plain;
-	return description;
+	id = checkString(id);
+	artistName = checkString(artistName);
+	const exists = await client.exists(`artist.${id}.description`);
+	
+	if(exists) { 
+		const description = await client.get(`artist.${id}.description`);
+		return description;
+	} else { 
+		const searchResponse = await axios.get(`${GENIUS_API_BASE_URL}/search?q=${artistName}`, 
+			{
+				headers: { 'Authorization': `Bearer ${process.env.GENIUS_ACCESS_TOKEN}` }
+			}
+		);
+		const artistId = searchResponse.data.response.hits[0].result.primary_artist.id;
+		const artistResponse = await axios.get(`${GENIUS_API_BASE_URL}/artists/${artistId}?text_format=plain`,
+			{
+				headers: { 'Authorization': `Bearer ${process.env.GENIUS_ACCESS_TOKEN}` }
+			}
+		);
+		const description = artistResponse.data.response.artist.description.plain;
+		await client.set(`artist.${id}.description`, description);
+		return description;
+	}
 }
 
 /**
@@ -169,15 +185,35 @@ async function getTrackById(id) {
 	}
 }
 
+/**
+ * 
+ * @param {string} id 
+ * @param {string} artistName 
+ * @param {string} trackName 
+ * @returns {string} song lyrics
+ */
 async function getTrackLyricsAlt(id, artistName, trackName) { 
-	const options = { 
-		apiKey: process.env.GENIUS_ACCESS_TOKEN,
-		title: trackName,
-		artist: artistName,
-		optimizeQuery: true
-	};
-	const lyrics = await genius.getLyrics(options);
-	return lyrics;
+
+	id = checkString(id);
+	artistName = checkString(artistName);
+	trackName = checkString(trackName);
+	const exists = await client.exists(`track.${id}.lyrics`);
+	
+	if(exists) { 
+		const lyrics = await client.get(`track.${id}.lyrics`);
+		return lyrics;
+	} else { 
+		const lyrics = await genius.getLyrics(
+			{ 
+				apiKey: process.env.GENIUS_ACCESS_TOKEN,
+				title: trackName,
+				artist: artistName,
+				optimizeQuery: true
+			}
+		);
+		await client.set(`track.${id}.lyrics`, lyrics);
+		return lyrics;
+	}
 }
 
 module.exports ={
