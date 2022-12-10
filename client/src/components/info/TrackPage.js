@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 import Card from 'react-bootstrap/Card';
 
@@ -9,6 +10,7 @@ const TrackPage = (props) => {
 	const MAX_LYRIC_LENGTH = 300;
 	const [lyricsShowMore, setLyricsShowMore] = useState(false);
 
+	if(!props || !props.infoData || !trackData) return <p>Loading track, please wait... </p>;
 	return (
 		<div>
 			<Card style={{
@@ -22,13 +24,15 @@ const TrackPage = (props) => {
 				</Card.Header>
 				<Card.Body>
 					<Card.Img style={{ width: '66%' }} src={trackData.album.images[0].url} alt={trackData.name}/>
-					<h2>Album: {trackData.album.name}</h2>
+					<h2>Album:<Link to={`/info/album/${trackData.album.id}`}>{trackData.album.name}</Link> </h2>
 					<h2>Artists:</h2>
-					{
-						trackData.artists.map((artist) => { 
-							return <p key={artist.id}>{artist.name}</p>
-						})
-					}
+					<ul>
+						{
+							trackData.artists.map((artist) => { 
+								return <li key={artist.id}><Link to={`/info/artist/${artist.id}`} >{artist.name}</Link></li>
+							})
+						}
+					</ul>
 					<h2>Lyrics: </h2>
 					{
 						trackLyrics.length > MAX_LYRIC_LENGTH && !lyricsShowMore
