@@ -10,7 +10,7 @@ function Navbarcustom() {
             <Nav.Link eventKey="link-1" as={Link} to="/">Home</Nav.Link>
         </Nav.Item>
             <Nav.Item>
-                <Nav.Link eventKey="link-2" as={Link} to="/search">Searh</Nav.Link>
+                <Nav.Link eventKey="link-2" as={Link} to="/search">Search</Nav.Link>
             </Nav.Item>
             <Nav.Item>
                 <Nav.Link eventKey="link-3" as={Link} to="/signup">Signup</Nav.Link>
