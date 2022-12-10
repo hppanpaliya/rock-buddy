@@ -7,6 +7,7 @@ import Stack from 'react-bootstrap/Stack';
 
 const TrackPage = (props) => {
 	const trackData = props.infoData.foundTrack;
+	const trackLyrics = props.infoData.foundLyrics;
 
 	return (
 		<div>
@@ -21,13 +22,15 @@ const TrackPage = (props) => {
 				</Card.Header>
 				<Card.Body>
 					<Card.Img style={{ width: '66%' }} src={trackData.album.images[0].url} alt={trackData.name}/>
-					<p>Album: {trackData.album.name}</p>
-					<p>Artists:</p>
+					<h2>Album: {trackData.album.name}</h2>
+					<h2>Artists:</h2>
 					{
 						trackData.artists.map((artist) => { 
 							return <p key={artist.id}>{artist.name}</p>
 						})
 					}
+					<h2>Lyrics: </h2>
+					<span style={{whiteSpace: 'pre-line'}}>{trackLyrics}</span>
 				</Card.Body>
 
 
