@@ -58,10 +58,12 @@ router.get('/album/:id', async (req, res) => {
 router.get('/track/:id', async (req, res) => {
 	try {
 		let foundTrack = await info.getTrackById(req.params.id);
-		let foundLyrics = await info.getTrackLyricsAlt(
-			req.params.id,
-			foundTrack.artists[0].name,
-			foundTrack.name);
+		// let foundLyrics = await info.getTrackLyrics(
+		// 	req.params.id,
+		// 	foundTrack.artists[0].name,
+		// 	foundTrack.name
+		// );
+		let foundLyrics = await info.getTrackLyricsAlt(req.params.id, foundTrack.artists[0].name, foundTrack.name)
 
 		return res.json({foundTrack: foundTrack, foundLyrics: foundLyrics});
 	} catch (e) {
@@ -74,7 +76,7 @@ router.get('/track/:id', async (req, res) => {
 
 router.get('/test/:songTitle', async (req, res) => { 
 	try { 
-		const response = await axios.get(`https://api.genius.com//search?q=${req.params.songTitle}`,
+		const response = await axios.get(`https://api.genius.com/search/lyrics=${req.params.songTitle}`,
 			{ 
 				headers: { 'Authorization': `Bearer ${process.env.GENIUS_ACCESS_TOKEN}` }
 		 	}

@@ -192,7 +192,7 @@ async function getTrackById(id) {
  * @param {string} trackName 
  * @returns {string} song lyrics
  */
-async function getTrackLyricsAlt(id, artistName, trackName) { 
+async function getTrackLyrics(id, artistName, trackName) { 
 
 	id = checkString(id);
 	artistName = checkString(artistName);
@@ -202,7 +202,24 @@ async function getTrackLyricsAlt(id, artistName, trackName) {
 	if(exists) { 
 		const lyrics = await client.get(`track.${id}.lyrics`);
 		return lyrics;
-	} else { 
+	} else {
+		// console.log("artistName: ", artistName);
+		// console.log("trackName: ", trackName);
+		artistName = artistName.replace(/[^a-zA-Z0-9 ]/g, '');
+		trackName = trackName.replace(/[^a-zA-Z0-9 ]/g, '');
+
+		console.log(artistName);
+		console.log(trackName);
+
+		const foundSong = await genius.getSong(
+			{
+				apiKey: process.env.GENIUS_ACCESS_TOKEN,
+				title: trackName,
+				artist: artistName,
+				optimizeQuery: true
+			}
+		);
+		console.log("foundSong: ", foundSong);
 		const lyrics = await genius.getLyrics(
 			{ 
 				apiKey: process.env.GENIUS_ACCESS_TOKEN,
@@ -216,12 +233,24 @@ async function getTrackLyricsAlt(id, artistName, trackName) {
 	}
 }
 
+const lyricsParse = require('lyrics-parse');
+async function getTrackLyricsAlt(id, artistName, trackTitle) {
+
+	// const response = await axios.get(`https://www.stands4.com/services/v2/lyrics.php?`)
+	const lyrics = await lyricsParse(trackTitle, artistName);
+	console.log(lyrics);
+	return lyrics;
+
+
+}
+
 module.exports ={
 	getArtistById,
 	getAlbumById,
 	getTrackById,
 	getArtistTopTracksById,
 	getArtistAlbumsById,
+	getTrackLyrics,
 	getTrackLyricsAlt,
 	getArtistDescription
 }
