@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import Card from 'react-bootstrap/Card';
 
 const TrackPage = (props) => {
 	const trackData = props.infoData.foundTrack;
 	const trackLyrics = props.infoData.foundLyrics;
+
+	const MAX_LYRIC_LENGTH = 300;
+	const [lyricsShowMore, setLyricsShowMore] = useState(false);
 
 	return (
 		<div>
@@ -27,7 +30,17 @@ const TrackPage = (props) => {
 						})
 					}
 					<h2>Lyrics: </h2>
-					<span style={{whiteSpace: 'pre-line'}}>{trackLyrics}</span>
+					{
+						trackLyrics.length > MAX_LYRIC_LENGTH && !lyricsShowMore
+						? 	<span style={{whiteSpace: 'pre-line'}}>
+								{trackLyrics.substring(0, MAX_LYRIC_LENGTH)}...{"\n"}
+								<a style={{color: 'blue'}} onClick={() => setLyricsShowMore(true)}>Show More</a>
+						  	</span>
+						: <span style={{whiteSpace: 'pre-line'}}>
+							{trackLyrics}{"\n"}
+							<a style={{color: 'blue'}} onClick={() => setLyricsShowMore(false)}>Show Less</a>
+						</span >
+					}
 				</Card.Body>
 
 

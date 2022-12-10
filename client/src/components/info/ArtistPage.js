@@ -41,16 +41,22 @@ const ArtistPage = (props) => {
 							})
 						}
 					</ListGroup>
-					<h3>Followers: {artistData.followers.total}</h3>
-					<h3>Description:</h3>
+					<h2>Followers: {artistData.followers.total}</h2>
+					<h2>Description:</h2>
 					{ 
 						artistDescription.length > MAX_DESC_LENGTH && !descShowMore
-						? <span style={{whiteSpace: 'pre-line'}}>{artistDescription.substring(0, MAX_DESC_LENGTH)}... <a  style={{color: 'blue' }} onClick={() => setDescShowMore(true)}>Show More</a></span>
-						: <span style={{whiteSpace: 'pre-line'}}>{artistDescription} <a style={{color: 'blue' }} onClick={() => setDescShowMore(false)}>Show Less</a></span>
+						? 	<span style={{whiteSpace: 'pre-line'}}>
+								{artistDescription.substring(0, MAX_DESC_LENGTH)}...{ "\n" }
+								<a  style={{color: 'blue' }} onClick={() => setDescShowMore(true)}>Show More</a>
+							</span>
+						: 	<span style={{whiteSpace: 'pre-line'}}>
+								{artistDescription + "\n"}
+								<a style={{color: 'blue' }} onClick={() => setDescShowMore(false)}>Show Less</a>
+							</span>
 					}
 				</Card.Body>
 			</Card>
-				<h3>Top Tracks</h3>
+				<h2>Top Tracks</h2>
 				<Carousel
 					style={{
 						width: '42rem',
