@@ -8,6 +8,10 @@ const redis = require('redis');
 const client = redis.createClient();
 client.connect().then(() => {});
 
+const https = require('https');
+const fs = require('fs');
+const gm = require('gm');
+
 const lyricsParse = require('lyrics-parse');
 /**
  * Gets an artist given an id
@@ -30,7 +34,23 @@ async function getArtistById(id) {
 				headers: { 'Authorization': `Bearer ${process.env.AUTH_TOKEN}` }
 			}
 		);
+		//.images[0].url
 		const artist = response.data;
+		const imgUrl = artist.images[0].url;
+		https.get(imgUrl, (res) => { 
+			gm(res)
+				.resize(300, 300)
+				.write(`public/img/artists/${id}.jpg`, (err) => {
+					if(err) {
+						console.log(err);
+					}
+			
+				});
+		})
+
+
+
+
 		await client.set(`artist.${id}`, JSON.stringify(artist));
 		return artist;
 	}

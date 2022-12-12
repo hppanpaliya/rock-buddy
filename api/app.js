@@ -7,6 +7,10 @@ const redis = require('redis');
 const client = redis.createClient();
 client.connect().then(() => {});
 
+// Middleware for serving static files, such as images after they are
+// processed by Image Magick
+app.use(express.static('public'));
+
 //Routing 
 const configRoutes = require('./routes');
 const middlewareWrapper = require('./middleware')
