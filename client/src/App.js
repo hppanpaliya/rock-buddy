@@ -19,6 +19,7 @@ import { useSelector } from 'react-redux';
 import { logout } from "./store/features/auth/";
 import InfoPage from './components/info/InfoPage';
 import AllEvents from './components/tmEvents/Events';
+import Profile from './components/profile/profile';
 
 
 function App() {
@@ -41,32 +42,6 @@ function App() {
     //   f();
     // }, []);
 
-    const CLIENT_ID = "c427fff192174d81a2004d4d9f006507"
-    const REDIRECT_URI = "http://localhost:3000"
-    const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize"
-    const RESPONSE_TYPE = "token"
-
-    const [token, setToken] = useState("")
-
-    useEffect(() => {
-      const hash = window.location.hash
-      let token = window.localStorage.getItem("token")
-
-      if (!token && hash) {
-          token = hash.substring(1).split("&").find(elem => elem.startsWith("access_token")).split("=")[1]
-
-          window.location.hash = ""
-          window.localStorage.setItem("token", token)
-      }
-
-      setToken(token)
-
-  }, [])
-
-  const logout = () => {
-    setToken("")
-    window.localStorage.removeItem("token")
-}
 
 
 
@@ -75,10 +50,6 @@ function App() {
     <div className="App">
       <header className="App-header">
        <h1>Rock Buddy</h1>
-                {!token ?
-                    <a href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}`}>Login
-                        to Spotify</a>
-                    : <button onClick={logout}>Logout</button>}
       </header>
       <Navbarcustom></Navbarcustom>
       <div className='App-body'>
@@ -89,6 +60,7 @@ function App() {
           <Route path='/events' element={<AllEvents/>}/>
 
           <Route path="/" element={<PrivateRoute/>}>
+             <Route path='/profile' element={<Profile/>}/>
              <Route exact path="/changePassword" element={<ChangePassword />} />
               <Route exact path="/chat" element={<Chat />} />
           </Route>
