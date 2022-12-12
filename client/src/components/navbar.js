@@ -6,8 +6,9 @@ import { useSelector } from "react-redux";
 
 
 function Navbarcustom() {
-    const auth = useSelector((state) => state.auth);
-    if(auth.user){
+    const auth = useSelector((state) => state.auth || null);
+
+    if(auth && auth.user){
         return(
             <Nav variant="tabs" defaultActiveKey="/">
         <Nav.Item>

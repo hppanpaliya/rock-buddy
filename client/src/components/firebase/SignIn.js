@@ -6,7 +6,7 @@ import { login } from "./../../store/features/auth/";
 
 const SignIn = (props) => {
   const dispatch = useDispatch();
-  const auth = useSelector((state) => state.auth);
+  const auth = useSelector((state) => state.auth || null);
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
 
@@ -47,7 +47,7 @@ const SignIn = (props) => {
       });
   };
 
-  if (auth.user) {
+  if (auth && auth.user) {
     return <Navigate to={`/`} />;
   }
 
