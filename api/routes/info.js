@@ -63,7 +63,10 @@ router.get('/track/:id', async (req, res) => {
 		// 	foundTrack.artists[0].name,
 		// 	foundTrack.name
 		// );
-		let foundLyrics = await info.getTrackLyricsAlt(req.params.id, foundTrack.artists[0].name, foundTrack.name)
+		console.log(req.params.id);
+		console.log(foundTrack.artists[0].name);
+		console.log(foundTrack.name);
+		let foundLyrics = await info.getTrackLyrics(req.params.id, foundTrack.artists[0].name, foundTrack.name)
 
 		return res.json({foundTrack: foundTrack, foundLyrics: foundLyrics});
 	} catch (e) {

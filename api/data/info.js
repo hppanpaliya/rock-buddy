@@ -8,8 +8,7 @@ const redis = require('redis');
 const client = redis.createClient();
 client.connect().then(() => {});
 
-const genius = require('genius-lyrics-api');
-
+const lyricsParse = require('lyrics-parse');
 /**
  * Gets an artist given an id
  * 
@@ -197,51 +196,20 @@ async function getTrackLyrics(id, artistName, trackName) {
 	id = checkString(id);
 	artistName = checkString(artistName);
 	trackName = checkString(trackName);
+	trackName = trackName.replace(/[^a-zA-Z0-9 ]/g, '');
+	trackName = trackName.split('feat')[0];
+	console.log(trackName);
 	const exists = await client.exists(`track.${id}.lyrics`);
 	
 	if(exists) { 
 		const lyrics = await client.get(`track.${id}.lyrics`);
+		console.log(lyrics);
 		return lyrics;
 	} else {
-		// console.log("artistName: ", artistName);
-		// console.log("trackName: ", trackName);
-		artistName = artistName.replace(/[^a-zA-Z0-9 ]/g, '');
-		trackName = trackName.replace(/[^a-zA-Z0-9 ]/g, '');
-
-		console.log(artistName);
-		console.log(trackName);
-
-		const foundSong = await genius.getSong(
-			{
-				apiKey: process.env.GENIUS_ACCESS_TOKEN,
-				title: trackName,
-				artist: artistName,
-				optimizeQuery: true
-			}
-		);
-		console.log("foundSong: ", foundSong);
-		const lyrics = await genius.getLyrics(
-			{ 
-				apiKey: process.env.GENIUS_ACCESS_TOKEN,
-				title: trackName,
-				artist: artistName,
-				optimizeQuery: true
-			}
-		);
-		await client.set(`track.${id}.lyrics`, lyrics);
-		return lyrics;
+		const lyrics = await lyricsParse(trackName, artistName);
+		await client.set(`track.${id}.lyrics`, lyrics || "none");
+		return lyrics || "none";
 	}
-}
-
-const lyricsParse = require('lyrics-parse');
-async function getTrackLyricsAlt(id, artistName, trackTitle) {
-
-	// const response = await axios.get(`https://www.stands4.com/services/v2/lyrics.php?`)
-	const lyrics = await lyricsParse(trackTitle, artistName);
-	console.log(lyrics);
-	return lyrics;
-
-
 }
 
 module.exports ={
@@ -251,6 +219,5 @@ module.exports ={
 	getArtistTopTracksById,
 	getArtistAlbumsById,
 	getTrackLyrics,
-	getTrackLyricsAlt,
 	getArtistDescription
 }
