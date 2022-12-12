@@ -45,7 +45,7 @@ const InfoPage = () => {
         fetchData();
 
     }, [category, id]);
-
+	console.log(infoData);
 	if(!infoData || Object.keys(infoData).length === 0) return <p>Loading, please wait... </p>;
     else {
 		if(category === "artist") return <ArtistPage infoData={infoData} />;

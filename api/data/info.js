@@ -8,8 +8,7 @@ const redis = require('redis');
 const client = redis.createClient();
 client.connect().then(() => {});
 
-const genius = require('genius-lyrics-api');
-
+const lyricsParse = require('lyrics-parse');
 /**
  * Gets an artist given an id
  * 
@@ -192,27 +191,24 @@ async function getTrackById(id) {
  * @param {string} trackName 
  * @returns {string} song lyrics
  */
-async function getTrackLyricsAlt(id, artistName, trackName) { 
+async function getTrackLyrics(id, artistName, trackName) { 
 
 	id = checkString(id);
 	artistName = checkString(artistName);
 	trackName = checkString(trackName);
+	trackName = trackName.replace(/[^a-zA-Z0-9 ]/g, '');
+	trackName = trackName.split('feat')[0];
+	console.log(trackName);
 	const exists = await client.exists(`track.${id}.lyrics`);
 	
 	if(exists) { 
 		const lyrics = await client.get(`track.${id}.lyrics`);
+		console.log(lyrics);
 		return lyrics;
-	} else { 
-		const lyrics = await genius.getLyrics(
-			{ 
-				apiKey: process.env.GENIUS_ACCESS_TOKEN,
-				title: trackName,
-				artist: artistName,
-				optimizeQuery: true
-			}
-		);
-		await client.set(`track.${id}.lyrics`, lyrics);
-		return lyrics;
+	} else {
+		const lyrics = await lyricsParse(trackName, artistName);
+		await client.set(`track.${id}.lyrics`, lyrics || "none");
+		return lyrics || "none";
 	}
 }
 
@@ -222,6 +218,6 @@ module.exports ={
 	getTrackById,
 	getArtistTopTracksById,
 	getArtistAlbumsById,
-	getTrackLyricsAlt,
+	getTrackLyrics,
 	getArtistDescription
 }

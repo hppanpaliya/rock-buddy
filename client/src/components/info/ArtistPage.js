@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 
+import { Link } from 'react-router-dom';
+
 import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Carousel from 'react-bootstrap/Carousel';
@@ -16,7 +18,7 @@ const ArtistPage = (props) => {
 	const [descShowMore, setDescShowMore] = useState(false);
 	
 
-
+	if(!props || !props.infoData || !artistData) return <p>Loading artist, please wait... </p>;
 	return (
 		<div>
 		<Card style={{ 
@@ -86,7 +88,7 @@ const ArtistPage = (props) => {
 													alt="First slide"
 													/>
 													<Carousel.Caption>
-														<h3>{track[0].name}</h3>
+														<Link to={`/info/track/${track[0].id}`}>{track[0].name}</Link>
 													</Carousel.Caption>
 											</Card>
 											{
@@ -98,7 +100,7 @@ const ArtistPage = (props) => {
 														alt="First slide"
 														/>
 													<Carousel.Caption>
-														<h3>{track[1].name}</h3>
+														<Link to={`/info/track/${track[1].id}`}>{track[1].name}</Link>
 													</Carousel.Caption>
 												</Card>
 												: null
@@ -140,7 +142,7 @@ const ArtistPage = (props) => {
 													alt="First slide"
 													/>
 													<Carousel.Caption>
-														<h3>{album[0].name}</h3>
+														<Link to={`/info/album/${album[0].id}`}>{album[0].name}</Link>
 													</Carousel.Caption>
 											</Card>
 											{
@@ -152,7 +154,7 @@ const ArtistPage = (props) => {
 														alt="First slide"
 														/>
 													<Carousel.Caption>
-														<h3>{album[1].name}</h3>
+														<Link to={`/info/album/${album[1].id}`}>{album[1].name}</Link>
 													</Carousel.Caption>
 												</Card>
 												: null
