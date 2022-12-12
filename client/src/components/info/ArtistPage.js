@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
@@ -9,7 +9,14 @@ import Stack from 'react-bootstrap/Stack';
 const ArtistPage = (props) => {
 	const artistData = props.infoData.foundArtist;
 	const artistTopTracks = props.infoData.foundArtistTopTracks;
-	const artistAlbums = props.infoData.foundArtistAlbums;
+	const artistAlbums = props.infoData.foundArtistAlbums
+	const artistDescription = props.infoData.foundArtistDescription;
+
+	const MAX_DESC_LENGTH = 300;
+	const [descShowMore, setDescShowMore] = useState(false);
+	
+
+
 	return (
 		<div>
 		<Card style={{ 
@@ -34,10 +41,22 @@ const ArtistPage = (props) => {
 							})
 						}
 					</ListGroup>
-					<h3>Followers: {artistData.followers.total}</h3>
+					<h2>Followers: {artistData.followers.total}</h2>
+					<h2>Description:</h2>
+					{ 
+						artistDescription.length > MAX_DESC_LENGTH && !descShowMore
+						? 	<span style={{whiteSpace: 'pre-line'}}>
+								{artistDescription.substring(0, MAX_DESC_LENGTH)}...{ "\n" }
+								<a  style={{color: 'blue' }} onClick={() => setDescShowMore(true)}>Show More</a>
+							</span>
+						: 	<span style={{whiteSpace: 'pre-line'}}>
+								{artistDescription + "\n"}
+								<a style={{color: 'blue' }} onClick={() => setDescShowMore(false)}>Show Less</a>
+							</span>
+					}
 				</Card.Body>
 			</Card>
-				<h3>Top Tracks</h3>
+				<h2>Top Tracks</h2>
 				<Carousel
 					style={{
 						width: '42rem',

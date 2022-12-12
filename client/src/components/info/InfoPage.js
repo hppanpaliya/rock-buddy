@@ -2,11 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-import Card from 'react-bootstrap/Card';
-import ListGroup from 'react-bootstrap/ListGroup';
-import Carousel from 'react-bootstrap/Carousel';
-import Stack from 'react-bootstrap/Stack';
-
 import ArtistPage from './ArtistPage';
 import AlbumPage from './AlbumPage';
 import TrackPage from './TrackPage';
@@ -17,7 +12,7 @@ const InfoPage = () => {
     
     let { id } = useParams();
     let { category } = useParams();
-    let nav = useNavigate();
+    // let nav = useNavigate();
 
     const [infoData, setInfoData] = useState({});
 
@@ -26,12 +21,13 @@ const InfoPage = () => {
         function validateParams() {
             console.log("Validating parameters");
             try { 
-                if(!id || id.trim().length === 0) throw `Error: A valid ID must be provided!`;
-                if(!category || category.trim().length ===0) throw `Error: A category must be provided!`;
+                if(!id || id.trim().length === 0) throw Error(`A valid ID must be provided!`);
+                if(!category || category.trim().length ===0) throw new Error(`A category must be provided!`);
                 if(category.trim() !== "artist" && category.trim() !== "album" && category.trim() !== "track")
-                    throw `Error: The category must be album, artist, or track!`;
+                    throw new Error(`The category must be album, artist, or track!`);
             } catch (e) { 
                 console.log("Invalid Paramter: ", e);
+				// nav("/404")
             }
         }
 
