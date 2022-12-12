@@ -1,6 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {BrowserRouter as Router, Route, Link, Routes} from 'react-router-dom';
 
 //components
@@ -19,6 +19,7 @@ import { useSelector } from 'react-redux';
 import { logout } from "./store/features/auth/";
 import InfoPage from './components/info/InfoPage';
 import AllEvents from './components/tmEvents/Events';
+import Profile from './components/profile/profile';
 
 
 function App() {
@@ -43,6 +44,7 @@ function App() {
 
 
 
+
   return (
     <Router>
     <div className="App">
@@ -58,6 +60,7 @@ function App() {
           <Route path='/events' element={<AllEvents/>}/>
 
           <Route path="/" element={<PrivateRoute/>}>
+             <Route path='/profile' element={<Profile/>}/>
              <Route exact path="/changePassword" element={<ChangePassword />} />
               <Route exact path="/chat" element={<Chat />} />
           </Route>
