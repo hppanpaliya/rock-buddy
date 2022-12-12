@@ -18,6 +18,7 @@ import firebaseApp from './components/firebase/Firebase';
 import { useSelector } from 'react-redux';
 import { logout } from "./store/features/auth/";
 import InfoPage from './components/info/InfoPage';
+import AllEvents from './components/tmEvents/Events';
 
 
 function App() {
@@ -54,6 +55,7 @@ function App() {
           <Route exact path='/' element={<Home />} />
           <Route exact path='/search' element={<Search />} />
           <Route path='/info/:category/:id' element={<InfoPage/>}/>
+          <Route path='/events' element={<AllEvents/>}/>
 
           <Route path="/" element={<PrivateRoute/>}>
              <Route exact path="/changePassword" element={<ChangePassword />} />

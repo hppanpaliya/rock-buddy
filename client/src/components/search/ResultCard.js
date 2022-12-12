@@ -5,6 +5,8 @@ import Row from 'react-bootstrap/Row';
 import Button from 'react-bootstrap/Button';
 import ListGroup from 'react-bootstrap/ListGroup';
 import noImg from '../../img/notFound.jpg'
+import Nav from 'react-bootstrap/Nav';
+import {BrowserRouter as Router, Route, Link, Routes} from 'react-router-dom';
 
 
 const ResultCard = (props) =>{
@@ -27,7 +29,8 @@ const ResultCard = (props) =>{
             if(i==0 || i == item.genres.length-1) genres += genre.toString();
              genres += ", " + genre.toString(); 
          });
-       
+         
+         let id = item.id
  
          return(
             <Card style={{ width: '60%' }}>
@@ -44,6 +47,7 @@ const ResultCard = (props) =>{
                 <Col>
                 <ListGroup variant="flush">
                      <ListGroup.Item>Genres: {genres}</ListGroup.Item>
+                     <Button as={Link} to={`/info/artist/${id}`}>Artist Details</Button>
                  </ListGroup>
                 </Col>
                 </Row>
@@ -64,6 +68,7 @@ const ResultCard = (props) =>{
         item.artists.forEach(artist => {
             artists += ", " + artist.name.toString(); 
         });
+        let id = item.id
 
         return(
             <Card style={{ width: '60%' }}>
@@ -81,7 +86,7 @@ const ResultCard = (props) =>{
                             <ListGroup.Item>{item.release_date}</ListGroup.Item>
                             <ListGroup.Item>Artist(s): {artists}</ListGroup.Item>
                             <ListGroup.Item>Tracks: ({item.total_tracks})</ListGroup.Item>
-                            <Button>Album Details</Button>
+                            <Button as={Link} to={`/info/album/${id}`}>Album Details</Button>
                         </ListGroup>
                     </Col>
                 </Row>
@@ -100,6 +105,7 @@ const ResultCard = (props) =>{
         item.artists.forEach(artist => {
             artists += ", " + artist.name.toString(); 
         });
+        let id = item.id;
 
         return(
             <Card style={{ width: '60%' }}>
@@ -119,7 +125,7 @@ const ResultCard = (props) =>{
                             <ListGroup.Item>Artist(s): {artists}</ListGroup.Item>
                             <ListGroup.Item>Album: {item.album.name || "Unknown album name"}</ListGroup.Item>
                         </ListGroup>
-                        <Button>Song Details</Button>
+                        <Button as={Link} to={`/info/track/${id}`}>Song Details</Button>
                     </Col>
                 </Row>
             </Card>

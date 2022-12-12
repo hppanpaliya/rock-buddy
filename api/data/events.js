@@ -7,7 +7,7 @@ let ts = new Date();
 let day = ts.getDate();
 if (day < 10) day = "0" + day
 ts = ts.getFullYear() + "-" + (ts.getMonth()+1) + "-" + day + "T00:00:00Z";
-const baseUrl = url + `&locale=en-us&startDateTime=${ts}&classificationName=rock&size=50`;
+const baseUrl = url + `&locale=en-us&startDateTime=${ts}&classificationName=rock&size=50&countryCode=US`;
 
 async function displayUpcomingEvents(page=0){
 
