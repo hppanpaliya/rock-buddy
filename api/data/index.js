@@ -1,8 +1,9 @@
 const search = require('./search');
 const info = require('./info');
+const events = require('./events')
 
 module.exports = {
     search: search,
-	info: info
-
+	info: info,
+    events: events
 }
