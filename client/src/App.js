@@ -20,6 +20,7 @@ import { logout } from "./store/features/auth/";
 import InfoPage from './components/info/InfoPage';
 import AllEvents from './components/tmEvents/Events';
 import Profile from './components/profile/profile';
+import EventSearch from './components/tmEvents/EventSearch';
 
 
 function App() {
@@ -58,6 +59,7 @@ function App() {
           <Route exact path='/search' element={<Search />} />
           <Route path='/info/:category/:id' element={<InfoPage/>}/>
           <Route path='/events' element={<AllEvents/>}/>
+          <Route path='/events/search' element={<EventSearch/>}/>
 
           <Route path="/" element={<PrivateRoute/>}>
              <Route path='/profile' element={<Profile/>}/>
