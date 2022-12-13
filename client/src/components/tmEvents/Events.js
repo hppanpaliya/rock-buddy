@@ -17,6 +17,7 @@ const AllEvents = (props) =>{
 
         async function fetchData() {
           try {
+            setLoading(true)
 
             const data = await axios({
                 method: 'GET',
@@ -63,7 +64,7 @@ const AllEvents = (props) =>{
     if (loading) {
       return (
           <div>
-            <h2>Loading....</h2>
+            <img src="https://i.gifer.com/ZKZg.gif" alt="loading"></img>
           </div>
         );
       }

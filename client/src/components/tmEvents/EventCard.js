@@ -10,7 +10,7 @@ import {BrowserRouter as Router, Route, Link, Routes} from 'react-router-dom';
 
 const EventCard = (props) =>{
     /**
-     * Search result card for artist, album, and song search results
+     * Card for events
      */
     let data = props.eventsData;
     if (!data) return;
