@@ -5,6 +5,9 @@ import SearchBar from "../search/SearchBar";
 import Pagnation from '../search/Pagnation';
 import EventCard from './EventCard';
 
+import Container from 'react-bootstrap/Container';
+
+
 const EventSearch = (props) => {
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
@@ -24,7 +27,7 @@ const EventSearch = (props) => {
     
             const data = await axios({
                 method: 'GET',
-                url: `http://localhost:4000/search/${searchType}?term=${searchTerm}&page=${page}`,
+                url: `http://localhost:4000/events/search?keyword=${searchTerm}&page=${page}`,
                 headers: { "Content-Type": "application/json" }, 
             });
 
@@ -39,11 +42,19 @@ const EventSearch = (props) => {
                 set400Flag(false)
             }
 
+            setNext(data.data._links.next || null);
+            setPrevious(data.data._links.prev || null)
             setLoading(false);
 
           } catch (e) {
-            console.log(e);
-            set400Flag(true)
+            if(e.message.indexOf('404') !== -1){
+                set404Flag(true)
+            }
+            else{
+                console.log(e);
+                set400Flag(true)
+            }
+            
           }
         }
 
