@@ -36,21 +36,17 @@ async function getArtistById(id) {
 		);
 		//.images[0].url
 		const artist = response.data;
-		const imgUrl = artist.images[0].url;
-		https.get(imgUrl, (res) => { 
-			gm(res)
-				.resize(300, 300)
-				.write(`public/img/artists/${id}.jpg`, (err) => {
-					if(err) {
-						console.log(err);
-					}
+		// const imgUrl = artist.images[0].url;
+		// https.get(imgUrl, (res) => { 
+		// 	gm(res)
+		// 		.resize(300, 300)
+		// 		.write(`public/img/artists/${id}.jpg`, (err) => {
+		// 			if(err) {
+		// 				console.log(err);
+		// 			}
 			
-				});
-		})
-
-
-
-
+		// 		});
+		// });
 		await client.set(`artist.${id}`, JSON.stringify(artist));
 		return artist;
 	}
