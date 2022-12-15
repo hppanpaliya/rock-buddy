@@ -4,21 +4,57 @@ import { useSelector } from "react-redux";
 import noImg from '../../img/notFound.jpg'
 import SpotifyAuth from './spotifyAuth';
 
+import storage from '../firebase/storage';
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+
+
+
 import axios from 'axios';
 
 const Profile = (props) =>{
     
-    const userInfo = useSelector((state) => state.auth).user;
-    let email = userInfo.email;
-    let userName = userInfo.username
-    let profilePic = userInfo.profilePic || noImg
+  const userInfo = useSelector((state) => state.auth).user;
+  let email = userInfo.email;
+  let userName = userInfo.username
+  let profilePic = userInfo.profilePic || noImg
 
 	const [picBinary, setPicBinary] = useState(null);
+
+  function handleFBUpload(file) {
+    //this function uploads the blob to firebase
+      if (!file) {
+      alert("Please choose a file first!")
+      }
+     
+      const storageRef = ref(storage, `/profiles/${userInfo.uid}`)
+      const uploadTask = uploadBytesResumable(storageRef, file);
+
+    uploadTask.on(
+            "state_changed",
+            (snapshot) => {
+      //         const percent = Math.round(
+      //           (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+      //         );
+       
+              // update progress
+      //         setPercent(percent);
+            },
+            (err) => console.log(err),
+            () => {
+              // download url
+              getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+                console.log(url);
+              });
+            }
+          );
+
+    }
 
 	const handlePictureUpload = async (e) => { 
 		const formData = new FormData();
 		formData.append('file', e.target.files[0]);
 
+    //1. send image to API for imagemagick
 		const response = await axios.post(
 			'http://localhost:4000/users/profilepic',
 			formData, 
@@ -26,8 +62,18 @@ const Profile = (props) =>{
 				responseType: 'blob',
 			}
 		);
+    console.log(response.data)
 		setPicBinary(URL.createObjectURL(response.data));
 		console.log(picBinary);
+
+    //2. convert blob from API to file
+    // let file = new File([response.data], `${userInfo.uid}`, { type: "image/jpeg", lastModified: Date.now() })
+
+    // console.log(file)
+
+    //3. upload file to firebase
+    handleFBUpload(response.data)
+
 	};
 
 
