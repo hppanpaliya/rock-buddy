@@ -10,12 +10,14 @@ const upload = multer({storage: storage}).single('file');
 
 router.post('/profilepic', upload, async (req, res) => { 
 	res.set('Content-Type', 'image/jpeg');
+	// res.set('Content-Type', 'arraybuffer');
 	try { 
 		return(
 			gm(req.file.buffer)
 				.resize(500, 500)
 				.compress('JPEG')
 				.sharpen(10, 1.25)
+				.setFormat('JPEG')
 				.stream()
 				.pipe(res)
 		);

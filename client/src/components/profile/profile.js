@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import noImg from '../../img/notFound.jpg'
 import SpotifyAuth from './spotifyAuth';
 
+import axios from 'axios';
 
 const Profile = (props) =>{
     
@@ -11,6 +12,23 @@ const Profile = (props) =>{
     let email = userInfo.email;
     let userName = userInfo.username
     let profilePic = userInfo.profilePic || noImg
+
+	const [picBinary, setPicBinary] = useState(null);
+
+	const handlePictureUpload = async (e) => { 
+		const formData = new FormData();
+		formData.append('file', e.target.files[0]);
+
+		const response = await axios.post(
+			'http://localhost:4000/users/profilepic',
+			formData, 
+			{
+				responseType: 'blob',
+			}
+		);
+		setPicBinary(URL.createObjectURL(response.data));
+		console.log(picBinary);
+	};
 
 
     return(
@@ -23,7 +41,7 @@ const Profile = (props) =>{
                         <div className="ms-4 mt-5 d-flex flex-column" style={{ width: '150px' }}>
                           <MDBCardImage src={profilePic}
                             alt="Generic placeholder image" className="mt-4 mb-2 img-thumbnail" fluid style={{ width: '150px', zIndex: '1' }} />
-                        </div>
+						</div>
                         <div className="ms-3" style={{ marginTop: '130px' }}>
                           <MDBTypography tag="h5">{userName}</MDBTypography>
                           <MDBCardText>{email}</MDBCardText>
@@ -34,6 +52,7 @@ const Profile = (props) =>{
                         <MDBBtn outline color="dark" style={{height: '36px', overflow: 'visible'}}>
                             Edit profile
                         </MDBBtn>
+
                         <SpotifyAuth></SpotifyAuth>
                     
                         </div>
@@ -76,6 +95,10 @@ const Profile = (props) =>{
                   </MDBCol>
                 </MDBRow>
               </MDBContainer>
+			  <div>
+					<input type='file' name='file' onChange={(e) => { handlePictureUpload(e)}}/>
+					{picBinary ? <img src={picBinary}></img> : "No Pic" }
+			  </div>
             </div>
     )
     
