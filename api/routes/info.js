@@ -34,11 +34,11 @@ router.get('/artist/:id', async (req, res) => {
 			}
 		);
 	} catch (e) {
-		console.log(e);
+		console.log(typeof e, e);
 		if(e.response && e.response.status) {
 			return res.status(e.response.status).json({error: e});
 		}
-		return res.status(500).json({error: e});
+		return res.status(500).json({error: e.message || e});
 	}
 });
 

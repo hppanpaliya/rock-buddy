@@ -29,25 +29,29 @@ async function getArtistById(id) {
 		const artist = await client.get(`artist.${id}`);
 		return JSON.parse(artist);
 	} else {
+		// Check if the artist's rock status is already stored in redis
+		// It would be already stored if the artist was searched for before
+		const rockCheck = await client.hGet("artistById", id);	
+		if(rockCheck && rockCheck !== "true") throw new Error("SArtist is not a rock artist!");
+		
+		// Otherwise, get the artist from the API
 		const response = await axios.get(`${SPOTIFY_API_BASE_URL}/artists/${id}`,
 			{
 				headers: { 'Authorization': `Bearer ${process.env.AUTH_TOKEN}` }
 			}
 		);
-		//.images[0].url
+
 		const artist = response.data;
-		// const imgUrl = artist.images[0].url;
-		// https.get(imgUrl, (res) => { 
-		// 	gm(res)
-		// 		.resize(300, 300)
-		// 		.write(`public/img/artists/${id}.jpg`, (err) => {
-		// 			if(err) {
-		// 				console.log(err);
-		// 			}
-			
-		// 		});
-		// });
+		// If the artist is not a rock artist, store that result in Redis, and throw an error
+		if(!artist.genres.some(genre => genre.toLowerCase().includes("rock"))) {
+			await client.hSet("artistById", id, "false");
+			throw new Error("Artist is not a rock artist!");
+		}
+
+		// If the artist is a rock artist, store that result along with the artist details in Redis
+		await client.hSet("artistById", id, "true");
 		await client.set(`artist.${id}`, JSON.stringify(artist));
+
 		return artist;
 	}
 }
