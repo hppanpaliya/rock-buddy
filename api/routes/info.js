@@ -12,6 +12,7 @@ router.get('/:type(artist|album|track)/:id', async (req, res, next) => {
 	try { 
 		req.params.id = checkString(req.params.id);
 	} catch (e) { 
+		console.log(e);
 		return res.status(400).json({error: e});
 	}
 	next();
@@ -58,18 +59,11 @@ router.get('/album/:id', async (req, res) => {
 router.get('/track/:id', async (req, res) => {
 	try {
 		let foundTrack = await info.getTrackById(req.params.id);
-		// let foundLyrics = await info.getTrackLyrics(
-		// 	req.params.id,
-		// 	foundTrack.artists[0].name,
-		// 	foundTrack.name
-		// );
-		console.log(req.params.id);
-		console.log(foundTrack.artists[0].name);
-		console.log(foundTrack.name);
 		let foundLyrics = await info.getTrackLyrics(req.params.id, foundTrack.artists[0].name, foundTrack.name)
 
 		return res.json({foundTrack: foundTrack, foundLyrics: foundLyrics});
 	} catch (e) {
+		console.log(e);
 		if(e.response && e.response.status) {
 			return res.status(e.response.status).json({error: e});
 		}

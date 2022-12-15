@@ -214,12 +214,10 @@ async function getTrackLyrics(id, artistName, trackName) {
 	trackName = checkString(trackName);
 	trackName = trackName.replace(/[^a-zA-Z0-9 ]/g, '');
 	trackName = trackName.split('feat')[0];
-	console.log(trackName);
 	const exists = await client.exists(`track.${id}.lyrics`);
 	
-	if(exists) { 
+	if(exists) {
 		const lyrics = await client.get(`track.${id}.lyrics`);
-		console.log(lyrics);
 		return lyrics;
 	} else {
 		const lyrics = await lyricsParse(trackName, artistName);

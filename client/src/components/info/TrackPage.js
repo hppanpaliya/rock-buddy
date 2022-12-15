@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
+import { useDispatch, useSelector } from "react-redux";
+
 import Card from 'react-bootstrap/Card';
 
 const TrackPage = (props) => {
@@ -9,6 +11,19 @@ const TrackPage = (props) => {
 
 	const MAX_LYRIC_LENGTH = 300;
 	const [lyricsShowMore, setLyricsShowMore] = useState(false);
+
+	const userState = useSelector((state) => state);
+
+	console.log(userState);
+
+	const handleGetUserPlaylists =(e) => { 
+		e.preventDefault();
+		console.log("Getting user playlists");
+
+		
+
+
+	};
 
 	if(!props || !props.infoData || !trackData) return <p>Loading track, please wait... </p>;
 	return (
