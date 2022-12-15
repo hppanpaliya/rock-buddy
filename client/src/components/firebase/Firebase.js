@@ -1,6 +1,8 @@
 import firebase from "firebase/compat/app";
 import "firebase/compat/auth";
 import "firebase/compat/firestore";
+import { getStorage } from "firebase/storage";
+
 
 /* import {
   REACT_APP_FIREBASE_KEY,
@@ -14,7 +16,7 @@ import "firebase/compat/firestore";
   
 } from "@env"; */
 
-firebase.initializeApp({
+let app = firebase.initializeApp({
   // apiKey: REACT_APP_FIREBASE_KEY,
   // authDomain: REACT_APP_FIREBASE_DOMAIN,
   // databaseURL: REACT_APP_FIREBASE_DATABASE,
@@ -32,7 +34,10 @@ firebase.initializeApp({
   appId: "1:43403153573:web:c6790b8135258c5f173d4c",
   measurementId: "G-XDMSZ61PKR",
 });
-firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION);
+// firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION);
+app.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION);
 
 
-export default firebase;
+const storage = getStorage(app);
+// export default storage
+export default app;

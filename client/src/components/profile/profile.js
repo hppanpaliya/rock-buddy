@@ -1,17 +1,94 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { MDBCol, MDBContainer, MDBRow, MDBCard, MDBCardText, MDBCardBody, MDBCardImage, MDBBtn, MDBTypography } from 'mdb-react-ui-kit';
 import { useSelector } from "react-redux";
 import noImg from '../../img/notFound.jpg'
 import SpotifyAuth from './spotifyAuth';
 
+import storage from '../firebase/storage';
+import { ref, uploadBytesResumable, getDownloadURL, getStorage } from "firebase/storage";
+
+
+
+import axios from 'axios';
 
 const Profile = (props) =>{
     
-    const userInfo = useSelector((state) => state.auth).user;
-    let email = userInfo.email;
-    let userName = userInfo.username
-    let profilePic = userInfo.profilePic || noImg
+  const userInfo = useSelector((state) => state.auth).user;
+  let email = userInfo.email;
+  let userName = userInfo.username
+  const [profilePic, setProfilePic] = useState(noImg)
+	const [picBinary, setPicBinary] = useState(null);
 
+  function handleFBUpload(file) {
+    //this function uploads the blob to firebase
+      if (!file) {
+      alert("Please choose a file first!")
+      }
+     
+      const storageRef = ref(storage, `/profiles/${userInfo.uid}`)
+      const uploadTask = uploadBytesResumable(storageRef, file);
+
+    uploadTask.on(
+            "state_changed",
+            (snapshot) => {
+      //         const percent = Math.round(
+      //           (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+      //         );
+       
+              // update progress
+      //         setPercent(percent);
+            },
+            (err) => console.log(err),
+            () => {
+              // download url
+              getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+                setProfilePic(url)
+                console.log(url);
+              });
+            }
+          );
+    }
+
+	const handlePictureUpload = async (e) => { 
+		const formData = new FormData();
+		formData.append('file', e.target.files[0]);
+
+    //1. send image to API for imagemagick
+		const response = await axios.post(
+			'http://localhost:4000/users/profilepic',
+			formData, 
+			{
+				responseType: 'blob',
+			}
+		);
+    console.log(response.data)
+		setPicBinary(URL.createObjectURL(response.data));
+		console.log(picBinary);
+
+    //2. convert blob from API to file
+    // let file = new File([response.data], `${userInfo.uid}`, { type: "image/jpeg", lastModified: Date.now() })
+
+    // console.log(file)
+
+    //3. upload file to firebase
+    handleFBUpload(response.data)
+
+	};
+
+  useEffect(()=>{
+    //retrieves the profile pic from firebase and sets state. will fire if user uploads new pic
+    const storage = getStorage();
+    getDownloadURL(ref(storage, `profiles/${userInfo.uid}`))
+      .then((url) => {
+        // `url` is the download URL for 'images/stars.jpg'
+        setProfilePic(url)
+      })
+      .catch((error) => {
+        console.log(error)
+        setProfilePic(noImg)
+  });
+
+  },[])
 
     return(
             <div className="gradient-custom-2" style={{ backgroundColor: '#9de2ff' }}>
@@ -23,7 +100,7 @@ const Profile = (props) =>{
                         <div className="ms-4 mt-5 d-flex flex-column" style={{ width: '150px' }}>
                           <MDBCardImage src={profilePic}
                             alt="Generic placeholder image" className="mt-4 mb-2 img-thumbnail" fluid style={{ width: '150px', zIndex: '1' }} />
-                        </div>
+						</div>
                         <div className="ms-3" style={{ marginTop: '130px' }}>
                           <MDBTypography tag="h5">{userName}</MDBTypography>
                           <MDBCardText>{email}</MDBCardText>
@@ -34,6 +111,7 @@ const Profile = (props) =>{
                         <MDBBtn outline color="dark" style={{height: '36px', overflow: 'visible'}}>
                             Edit profile
                         </MDBBtn>
+
                         <SpotifyAuth></SpotifyAuth>
                     
                         </div>
@@ -76,6 +154,10 @@ const Profile = (props) =>{
                   </MDBCol>
                 </MDBRow>
               </MDBContainer>
+			  <div>
+					<input type='file' name='file' onChange={(e) => { handlePictureUpload(e)}}/>
+					{picBinary ? <img src={picBinary}></img> : "No Pic" }
+			  </div>
             </div>
     )
     
