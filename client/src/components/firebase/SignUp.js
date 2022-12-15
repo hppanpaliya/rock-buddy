@@ -10,9 +10,12 @@ const SignUp = (props) => {
   const [password, setPassword] = React.useState("");
   const [confirmPassword, setConfirmPassword] = React.useState("");
   const [username, setUsername] = React.useState("");
+  const [signUpError, setSignUpError] = React.useState("");
+  const [signUpSuccess, setSignUpSuccess] = React.useState(false);
 
   const handleSubmit = async (e) => {
     let errorMessage;
+    setSignUpError("");
     e.preventDefault();
     if (password === confirmPassword) {
       firebaseApp
@@ -26,7 +29,6 @@ const SignUp = (props) => {
             .set({
               username: username,
               email: email,
-              accountCreated: "firebaseApp.firestore.FieldValue.serverTimestamp()",
               uid: userCredential.user.uid,
               // add more user data here if needed
             })
@@ -37,15 +39,24 @@ const SignUp = (props) => {
               console.error("Error writing document: ", error);
             });
 
+          userCredential.user.updateProfile({
+            displayName: username,
+            photoURL: "https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg",
+          });
           // Signed in
           console.log(userCredential);
           console.log("Signed up");
+          setSignUpSuccess(true);
         })
         .catch((error) => {
           errorMessage = error;
-          console.log(errorMessage);
+          console.log({ errorMessage });
+          setSignUpError(errorMessage.message);
           console.log("Sign up failed");
         });
+      if (!errorMessage) {
+        return <Navigate to={`/`} />;
+      }
     } else {
       alert("Passwords do not match");
     }
@@ -53,6 +64,10 @@ const SignUp = (props) => {
 
   if (auth.user) {
     return <Navigate to={`/`} />;
+  }
+
+  if (signUpSuccess) {
+    return <Navigate to={`/signIn`} />;
   }
 
   return (
@@ -76,6 +91,7 @@ const SignUp = (props) => {
           value={confirmPassword}
         />
         <br />
+        {signUpError ? <span style={{ color: "red" }}>{signUpError.replace("Firebase: ", "")}</span> : null}
         <br />
         <input type="submit" value="Sign Up" />
       </form>

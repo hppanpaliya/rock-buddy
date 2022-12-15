@@ -14,7 +14,7 @@ import "firebase/compat/firestore";
   
 } from "@env"; */
 
-const firebaseApp = firebase.initializeApp({
+firebase.initializeApp({
   // apiKey: REACT_APP_FIREBASE_KEY,
   // authDomain: REACT_APP_FIREBASE_DOMAIN,
   // databaseURL: REACT_APP_FIREBASE_DATABASE,
@@ -32,5 +32,7 @@ const firebaseApp = firebase.initializeApp({
   appId: "1:43403153573:web:c6790b8135258c5f173d4c",
   measurementId: "G-XDMSZ61PKR",
 });
+firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION);
 
-export default firebaseApp;
+
+export default firebase;
