@@ -13,8 +13,9 @@ router.post('/profilepic', upload, async (req, res) => {
 	try { 
 		return(
 			gm(req.file.buffer)
-				.resize(300, 300)
+				.resize(500, 500)
 				.compress('JPEG')
+				.sharpen(10, 1.25)
 				.stream()
 				.pipe(res)
 		);
