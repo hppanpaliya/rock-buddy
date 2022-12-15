@@ -1,11 +1,11 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { MDBCol, MDBContainer, MDBRow, MDBCard, MDBCardText, MDBCardBody, MDBCardImage, MDBBtn, MDBTypography } from 'mdb-react-ui-kit';
 import { useSelector } from "react-redux";
 import noImg from '../../img/notFound.jpg'
 import SpotifyAuth from './spotifyAuth';
 
 import storage from '../firebase/storage';
-import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import { ref, uploadBytesResumable, getDownloadURL, getStorage } from "firebase/storage";
 
 
 
@@ -16,8 +16,7 @@ const Profile = (props) =>{
   const userInfo = useSelector((state) => state.auth).user;
   let email = userInfo.email;
   let userName = userInfo.username
-  let profilePic = userInfo.profilePic || noImg
-
+  const [profilePic, setProfilePic] = useState(noImg)
 	const [picBinary, setPicBinary] = useState(null);
 
   function handleFBUpload(file) {
@@ -43,11 +42,11 @@ const Profile = (props) =>{
             () => {
               // download url
               getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+                setProfilePic(url)
                 console.log(url);
               });
             }
           );
-
     }
 
 	const handlePictureUpload = async (e) => { 
@@ -76,6 +75,20 @@ const Profile = (props) =>{
 
 	};
 
+  useEffect(()=>{
+    //retrieves the profile pic from firebase and sets state. will fire if user uploads new pic
+    const storage = getStorage();
+    getDownloadURL(ref(storage, `profiles/${userInfo.uid}`))
+      .then((url) => {
+        // `url` is the download URL for 'images/stars.jpg'
+        setProfilePic(url)
+      })
+      .catch((error) => {
+        console.log(error)
+        setProfilePic(noImg)
+  });
+
+  },[])
 
     return(
             <div className="gradient-custom-2" style={{ backgroundColor: '#9de2ff' }}>
