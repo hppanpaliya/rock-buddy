@@ -19,6 +19,7 @@ const lyricsParse = require('lyrics-parse');
  * @param {string} id
  * 
  * @returns {object} artist
+ * @throws {Error} if artist is not a rock artist
  */
 async function getArtistById(id) { 
 	id = checkString(id);
@@ -76,16 +77,21 @@ async function getArtistTopTracksById(id) {
 			}
 		);
 		const topTracks = response.data;
+
+		// This function would only be called for known rock artists
+		// So we can store that every track is a rock track for this artist
+		for(let i = 0; i < topTracks.tracks.length; i++) {
+			await client.hSet("trackById", topTracks.tracks[i].id, "true");
+		}
+
 		await client.set(`artist.${id}.topTracks`, JSON.stringify(topTracks));
 		return response.data;
 	}
-
-
 }
 
 /**
  * 
- * @param {string} id 
+ * @param {string} id - artist id
  * @returns {object} albums for artist
  */
 async function getArtistAlbumsById(id) { 
@@ -101,16 +107,23 @@ async function getArtistAlbumsById(id) {
 				headers: { 'Authorization': `Bearer ${process.env.AUTH_TOKEN}` }
 			}
 		);
+		const albums = response.data;
+		
 		const seenNames = [];
-		response.data.items = response.data.items.filter((album) => {
+		albums.items = albums.items.filter((album) => {
 			if(seenNames.includes(album.name.toLowerCase())){
 				return false;
 			}
-				
+		
 			seenNames.push(album.name.toLowerCase());
 			return true;
 		});
-		const albums = response.data;
+
+		// This function would only be called for known rock artists
+		// So we can store that every album is a rock album for this artist
+		for(let i = 0; i < albums.items.length; i++) {
+			await client.hSet("albumById", albums.items[i].id, "true");
+		}
 		await client.set(`artist.${id}.albums`, JSON.stringify(albums));
 		return albums;
 	}
@@ -153,8 +166,8 @@ async function getArtistDescription(id, artistName) {
  * Gets an album given an id
  * 
  * @param {string} id
- * 
  * @returns {object} album
+ * @throws {Error} if album is not a rock album (i.e. has no rock artists)
  */
 async function getAlbumById(id) { 
 	
@@ -166,17 +179,50 @@ async function getAlbumById(id) {
 		const album = await client.get(`album.${id}`);
 		return JSON.parse(album);
 	} else {
+		
+		const rockCheck = await client.hGet("albumById", id);
+		if(rockCheck && rockCheck !== "true") throw new Error("Album is not a rock album!");
+		
 		const response = await axios.get(`${SPOTIFY_API_BASE_URL}/albums/${id}`,
 			{
 				headers: { 'Authorization': `Bearer ${process.env.AUTH_TOKEN}` }
 			}
 		);
 		const album = response.data;
+
+		let isRock = false;
+		const albumArtists = album.artists.map((artist) => artist.id);
+
+		for(let i = 0; i < albumArtists.length; i++) { 
+
+			// Check if the artist's rock status was already stored in Redis
+			const rockCheck = await client.hGet("artistbyId", albumArtists[i]);
+			if(rockCheck && rockCheck !== "true") continue;	// If the artist is not rock, skip to the next artist
+
+			// Otherwise, get the artist. We are able to retrieve the artist, then they are rock. 
+			try { 
+				const curArtist = await getArtistById(albumArtists[i]);
+
+				// Call functions to retrieve the rest of the Artist's data
+				// But do not wait, since this function is not dependent on their execution/return values
+				getArtistTopTracksById(albumArtists[i]);
+				getArtistAlbumsById(albumArtists[i]);
+				getArtistDescription(albumArtists[i], curArtist.name);
+				
+				isRock = true;
+				await client.hSet("artistById", albumArtists[i], "true");	// Set the artist's rock status to true
+				await client.set(`artist.${curArtist.id}`, JSON.stringify(curArtist));
+			} catch (e) { 
+				await client.hSet("artistById", albumArtists[i], "false");	// Set the artist's rock status to false
+			}
+		}
+		if(!isRock) throw new Error("Album is not a rock album!");
+
+		await client.hSet("albumById", id, isRock.toString());
 		await client.set(`album.${id}`, JSON.stringify(album));
 		return album;
 	}
 }
-
 /**
  * Gets an track given an id
  * 
@@ -192,15 +238,50 @@ async function getTrackById(id) {
 	if(exists) { 
 		const track = await client.get(`track.${id}`);
 		return JSON.parse(track);
-	} else { 
+	} else {
+
+		const rockCheck = await client.hGet("trackById", id);
+		if(rockCheck && rockCheck !== "true") throw new Error("Track is not a rock track!");
+
 		const response = await axios.get(`${SPOTIFY_API_BASE_URL}/tracks/${id}`,
 			{
 				headers: { 'Authorization': `Bearer ${process.env.AUTH_TOKEN}` }
 			}
 		);
 		const track = response.data;
+
+		let isRock = false;
+		const trackArtists = track.artists.map((artist) => artist.id);
+
+		for(let i = 0; i < trackArtists.length; i++) {
+			// Check if the artist's rock status was already stored in Redis
+			const rockCheck = await client.hGet("artistbyId", trackArtists[i]);
+			if(rockCheck && rockCheck !== "true") continue;	// If the artist is not rock, skip to the next artist
+
+			// Otherwise, get the artist and check if they are rock
+			try {
+				const curArtist = await getArtistById(trackArtists[i]);
+
+				// Call functions to retrieve the rest of the Artist's data
+				// But do not wait, since this function is not dependent on their execution/return values
+				getArtistTopTracksById(trackArtists[i]);
+				getArtistAlbumsById(trackArtists[i]);
+				getArtistDescription(trackArtists[i], curArtist.name);
+
+				isRock = true;
+				await client.hSet("artistById", trackArtists[i], "true");	// Set the artist's rock status to true
+				await client.set(`artist.${curArtist.id}`, JSON.stringify(curArtist));
+			} catch (e) {
+				await client.hSet("artistById", trackArtists[i], "false");	// Set the artist's rock status to false
+			}
+		}
+
+		if(!isRock) throw new Error("Track is not a rock track!");
+
+		await client.hSet("trackById", id, isRock.toString());
 		await client.set(`track.${id}`, JSON.stringify(track));
 		return track;
+		
 	}
 }
 
