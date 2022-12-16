@@ -195,12 +195,16 @@ async function getAlbumById(id) {
 
 		let isRock = false;
 		const albumArtists = album.artists.map((artist) => artist.id);
+		const nonRockIndices = [];
 
 		for(let i = 0; i < albumArtists.length; i++) { 
 
 			// Check if the artist's rock status was already stored in Redis
 			const rockCheck = await client.hGet("artistbyId", albumArtists[i]);
-			if(rockCheck && rockCheck !== "true") continue;	// If the artist is not rock, skip to the next artist
+			if(rockCheck && rockCheck !== "true") {
+				nonRockIndices.push(i);
+				continue;
+			}	// If the artist is not rock, skip to the next artist
 
 			// Otherwise, get the artist. We are able to retrieve the artist, then they are rock. 
 			try { 
@@ -216,10 +220,14 @@ async function getAlbumById(id) {
 				await client.hSet("artistById", albumArtists[i], "true");	// Set the artist's rock status to true
 				await client.set(`artist.${curArtist.id}`, JSON.stringify(curArtist));
 			} catch (e) { 
+				nonRockIndices.push(i);
 				await client.hSet("artistById", albumArtists[i], "false");	// Set the artist's rock status to false
 			}
 		}
 		if(!isRock) throw new Error("Album is not a rock album!");
+
+		// Remove non-rock artists from the album
+		album.artists = album.artists.filter((artist, index) => !nonRockIndices.includes(index));
 
 		await client.hSet("albumById", id, isRock.toString());
 		await client.set(`album.${id}`, JSON.stringify(album));
@@ -255,11 +263,16 @@ async function getTrackById(id) {
 
 		let isRock = false;
 		const trackArtists = track.artists.map((artist) => artist.id);
+		const nonRockIndices = [];
+
 
 		for(let i = 0; i < trackArtists.length; i++) {
 			// Check if the artist's rock status was already stored in Redis
 			const rockCheck = await client.hGet("artistbyId", trackArtists[i]);
-			if(rockCheck && rockCheck !== "true") continue;	// If the artist is not rock, skip to the next artist
+			if(rockCheck && rockCheck !== "true") {
+				nonRockIndices.push(i);
+				continue;
+			};	// If the artist is not rock, skip to the next artist
 
 			// Otherwise, get the artist and check if they are rock
 			try {
@@ -275,11 +288,14 @@ async function getTrackById(id) {
 				await client.hSet("artistById", trackArtists[i], "true");	// Set the artist's rock status to true
 				await client.set(`artist.${curArtist.id}`, JSON.stringify(curArtist));
 			} catch (e) {
+				nonRockIndices.push(i);
 				await client.hSet("artistById", trackArtists[i], "false");	// Set the artist's rock status to false
 			}
 		}
 
 		if(!isRock) throw new Error("Track is not a rock track!");
+
+		track.artists = track.artists.filter((track, index) => !nonRockIndices.includes(index));
 
 		await client.hSet("trackById", id, isRock.toString());
 		await client.set(`track.${id}`, JSON.stringify(track));
