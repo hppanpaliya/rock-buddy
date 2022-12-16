@@ -173,7 +173,7 @@ async function getArtistDescription(id, artistName) {
  * @throws {Error} if album is not a rock album (i.e. has no rock artists)
  */
 async function getAlbumById(id) { 
-	
+
 	id = checkString(id);
 	
 	const exists = await client.exists(`album.${id}`);
@@ -294,7 +294,7 @@ async function getTrackById(id) {
 		}
 
 		if(!isRock) throw new Error("Track is not a rock track!");
-
+		getAlbumById(track.album.id);	// Call function to store the album in Redis
 		track.artists = track.artists.filter((track, index) => !nonRockIndices.includes(index));
 
 		await client.hSet("trackById", id, isRock.toString());
