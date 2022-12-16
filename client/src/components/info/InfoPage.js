@@ -15,6 +15,7 @@ const InfoPage = () => {
     // let nav = useNavigate();
 
     const [infoData, setInfoData] = useState({});
+	const [errorMessage, setErrorMessage] = useState("");
 
     useEffect(() => {
 
@@ -27,6 +28,7 @@ const InfoPage = () => {
                     throw new Error(`The category must be album, artist, or track!`);
             } catch (e) { 
                 console.log("Invalid Paramter: ", e);
+				setErrorMessage(e.message);
 				// nav("/404")
             }
         }
@@ -39,6 +41,7 @@ const InfoPage = () => {
                 setInfoData(response.data);
             } catch (e) { 
                 console.log("Failed to fetch data: ", e);
+				setErrorMessage(e.message);
             }
         }
         validateParams();
@@ -46,7 +49,8 @@ const InfoPage = () => {
 
     }, [category, id]);
 	console.log(infoData);
-	if(!infoData || Object.keys(infoData).length === 0) return <p>Loading, please wait... </p>;
+	if(errorMessage) return <p>{errorMessage}</p>;
+	else if(!infoData || Object.keys(infoData).length === 0) return <p>Loading, please wait... </p>;
     else {
 		if(category === "artist") return <ArtistPage infoData={infoData} />;
 		else if(category === "album") return <AlbumPage infoData={infoData}/>;
