@@ -13,7 +13,7 @@ router.get('/:type(artist|album|track)/:id', async (req, res, next) => {
 		req.params.id = checkString(req.params.id);
 	} catch (e) { 
 		console.log(e);
-		return res.status(400).json({error: e});
+		return res.status(400).json({error: e.message || e});
 	}
 	next();
 });
@@ -50,7 +50,7 @@ router.get('/album/:id', async (req, res) => {
 	} catch (e) {
 		console.log(e);
 		if(e.response && e.response.status) {
-			return res.status(e.response.status).json({error: e});
+			return res.status(e.response.status).json({error: e.message || e});
 		}
 		return res.status(500).json({error: e});
 	}
@@ -66,7 +66,7 @@ router.get('/track/:id', async (req, res) => {
 	} catch (e) {
 		console.log(e);
 		if(e.response && e.response.status) {
-			return res.status(e.response.status).json({error: e});
+			return res.status(e.response.status).json({error: e.message || e});
 		}
 		return res.status(500).json({error: e});
 	}

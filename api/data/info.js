@@ -156,7 +156,10 @@ async function getArtistDescription(id, artistName) {
 				headers: { 'Authorization': `Bearer ${process.env.GENIUS_ACCESS_TOKEN}` }
 			}
 		);
-		const description = artistResponse.data.response.artist.description.plain;
+		let description = artistResponse.data.response.artist.description.plain;
+		if(!description || description.trim().length === 0 || description === "?") { 
+			description = "No description available."
+		}
 		await client.set(`artist.${id}.description`, description);
 		return description;
 	}
