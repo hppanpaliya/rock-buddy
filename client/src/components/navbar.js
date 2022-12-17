@@ -78,9 +78,14 @@ function Navbarcustom() {
              <Nav.Item>
                  <Nav.Link eventKey="link-2" as={Link} to="/search">Search</Nav.Link>
              </Nav.Item>
-             <Nav.Item>
-                 <Nav.Link eventKey="link-3" as={Link} to="/events">Events</Nav.Link>
-             </Nav.Item>
+             <NavDropdown title="Live Rock Events" id="basic-nav-dropdown">
+                  <Nav.Item>
+                      <Nav.Link eventKey="link-3" as={Link} to="/events">All Events</Nav.Link>
+                  </Nav.Item>
+                  <Nav.Item>
+                      <Nav.Link eventKey="link-4" as={Link} to="/events/search">Search Events</Nav.Link>
+                  </Nav.Item>
+              </NavDropdown>
              <Nav.Item>
                  <Nav.Link eventKey="link-4" as={Link} to="/signup">Signup</Nav.Link>
              </Nav.Item>

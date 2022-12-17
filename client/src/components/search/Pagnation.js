@@ -19,7 +19,7 @@ import Button from 'react-bootstrap/Button';
     else if(props.next && props.prev == null){
         return(
             <Button onClick={()=> 
-                props.setPage(props.page+1)}>
+                props.setPage(props.page+1) }>
             Next
             </Button>
             )
@@ -28,7 +28,7 @@ import Button from 'react-bootstrap/Button';
     else if(props.next == null && props.prev){
         return(
             <Button onClick={()=> 
-                props.setPage(props.page-1) }>
+                props.setPage(props.page-1)}>
                 Previous
             </Button>
             )
