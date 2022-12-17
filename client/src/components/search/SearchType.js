@@ -66,14 +66,16 @@ const SearchType = (props) =>{
     let setSearchData = props.setSearchData
     let setPage = props.setPage
     let searchType = props.searchType
+    let setSearchTerm = props.setSearchTerm
 
-    const onSiteChanged = (e) => {
-        console.log(e.target.value)
-        setSearchData(undefined) //need to clear the old state search data when the search type is changed
+    let onSiteChanged = (e) => {
         setPage(0) //must reset pagnation if search type changes
+        setSearchData(undefined) //need to clear the old state search data when the search type is changed
         setSearchType(e.target.value) //sets new search type value in state
-    };
+        // setSearchTerm("")
 
+    };
+  
     return(
         <Box sx={{ minWidth: 200 }}>
         <FormControl>

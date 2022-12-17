@@ -6,9 +6,31 @@ const SearchBar = (props) =>{
      * to whatever is currently in the search bar. the search term state is set everytime a 
      * new character is added or deleted
      */
-      const handleChange = (e) => {
-          props.setSearchTerm(e.target.value.trim());
+
+    let setSearchData = props.setSearchData
+    let setPage = props.setPage
+
+    let events = props.events || null
+
+    let handleChange
+
+    if(events){
+       handleChange = (e) => {
+        props.setSearchTerm(e.target.value.trim());
+        setPage(0) //must reset pagnation if search type changes
+        setSearchData(undefined) //need to clear the old state search data when the search type is changed
+       }
+
+    }else{
+        handleChange = (e) => {
+        props.setSearchTerm(e.target.value.trim());
+        setPage(0) //must reset pagnation if search type changes
+        setSearchData(undefined) //need to clear the old state search data when the search type is changed
       };
+
+    }
+
+    
         
       return (
         <Form

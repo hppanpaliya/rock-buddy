@@ -32,7 +32,7 @@ const Search = (props) => {
           try {
             console.log(`in fetch searchTerm: ${searchTerm}`);
             console.log(`in fetch searchType: ${searchType}`);
-    
+     
             const data = await axios({
                 method: 'GET',
                 url: `http://localhost:4000/search/${searchType}?term=${searchTerm}&page=${page}`,
@@ -83,7 +83,7 @@ const Search = (props) => {
       return(
         <div>
             <SearchType setSearchType={setSearchType} searchType={searchType} setSearchData={setSearchData} setPage={setPage}></SearchType>
-            <SearchBar setSearchTerm={setSearchTerm} setPage={setPage} term={searchType}/>
+            <SearchBar setSearchTerm={setSearchTerm}  setPage={setPage} setSearchData={setSearchData} term={searchType}/>
             <br />
             <br />
             <h1>Sorry, no results found</h1>
@@ -96,7 +96,7 @@ const Search = (props) => {
       return(
         <div>
           <SearchType setSearchType={setSearchType} searchType={searchType} setSearchData={setSearchData} setPage={setPage}></SearchType>
-          <SearchBar setSearchTerm={setSearchTerm} setPage={setPage} term={searchType}/>
+          <SearchBar setSearchTerm={setSearchTerm}  setPage={setPage} setSearchData={setSearchData} term={searchType}/>
           <br />
           <br />
           <h1>400: Invalid Search Term</h1>
@@ -109,7 +109,7 @@ const Search = (props) => {
       <div>
         <Row>
           <Col>
-            <SearchType setSearchType={setSearchType} searchType={searchType} setSearchData={setSearchData} setPage={setPage}></SearchType>
+            <SearchType setSearchType={setSearchType} setSearchTerm={setSearchTerm} searchType={searchType} setSearchData={setSearchData} setPage={setPage} setLoading={setLoading}></SearchType>
           </Col>
         </Row>
         <Row style={{ width: '60%',
@@ -117,7 +117,7 @@ const Search = (props) => {
             marginLeft: 'auto',
             marginRight: 'auto'}}>
           <Col>
-          <SearchBar setSearchTerm={setSearchTerm}  setPage={setPage} term={searchType}/>
+          <SearchBar setSearchTerm={setSearchTerm}  setPage={setPage} setSearchData={setSearchData} term={searchType}/>
           </Col> 
         </Row>
       
