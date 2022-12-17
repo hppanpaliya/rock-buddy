@@ -63,9 +63,6 @@ function App() {
   return (
     <Router>
       <div className="App">
-        <header className="App-header">
-          <h1>Rock Buddy</h1>
-        </header>
         <Navbarcustom></Navbarcustom>
         <div className='App-body'>
           <Routes>

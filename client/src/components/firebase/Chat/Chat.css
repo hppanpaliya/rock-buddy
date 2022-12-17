@@ -1,0 +1,84 @@
+.chat {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .user-list {
+    width: 300px;
+    margin: 0;
+    text-align: center;
+  }
+  
+  .user-list input[type="text"] {
+    width: 100%;
+    padding: 0.5em;
+    margin: 0.5em 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .user-list ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .user-list li {
+    margin: 0.5em 0;
+    cursor: pointer;
+  }
+  
+  .user-list li.selected {
+    font-weight: bold;
+  }
+  
+  .message-section {
+    width: calc(100% - 300px);
+    margin: 0;
+    text-align: center;
+  }
+  
+  .message-section h2 {
+    font-size: 1.5em;
+    margin: 0.5em 0;
+  }
+  
+  .message-section ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .message-section li {
+    margin: 0.5em 0;
+  }
+  
+  .message-section form {
+    display: flex;
+    align-items: center;
+    margin: 1em 0;
+  }
+  
+  .message-section input[type="text"] {
+    flex-grow: 1;
+    padding: 0.5em;
+    margin-right: 0.5em;
+  }
+  
+  .message-section button[type="submit"] {
+    padding: 0.5em 1em;
+    background-color: #0077ff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .message-section button[type="submit"]:hover {
+    background-color: #0066cc;
+  }
+  
+  .message-section button[type="submit"]:active {
+    background-color: #004c99;
+  }
+  
