@@ -45,9 +45,12 @@ function Navbarcustom() {
             
               <Nav.Item>
                   <Nav.Link eventKey="link-5" as={Link} to="/profile">Profile</Nav.Link>
-              </Nav.Item>
+                    </Nav.Item>
+                    <Nav.Item>
+                    <Nav.Link eventKey="link-6" as={Link} to="/chat">Chat</Nav.Link>
+                    </Nav.Item>
               <Nav.Item>
-            <Nav.Link eventKey="link-6" as={Link} to="/signOut">Logout</Nav.Link>
+            <Nav.Link eventKey="link-7" as={Link} to="/signOut">Logout</Nav.Link>
            </Nav.Item>
               </Nav>
               </Navbar>   
