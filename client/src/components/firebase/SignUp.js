@@ -2,6 +2,7 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
 import firebaseApp from "./../firebase/Firebase";
+import firebase from "firebase/compat/app";
 
 const SignUp = (props) => {
   const dispatch = useDispatch();
@@ -13,11 +14,25 @@ const SignUp = (props) => {
   const [signUpError, setSignUpError] = React.useState("");
   const [signUpSuccess, setSignUpSuccess] = React.useState(false);
 
+  const isUsernameAvailable = async (user) => {
+    const usernameRef = firebase.firestore().collection("users").doc(user);
+    const usernameDoc = await usernameRef.get();
+  
+    if (usernameDoc.exists) { 
+      return false;
+    }
+    return true;
+
+  }
+
+
+
   const handleSubmit = async (e) => {
     let errorMessage;
     setSignUpError("");
     e.preventDefault();
-    if (password === confirmPassword) {
+      
+    if (password === confirmPassword && await isUsernameAvailable(username) === true ) {
       firebaseApp
         .auth()
         .createUserWithEmailAndPassword(email, password)
@@ -25,7 +40,7 @@ const SignUp = (props) => {
           firebaseApp
             .firestore()
             .collection("users")
-            .doc(userCredential.user.uid)
+            .doc(username)
             .set({
               username: username,
               email: email,
@@ -58,7 +73,12 @@ const SignUp = (props) => {
         return <Navigate to={`/`} />;
       }
     } else {
-      alert("Passwords do not match");
+      if (password !== confirmPassword) {
+        alert("Passwords do not match");
+      }
+      if (await isUsernameAvailable(username) === false) {
+        alert("Username is already taken");
+      }
     }
   };
 
