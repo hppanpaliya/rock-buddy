@@ -1,4 +1,5 @@
 import React from 'react';
+import Form from 'react-bootstrap/Form';
 
 const SearchBar = (props) =>{
     /**This component builds a search bar, and dynamically sets the search term state value 
@@ -10,7 +11,7 @@ const SearchBar = (props) =>{
       };
         
       return (
-        <form
+        <Form
           method='POST '
           onSubmit={(e) => {
             e.preventDefault();
@@ -18,17 +19,20 @@ const SearchBar = (props) =>{
           name='formName'
           className='center'
         >
-  
-        <label>
-            <span>Search {props.term}: </span>
-            <input
+          <Form.Group>
+
+            <Form.Control
               autoComplete='off'
               type='text'
               name='searchTerm'
               onChange={handleChange}
+              placeHolder={'Search ' + props.term}
             />
-          </label>
-        </form>
+            <Form.Text className="text-muted">
+            Search {props.term}
+            </Form.Text>
+          </Form.Group>
+        </Form>
       );
   };
 

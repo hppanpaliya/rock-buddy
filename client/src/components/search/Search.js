@@ -7,6 +7,12 @@ import Container from 'react-bootstrap/Container';
 import SearchBar from './SearchBar';
 import Pagnation from './Pagnation';
 
+import Box from '@mui/material/Box';
+import Paper from '@mui/material/Paper';
+import Grid from '@mui/material/Unstable_Grid2';
+import Row from 'react-bootstrap/esm/Row';
+import Col from 'react-bootstrap/esm/Col';
+
 
 const Search = (props) => {
     const [loading, setLoading] = useState(true);
@@ -76,7 +82,7 @@ const Search = (props) => {
     else if(_404Flag){
       return(
         <div>
-            <SearchType setSearchType={setSearchType} setSearchData={setSearchData} setPage={setPage}></SearchType>
+            <SearchType setSearchType={setSearchType} searchType={searchType} setSearchData={setSearchData} setPage={setPage}></SearchType>
             <SearchBar setSearchTerm={setSearchTerm} setPage={setPage} term={searchType}/>
             <br />
             <br />
@@ -89,7 +95,7 @@ const Search = (props) => {
     else if (_400Flag){
       return(
         <div>
-          <SearchType setSearchType={setSearchType} setSearchData={setSearchData} setPage={setPage}></SearchType>
+          <SearchType setSearchType={setSearchType} searchType={searchType} setSearchData={setSearchData} setPage={setPage}></SearchType>
           <SearchBar setSearchTerm={setSearchTerm} setPage={setPage} term={searchType}/>
           <br />
           <br />
@@ -101,13 +107,37 @@ const Search = (props) => {
         
     return(
       <div>
-        <SearchType setSearchType={setSearchType} setSearchData={setSearchData} setPage={setPage}></SearchType>
-        <SearchBar setSearchTerm={setSearchTerm}  setPage={setPage} term={searchType}/>
-        <Pagnation setPage={setPage} page={page} next={next} prev={previous}></Pagnation>
-        <Container style={{alignContent: "center"}}>
-          <ResultCard searchData={searchData} searchType={searchType}></ResultCard>
-        </Container>    
+        <Row>
+          <Col>
+            <SearchType setSearchType={setSearchType} searchType={searchType} setSearchData={setSearchData} setPage={setPage}></SearchType>
+          </Col>
+        </Row>
+        <Row style={{ width: '60%',
+            align: 'left',
+            marginLeft: 'auto',
+            marginRight: 'auto'}}>
+          <Col>
+          <SearchBar setSearchTerm={setSearchTerm}  setPage={setPage} term={searchType}/>
+          </Col> 
+        </Row>
+      
+
+        <Row>
+          <Col>
+            <Pagnation setPage={setPage} page={page} next={next} prev={previous}></Pagnation>
+          </Col>
+        </Row>
+
+        <Row className="justify-content-center">
+          <Col>
+            <div>
+              <ResultCard searchData={searchData} searchType={searchType}></ResultCard>
+              </div>
+          </Col>
+        </Row>
+
       </div>
+
       )
 }
    

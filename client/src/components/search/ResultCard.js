@@ -9,6 +9,15 @@ import Nav from 'react-bootstrap/Nav';
 import {BrowserRouter as Router, Route, Link, Routes} from 'react-router-dom';
 
 
+import { useTheme } from '@mui/material/styles';
+import Box from '@mui/material/Box';
+// import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
+import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
+import { Container } from '@mui/system';
+
 const ResultCard = (props) =>{
     /**
      * Search result card for artist, album, and song search results
@@ -33,7 +42,10 @@ const ResultCard = (props) =>{
          let id = item.id
  
          return(
-            <Card style={{ width: '60%' }}>
+            <Card style={{ width: '60%',
+				align: 'center',
+				marginLeft: 'auto',
+				marginRight: 'auto'}}>            
                 <Row>
                 <Col>
                     <Card.Header>{item.name}</Card.Header>
@@ -51,8 +63,8 @@ const ResultCard = (props) =>{
                  </ListGroup>
                 </Col>
                 </Row>
-                 
              </Card>
+
          )
 
 
@@ -71,7 +83,10 @@ const ResultCard = (props) =>{
         let id = item.id
 
         return(
-            <Card style={{ width: '60%' }}>
+            <Card  style={{ width: '60%',
+            align: 'center',
+            marginLeft: 'auto',
+            marginRight: 'auto'}}>
                 <Row>
                     <Col>
                         <Card.Header>{item.name || "Album name Unknown"}</Card.Header>
@@ -108,7 +123,10 @@ const ResultCard = (props) =>{
         let id = item.id;
 
         return(
-            <Card style={{ width: '60%' }}>
+            <Card  style={{ width: '60%',
+            align: 'center',
+            marginLeft: 'auto',
+            marginRight: 'auto'}}>
                 <Row>
                     <Col>
                         <Card.Header>{item.name || "Song name Unknown"}</Card.Header>
