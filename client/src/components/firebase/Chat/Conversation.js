@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { Box, List, ListItem, ListItemText } from "@mui/material";
 
 const Conversation = ({ conversation, currentUserId }) => {
@@ -17,6 +18,8 @@ const Conversation = ({ conversation, currentUserId }) => {
                 }}
               >
                 {message.text}
+
+                {message.link ? <Link to={message.link}>{message.link}</Link> : null}
               </Box>
             }
           />
