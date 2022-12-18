@@ -18,8 +18,8 @@ const Conversation = ({ conversation, currentUserId }) => {
                 }}
               >
                 {message.text}
-
-                {message.link ? <Link to={message.link}>{message.link}</Link> : null}
+                <br />
+                {message.link ? <Link to={message.link} style={{color: "#000"}} >{message.link}</Link> : null}
               </Box>
             }
           />
