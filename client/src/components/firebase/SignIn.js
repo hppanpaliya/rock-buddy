@@ -31,10 +31,7 @@ const SignIn = (props) => {
           email: userCredential.user.email,
           username: userCredential.user.displayName,
         })
-      ).then(() => {
-        console.log("Sign in successfully!");
-        return <Navigate to={`/`} />;
-      });
+      )
     } catch (error) {
       console.log(error);
       setError(error.message);
