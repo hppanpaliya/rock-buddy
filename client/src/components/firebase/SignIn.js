@@ -3,7 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
 import firebaseApp from "./../firebase/Firebase";
 import { login } from "./../../store/features/auth/";
-import firebase from "firebase/compat/app";
+import { Button,Typography ,TextField} from "@mui/material";
+import validator from "validator";
 
 const SignIn = (props) => {
   const dispatch = useDispatch();
@@ -16,11 +17,21 @@ const SignIn = (props) => {
     e.preventDefault();
     setError("");
 
-    // Existing and future Auth states are now persisted in the current
-    // session only. Closing the window would clear any existing state even
-    // if a user forgets to sign out.
-    // ...
-    // New sign-in will be persisted with session persistence.
+    // Validate input
+    if (!email || !password) {
+      setError("Please enter a valid email and password.");
+      return;
+    }
+
+    if (!validator.isEmail(email)) {
+      setError("Please enter a valid email address.");
+      return;
+    }
+
+    if (password.length < 6) {
+      setError("Password must be at least 6 characters long.");
+      return;
+    }
 
     try {
       const userCredential = await firebaseApp.auth().signInWithEmailAndPassword(email, password);
@@ -50,18 +61,37 @@ const SignIn = (props) => {
     <div>
       <h2>Sign In</h2>
       <form onSubmit={handleSubmit}>
-        <input type="text" name="email" placeholder="Email" onChange={(e) => setEmail(e.target.value)} value={email} />
+        <TextField
+          id="email"
+          name="email"
+          label="Email"
+          onChange={(e) => setEmail(e.target.value)}
+          value={email}
+        />
+        <br /> <br />
+        <TextField
+          id="password"
+          name="password"
+          type="password"
+          label="Password"
+          onChange={(e) => setPassword(e.target.value)}
+          value={password}
+        />
+        <br /> 
+        {error ? (
+          <Typography variant="body2" className="error">
+                    <br />
+            {error}
+          </Typography>
+        ) : null}
         <br />
-        <br />
-        <input type="password" name="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} value={password} />
-        <br />
-        {error ? <span style={{ color: "red" }}>{/* {error.replace("Firebase: ", "")} */}Please check email and password.</span> : null}
-        <br />
-        <input type="submit" value="Sign In" />
+        <Button type="submit" variant="contained" color="primary">
+          Sign In
+        </Button>
       </form>
       <br />
-
-      <button className="forgotPassword" /* onClick={passwordReset} */>Forgot Password</button>
+      <Button variant="outlined">Forgot Password</Button>
+      <br /> <br />
     </div>
   );
 };
