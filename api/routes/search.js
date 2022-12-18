@@ -5,7 +5,7 @@ const client = redis.createClient();
 client.connect().then(() => {});
 
 const helper = require('../helper')
-const {validateSearchTerm} = helper.validations
+const {validateQueryParam, checkString} = helper.validations
 
 //search functions
 const data = require('../data')
@@ -15,10 +15,15 @@ router.route("/artists")
     .get(async (request, response) =>{
         try {
             //1. validate 
+            let term = checkString(request.query.term);
 
-            // let term = validateSearchTerm(request.body)
-            let term = request.query.term;
-            let page = request.query.page || 0;
+            let page
+            if (request.query.page){
+                page = validateQueryParam(request.query.page);
+            }
+            else{
+                page = 0
+            }
 
             //2. query
             let data = await searchArtists(term, page)
@@ -44,11 +49,16 @@ router.route("/albums")
     .get(async (request, response) =>{
         try {
 
-            //1. validate term
+            //1. validate 
+            let term = checkString(request.query.term);
 
-            // let term = validateSearchTerm(request.body);
-            let term = request.query.term;
-            let page = request.query.page || 0;
+            let page
+            if (request.query.page){
+                page = validateQueryParam(request.query.page);
+            }
+            else{
+                page = 0
+            }
 
             //2. query api
             let data = await searchAlbums(term, page)
@@ -73,11 +83,16 @@ router.route("/songs")
     .get(async (request, response) =>{
         try {
 
-            //1. validate term
+            //1. validate 
+            let term = checkString(request.query.term);
 
-            // let term = validateSearchTerm(request.body);
-            let term = request.query.term;
-            let page = request.query.page || 0;
+            let page
+            if (request.query.page){
+                page = validateQueryParam(request.query.page);
+            }
+            else{
+                page = 0
+            }
 
             //2. query api
             let data = await searchTracks(term, page)

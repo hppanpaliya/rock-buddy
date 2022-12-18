@@ -19,9 +19,28 @@ function checkString(str) {
 	return str;
 }
 
+function validateQueryParam(num){
+
+    if(typeof(num) === 'string'){
+        num = num.trim()
+    }
+
+    function numberCheck(n){
+        if(isNaN(n)) throw "ID is not a valid number!"
+        if(n%1 !== 0) throw "ID cannot be a decimal!"
+        return n
+    }
+
+    num = parseInt(numberCheck(num));
+    if(num < 0) throw "ID must be greater than or equal to 0"
+    num = num.toString()
+    return num
+};
+
 
 
 module.exports = {
     validateSearchTerm,
-	checkString
+	checkString,
+    validateQueryParam
 }

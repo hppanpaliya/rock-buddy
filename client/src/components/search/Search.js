@@ -55,7 +55,11 @@ const Search = (props) => {
 
           } catch (e) {
             console.log(e);
-            if(e.message && e.message.indexOf('400')){
+            if(e.message && e.message.indexOf('404') !== -1){
+              set404Flag(true);
+            }
+
+            else{
                 set400Flag(true);
             }
           }
@@ -78,6 +82,14 @@ const Search = (props) => {
           </div>
         );
       }
+      // else if(searchTerm.trim().length === 0){
+      //   return(
+      //     <div>
+      //       <SearchType setSearchType={setSearchType} searchType={searchType} setSearchData={setSearchData} setPage={setPage}></SearchType>
+      //       <SearchBar setSearchTerm={setSearchTerm}  setPage={setPage} setSearchData={setSearchData} term={searchType}/>
+      //     </div>
+      //     )
+      // }
 
     else if(_404Flag){
       return(

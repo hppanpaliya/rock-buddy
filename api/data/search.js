@@ -1,11 +1,10 @@
 const axios = require('axios')
 const SpotifyWebApi = require('spotify-web-api-node');
-const helper = require('../helper')
+let helper = require('../helper')
+const {validateQueryParam, checkString, validateSearchTerm} = helper.validations
 const redis = require('redis');
 const client = redis.createClient();
 client.connect().then(() => {});
-
-const {validateSearchTerm} = helper.validations
 
 
   //How to use Spotify NPM package instead of axios
@@ -25,11 +24,12 @@ const {validateSearchTerm} = helper.validations
     // data = data.body.albums
 
 
-async function searchArtists(searchTerm, page){
+async function searchArtists(searchTerm, page=0){
 
     //1. validate 
     if(arguments.length < 1) throw "Invalid number of arguments."
-    searchTerm = validateSearchTerm({searchTerm: searchTerm})
+    searchTerm = validateSearchTerm({searchTerm: searchTerm});
+    page = validateQueryParam(page);
 
     //2. check if term & page num in redis
     let key = searchTerm + "_" + page.toString() //the format for caching song pages is <searchTerm_pageNum>
@@ -65,11 +65,12 @@ async function searchArtists(searchTerm, page){
 
 }
 
-async function searchTracks(searchTerm, page){
+async function searchTracks(searchTerm, page=0){
 
     //1. validate 
     if(arguments.length < 1) throw "Invalid number of arguments.";
     searchTerm = validateSearchTerm({searchTerm: searchTerm});
+    page = validateQueryParam(page);
 
     //2. check if term & page num in redis
     let key = searchTerm + "_" + page.toString() //the format for caching song pages is <searchTerm_pageNum>
@@ -99,11 +100,12 @@ async function searchTracks(searchTerm, page){
 
 }
 
-async function searchAlbums(searchTerm, page){
+async function searchAlbums(searchTerm, page=0){
 
     //1. validate 
     if(arguments.length < 1) throw "Invalid number of arguments.";
     searchTerm = validateSearchTerm({searchTerm: searchTerm});
+    page = validateQueryParam(page);
 
     //2. check if term & page num in redis
     let key = searchTerm + "_" + page.toString() //the format for caching album pages is <searchTerm_pageNum>
@@ -152,6 +154,7 @@ async function checkIfRock(id){
 
   //1. validate
   id = id.toString()
+  id = checkString(id)
 
   //2. check if in redis
   let artistSearch = await client.hGet('artistById', id);
