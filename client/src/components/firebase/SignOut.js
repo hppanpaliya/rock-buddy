@@ -13,7 +13,7 @@ const SignOut = () => {
   }
 
   const logOut = async () => {
-
+    window.sessionStorage.removeItem("token")
     firebaseApp
       .auth()
       .signOut()

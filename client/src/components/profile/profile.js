@@ -130,7 +130,7 @@ const Profile = (props) =>{
                             Edit profile
                         </MDBBtn>
 
-                        <SpotifyAuth></SpotifyAuth>
+
                     
                         </div>
                       </div>

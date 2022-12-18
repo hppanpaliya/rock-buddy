@@ -24,6 +24,7 @@ import Profile from './components/profile/profile';
 import EventSearch from './components/tmEvents/EventSearch';
 import { getAuth } from "firebase/auth";
 import firebase from "firebase/compat/app";
+import Spotify from "./components/profile/spotifyAuth"
 
 
 function App() {
@@ -83,6 +84,7 @@ function App() {
             <Route exact path="/signOut" element={<SignOut />} />
             <Route exact path="/signUp" element={<SignUp />} />
             <Route exact path='*' element={<Error404/>}/>
+            <Route exact path="/spotify" element={<Spotify />} />
           </Routes>
         </div>
       </div>

@@ -43,10 +43,7 @@ const SignIn = (props) => {
           username: userCredential.user.displayName,
           photoURL: userCredential.user.photoURL,
         })
-      ).then(() => {
-        console.log("Sign in successfully!");
-        return <Navigate to={`/`} />;
-      });
+      )
     } catch (error) {
       console.log(error);
       setError(error.message);
