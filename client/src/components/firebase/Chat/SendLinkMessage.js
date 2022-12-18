@@ -13,10 +13,18 @@ function SendLinkMessage() {
   // Fetch the list of users from the database
   const fetchUsers = async () => {
     const db = firebase.firestore();
+    const currentUser = firebase.auth().currentUser.uid;
     const unsubscribe = db.collection("users").onSnapshot((snapshot) => {
-      setUsers(snapshot.docs.map((doc) => doc.data()));
+      const users = snapshot.docs.map((doc) => doc.data());
+      // Create a new array of objects with all fields except for the email field
+      const filteredUsers = users.map((user) => {
+        const { email, ...rest } = user;
+        return rest;
+      });
+      // Filter out the current user from the list
+      const updatedUsers = filteredUsers.filter((user) => user.uid !== currentUser);
+      setUsers(updatedUsers);
     });
-
     return () => unsubscribe();
   };
 
@@ -57,19 +65,22 @@ function SendLinkMessage() {
       link: window.location.pathname,
       timestamp: firebase.firestore.Timestamp.now(),
     });
-      await conversationRef.set({ messages: newMessages });
-      handleCloseModal();
+    await conversationRef.set({ messages: newMessages });
+    handleCloseModal();
   };
 
   return (
     <>
-      <Button variant="contained" onClick={handleOpenModal}>Send link</Button>
+      <Button variant="contained" onClick={handleOpenModal}>
+        Send link
+      </Button>
       <Modal open={modalOpen} onClose={handleCloseModal}>
         <div
           className="modal-content"
           style={{
             width: "500px",
-            height: "500px",
+            maxHeight: "500px",
+            overflowY: "auto",
             margin: "0 auto",
             position: "absolute",
             top: "50%",
