@@ -1,6 +1,6 @@
 
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
+import {  useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
 import firebaseApp from "./../firebase/Firebase";
 import firebase from "firebase/compat/app";
@@ -8,7 +8,6 @@ import { TextField, Button } from "@mui/material";
 import validator from "validator";
 
 const SignUp = (props) => {
-  const dispatch = useDispatch();
   const auth = useSelector((state) => state.auth);
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
@@ -22,7 +21,7 @@ const SignUp = (props) => {
   const [confirmPasswordError, setConfirmPasswordError] = React.useState("");
 
   const isUsernameAvailable = async (user) => {
-    const usernameRef = firebase.firestore().collection("users").doc(user);
+    const usernameRef = firebase.firestore().collection("users").doc(user.toLowerCase());
     const usernameDoc = await usernameRef.get();
 
     if (usernameDoc.exists) {
@@ -30,6 +29,7 @@ const SignUp = (props) => {
     }
     return true;
   };
+  
 
   const validateForm = async () => {
     let isValid = true;
@@ -41,20 +41,28 @@ const SignUp = (props) => {
       setEmailError("");
     } else {
       setEmailError("Invalid email address");
-      isValid = false;
+      return isValid = false;
     }
+
     if (!username) {
       setUsernameError("Username is required");
       isValid = false;
     } else {
       setUsernameError("");
     }
+
     if (!password) {
       setPasswordError("Password is required");
       isValid = false;
     } else {
       setPasswordError("");
     }
+    
+    if (password.length < 6) {
+      setPasswordError("Password must be at least 6 characters");
+      isValid = false;
+    }
+
     if (!confirmPassword) {
       setConfirmPasswordError("Confirm password is required");
       isValid = false;
@@ -64,6 +72,21 @@ const SignUp = (props) => {
     } else {
       setConfirmPasswordError("");
     }
+
+    if (!validator.isAlpha(username))
+    {
+      setUsernameError("Username must contain only letters");
+      return isValid = false;
+    } else if (username.length < 3) {
+      setUsernameError("Username must be at least 3 characters");
+      return isValid = false;
+    } else if (username.length > 15) {
+      setUsernameError("Username must be less than 15 characters");
+      return isValid = false;
+    } else {
+      setUsernameError("");
+    }
+
     if (username) {
       isUsername = await isUsernameAvailable(username);
     }
@@ -73,6 +96,7 @@ const SignUp = (props) => {
       setUsernameError("Username is not available");
       isValid = false;
     }
+
     return isValid;
   };
 
@@ -95,6 +119,7 @@ const SignUp = (props) => {
             username: username,
             email: email,
             uid: userCredential.user.uid,
+            photoURL: "https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg",
             // add more user data here if needed
           })
           .then(() => {
@@ -114,7 +139,12 @@ const SignUp = (props) => {
         setSignUpSuccess(true);
       })
       .catch((error) => {
-        setSignUpError(error.message);
+        setSignUpError("");
+        if (error.code === "auth/email-already-in-use") {
+          setEmailError("Email is already in use");
+        } else {
+          setSignUpError(error.message);
+        }
         console.log("Sign up failed");
       });
     if (signUpSuccess) {
@@ -136,7 +166,7 @@ const SignUp = (props) => {
         <TextField
           name="username"
           label="Username"
-          onChange={(e) => setUsername(e.target.value)}
+          onChange={(e) => { e.target.value && e.target.value.trim() ? setUsername(e.target.value.trim().toLowerCase()) : setUsername('') }}
           value={username}
           error={Boolean(usernameError)}
           helperText={usernameError}

@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
 import firebaseApp from "./../firebase/Firebase";
 import { login } from "./../../store/features/auth/";
-import { Button,Typography ,TextField} from "@mui/material";
+import { Button, Typography, TextField } from "@mui/material";
 import validator from "validator";
 
 const SignIn = (props) => {
@@ -12,24 +12,61 @@ const SignIn = (props) => {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [error, setError] = React.useState("");
+  const [emailError, setEmailError] = React.useState("");
+  const [passwordError, setPasswordError] = React.useState("");
+  const [resetEmail, setResetEmail] = React.useState("");
+  const [resetPasswordError, setResetPasswordError] = React.useState(false);
+
+  const handlePasswordReset = (event) => {
+    event.preventDefault();
+    if (!resetEmail) {
+      setResetPasswordError("Please enter an email to reset password.");
+      return;
+    }
+    if (!validator.isEmail(resetEmail)) {
+      setResetPasswordError("Please enter a valid email address to reset password.");
+      return;
+    }
+
+    firebaseApp
+      .auth()
+      .sendPasswordResetEmail(resetEmail)
+      .then(() => {
+        console.log(`Password reset email sent to ${resetEmail}`);
+        setResetPasswordError(``);
+        alert("Password reset email sent to " + resetEmail);
+      })
+      .catch((error) => {
+        console.error(error);
+        if (error.code === "auth/user-not-found") {
+          setResetPasswordError("No user found with that email address.");
+        } else {
+          setResetPasswordError("Error sending password reset email.");
+        }
+      });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
 
     // Validate input
-    if (!email || !password) {
-      setError("Please enter a valid email and password.");
+    if (!email) {
+      setEmailError("Please enter a valid email and password.");
+      return;
+    }
+    if (!password) {
+      setPasswordError("Please enter a valid email and password.");
       return;
     }
 
     if (!validator.isEmail(email)) {
-      setError("Please enter a valid email address.");
+      setEmailError("Please enter a valid email address.");
       return;
     }
 
     if (password.length < 6) {
-      setError("Password must be at least 6 characters long.");
+      setPasswordError("Password must be at least 6 characters long.");
       return;
     }
 
@@ -43,10 +80,19 @@ const SignIn = (props) => {
           username: userCredential.user.displayName,
           photoURL: userCredential.user.photoURL,
         })
-      )
+      );
     } catch (error) {
       console.log(error);
-      setError(error.message);
+      if (error.code === "auth/user-not-found") {
+        setEmailError("Check your email and password combination and try again.");
+        setPasswordError("Check your email and password combination and try again.");
+      } else if (error.code === "auth/wrong-password") {
+        setEmailError("Check your email and password combination and try again.");
+        setPasswordError("Check your email and password combination and try again.");
+      } else {
+        setError(error.message);
+      }
+
       console.log("Sign in failed");
     }
   };
@@ -65,6 +111,8 @@ const SignIn = (props) => {
           label="Email"
           onChange={(e) => setEmail(e.target.value)}
           value={email}
+          error={Boolean(emailError)}
+          helperText={emailError}
         />
         <br /> <br />
         <TextField
@@ -74,21 +122,38 @@ const SignIn = (props) => {
           label="Password"
           onChange={(e) => setPassword(e.target.value)}
           value={password}
+          error={Boolean(passwordError)}
+          helperText={passwordError}
         />
-        <br /> 
+        <br />
         {error ? (
           <Typography variant="body2" className="error">
-                    <br />
+            <br />
             {error}
           </Typography>
         ) : null}
         <br />
-        <Button type="submit" variant="contained" color="primary">
+        <Button type="submit" variant="contained" color="primary" error={Boolean(passwordError)} helperText={passwordError}>
           Sign In
         </Button>
       </form>
       <br />
-      <Button variant="outlined">Forgot Password</Button>
+      {passwordError ? (
+        <form onSubmit={handlePasswordReset}>
+          <TextField
+            id="resetemail"
+            name="resetemail"
+            label="Email to reset password"
+            onChange={(e) => setResetEmail(e.target.value)}
+            value={resetEmail}
+            error={Boolean(resetPasswordError)}
+            helperText={resetPasswordError}
+          />
+          <Button variant="outlined" type="submit">
+            Forgot Password
+          </Button>
+        </form>
+      ) : null}
       <br /> <br />
     </div>
   );

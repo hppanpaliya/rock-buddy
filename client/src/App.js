@@ -38,9 +38,9 @@ function App() {
     console.log("App.js");
     console.log({auth});
     
-    if (auth && !auth.user && auth.loading) {
-      dispatch(logout());
-    }
+    // if (auth && !auth.user && auth.loading) {
+    //   dispatch(logout());
+    // }
 
     
     firebaseApp.auth().onAuthStateChanged(async (user) => {
@@ -55,6 +55,9 @@ function App() {
             photoURL: user._delegate.auth.currentUser.photoURL,
           })
         );
+      } else {
+        window.sessionStorage.removeItem("token") //remove Spotify token from session storage on onAuthStateChanged
+        dispatch(logout());
       }
     });
     
