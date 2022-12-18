@@ -65,7 +65,7 @@ const EventSearch = (props) => {
         else{
           setLoading(false)
         }
-      }, [searchTerm, page, setPage]);
+      }, [searchTerm, page, setPage, setSearchData]);
 
  
     if (loading) {
@@ -76,12 +76,20 @@ const EventSearch = (props) => {
         );
       }
 
+    else if(searchTerm.trim().length === 0){
+        return(
+          <div>
+            <h1>Rock Events Search</h1>
+            <SearchBar setSearchTerm={setSearchTerm} setPage={setPage} events={true} setSearchData={setSearchData} term={"Events"}/>
+          </div>
+          )
+      }
 
     else if(_404Flag){
       return(
         <div>
         <h1>Rock Events Search</h1>
-            <SearchBar setSearchTerm={setSearchTerm} setPage={setPage} events={true} />
+            <SearchBar setSearchTerm={setSearchTerm} setPage={setPage} events={true} setSearchData={setSearchData} term={"Events"}/>
             <br />
             <br />
             <h2>Sorry, no results found</h2>
@@ -94,7 +102,7 @@ const EventSearch = (props) => {
       return(
         <div>
         <h1>Rock Events Search</h1>
-        <SearchBar setSearchTerm={setSearchTerm} setPage={setPage} evnets={true} />
+        <SearchBar setSearchTerm={setSearchTerm} setPage={setPage} events={true} setSearchData={setSearchData} term={"Events"}/>
           <br />
           <br />
           <h2>400: Invalid Search Term</h2>
@@ -102,11 +110,12 @@ const EventSearch = (props) => {
         </div>
       )
     }
-        
+    
+
     return(
       <div>
         <h1>Rock Events Search</h1>
-        <SearchBar setSearchTerm={setSearchTerm} setPage={setPage} events={true} />
+        <SearchBar setSearchTerm={setSearchTerm} setPage={setPage} events={true} setSearchData={setSearchData} term={"Events"}/>
         <Pagnation setPage={setPage} page={page} next={next} prev={previous}></Pagnation>
         <Container style={{alignContent: "center"}}>
             <EventCard eventsData={searchData}></EventCard>

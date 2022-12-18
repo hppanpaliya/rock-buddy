@@ -30,7 +30,6 @@ const SearchBar = (props) =>{
 
     }
 
-    
         
       return (
         <Form
