@@ -52,6 +52,9 @@ function Navbarcustom() {
               <Nav.Item>
             <Nav.Link eventKey="link-7" as={Link} to="/signOut">Logout</Nav.Link>
            </Nav.Item>
+           <Nav.Item>
+            <Nav.Link eventKey="link-8" as={Link} to="/spotify">Spotify</Nav.Link>
+           </Nav.Item>
               </Nav>
               </Navbar>   
         )
