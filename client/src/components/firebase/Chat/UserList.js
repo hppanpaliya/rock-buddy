@@ -1,5 +1,5 @@
 import React from "react";
-import { TextField, List, ListItemText,ListItemButton } from "@mui/material";
+import { TextField, List, ListItemText, ListItemButton } from "@mui/material";
 import { useState } from "react";
 
 const UserList = ({ users, selectedUser, setSelectedUser, searchText, handleSearch }) => {
@@ -27,6 +27,9 @@ const UserList = ({ users, selectedUser, setSelectedUser, searchText, handleSear
             onMouseEnter={() => handleMouseEnter(user)}
             onMouseLeave={handleMouseLeave}
           >
+            {user.photoURL && (
+              <img src={user.photoURL} alt={`${user.username} profile picture`} width={32} height={32} />
+            )}
             <ListItemText primary={user.username} />
           </ListItemButton>
         ))}
