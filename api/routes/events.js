@@ -3,13 +3,19 @@ const router = express.Router();
 const helper = require('../helper');
 const data = require('../data')
 const {displayUpcomingEvents, searchEvents} = data.events;
+const {validateQueryParam, checkString} = helper.validations
 
 router.route("/all")
     .get(async (request, response) =>{
         try {
             //1. validate 
-
-            let page = request.query.page || 0;
+            let page
+            if (request.query.page){
+                page = validateQueryParam(request.query.page);
+            }
+            else{
+                page = 0
+            }
 
             //2. query
             let data = await displayUpcomingEvents(page);
@@ -34,13 +40,21 @@ router.route("/search")
     .get(async (request, response) =>{
         try {
             let keyword = request.query.keyword || null;
-            let page = request.query.page || 0;
+            let page
 
             //1. validate 
+            let term = checkString(keyword);
+
+            if (request.query.page){
+                page = validateQueryParam(request.query.page);
+            }
+            else{
+                page = 0
+            }
 
 
             //2. query
-            let data = await searchEvents(keyword, page);
+            let data = await searchEvents(term, page);
 
             //3. check if no results
             if(data.page.totalElements === 0){

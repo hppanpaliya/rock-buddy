@@ -97,17 +97,6 @@ const Profile = (props) =>{
   // }, [])
   
 
-
-
-
-
-
-
-
-
-
-
-
     return(
             <div className="gradient-custom-2" style={{ backgroundColor: '#9de2ff' }}>
               <MDBContainer className="py-5 h-100">
@@ -126,56 +115,21 @@ const Profile = (props) =>{
                       </div>
                       <div className="p-4 text-black" style={{ backgroundColor: '#f8f9fa' }}>
                         <div className="d-flex justify-content-end text-center py-1">
-                        <MDBBtn outline color="dark" style={{height: '36px', overflow: 'visible'}}>
-                            Edit profile
-                        </MDBBtn>
+                        <div>
+                          <input type='file' name='file' onChange={(e) => { handlePictureUpload(e)}}/>
+			                   </div>
 
 
                     
                         </div>
                       </div>
                       <MDBCardBody className="text-black p-4">
-                        <div className="mb-5">
-                          <p className="lead fw-normal mb-1">About</p>
-                          <div className="p-4" style={{ backgroundColor: '#f8f9fa' }}>
-                            <MDBCardText className="font-italic mb-1">Web Developer</MDBCardText>
-                            <MDBCardText className="font-italic mb-1">Lives in New York</MDBCardText>
-                            <MDBCardText className="font-italic mb-0">Photographer</MDBCardText>
-                          </div>
-                        </div>
-                        <div className="d-flex justify-content-between align-items-center mb-4">
-                          <MDBCardText className="lead fw-normal mb-0">Recent photos</MDBCardText>
-                          <MDBCardText className="mb-0"><a href="#!" className="text-muted">Show all</a></MDBCardText>
-                        </div>
-                        <MDBRow>
-                          <MDBCol className="mb-2">
-                            <MDBCardImage src="https://mdbcdn.b-cdn.net/img/Photos/Lightbox/Original/img%20(112).webp"
-                              alt="image 1" className="w-100 rounded-3" />
-                          </MDBCol>
-                          <MDBCol className="mb-2">
-                            <MDBCardImage src="https://mdbcdn.b-cdn.net/img/Photos/Lightbox/Original/img%20(107).webp"
-                              alt="image 1" className="w-100 rounded-3" />
-                          </MDBCol>
-                        </MDBRow>
-                        <MDBRow className="g-2">
-                          <MDBCol className="mb-2">
-                            <MDBCardImage src="https://mdbcdn.b-cdn.net/img/Photos/Lightbox/Original/img%20(108).webp"
-                              alt="image 1" className="w-100 rounded-3" />
-                          </MDBCol>
-                          <MDBCol className="mb-2">
-                            <MDBCardImage src="https://mdbcdn.b-cdn.net/img/Photos/Lightbox/Original/img%20(114).webp"
-                              alt="image 1" className="w-100 rounded-3" />
-                          </MDBCol>
-                        </MDBRow>
+
                       </MDBCardBody>
                     </MDBCard>
                   </MDBCol>
                 </MDBRow>
               </MDBContainer>
-			  <div>
-					<input type='file' name='file' onChange={(e) => { handlePictureUpload(e)}}/>
-					{picBinary ? <img src={picBinary}></img> : "No Pic" }
-			  </div>
             </div>
     )
     

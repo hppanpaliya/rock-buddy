@@ -1,5 +1,8 @@
 const axios = require('axios');
 require('dotenv').config();
+let helper = require('../helper')
+const {validateQueryParam, checkString} = helper.validations
+
 
 /** URL Config */
 let url = `https://app.ticketmaster.com/discovery/v2/events?apikey=${process.env.TM_API_KEY}`
@@ -13,6 +16,7 @@ async function displayUpcomingEvents(page=0){
 
     //1. validate
     if(arguments.length !== 1) throw "Invalid number of arguments!";
+    page = validateQueryParam(page)
     
     // 2. Query api
     let apiUrl = baseUrl + `&page=${page}` + `&sort=date,asc`
@@ -26,6 +30,8 @@ async function searchEvents(keyword, page=0){
 
     //1. validate
     if(arguments.length !== 2) throw "Invalid number of arguments!";
+    page = validateQueryParam(page);
+    keyword = checkString(keyword);
     
     // 2. Query api
     let apiUrl = baseUrl + `&keyword=${keyword}` + `&page=${page}` + `&sort=date,asc`
