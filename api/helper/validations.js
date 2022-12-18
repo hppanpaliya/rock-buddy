@@ -21,7 +21,9 @@ function checkString(str) {
 
 function validateQueryParam(num){
 
-    num = num.trim()
+    if(typeof(num) === 'string'){
+        num = num.trim()
+    }
 
     function numberCheck(n){
         if(isNaN(n)) throw "ID is not a valid number!"
