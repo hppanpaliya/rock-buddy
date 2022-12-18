@@ -13,9 +13,20 @@ router.post('/profilepic', upload, async (req, res) => {
 	// res.set('Content-Type', 'arraybuffer');
 	try { 
 		return(
-			gm(req.file.buffer)
-				.resize(500, 500)
+			// gm(req.file.buffer)
+			// 	.resize(500, 500)
+			// 	.compress('JPEG')
+			// 	.sharpen(10, 1.25)
+			// 	.setFormat('JPEG')
+			// 	.stream()
+			// 	.pipe(res)
+				gm(req.file.buffer)
+				.resize(500, 500, '<')  // Resize the image to fit within a 500x500 area while maintaining the aspect ratio
+				.background('#000000')  // Set the background color to black
+				.gravity('Center')  // Set the gravity of the image to the center
+				.extent(500, 500)  // Fill the empty space with the background color
 				.compress('JPEG')
+				.quality(80)
 				.sharpen(10, 1.25)
 				.setFormat('JPEG')
 				.stream()

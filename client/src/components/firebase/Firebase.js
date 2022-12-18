@@ -36,8 +36,4 @@ let app = firebase.initializeApp({
 });
 // firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION);
 app.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION);
-
-
-const storage = getStorage(app);
-// export default storage
 export default app;

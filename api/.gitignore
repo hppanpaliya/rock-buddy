@@ -3,3 +3,17 @@
 /.pnp
 .pnp.js
 .env
+
+.DS_Store
+.vscode
+
+npm-debug.log*
+yarn-error.log*
+yarn-debug.log*
+
+package-lock.json
+yarn-lock.json
+yarn.lock
+
+
+

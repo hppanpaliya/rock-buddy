@@ -81,7 +81,7 @@ const EventSearch = (props) => {
       return(
         <div>
         <h1>Rock Events Search</h1>
-            <SearchBar setSearchTerm={setSearchTerm} setPage={setPage} />
+            <SearchBar setSearchTerm={setSearchTerm} setPage={setPage} events={true} />
             <br />
             <br />
             <h2>Sorry, no results found</h2>
@@ -94,7 +94,7 @@ const EventSearch = (props) => {
       return(
         <div>
         <h1>Rock Events Search</h1>
-        <SearchBar setSearchTerm={setSearchTerm} setPage={setPage} />
+        <SearchBar setSearchTerm={setSearchTerm} setPage={setPage} evnets={true} />
           <br />
           <br />
           <h2>400: Invalid Search Term</h2>
@@ -106,7 +106,7 @@ const EventSearch = (props) => {
     return(
       <div>
         <h1>Rock Events Search</h1>
-        <SearchBar setSearchTerm={setSearchTerm} setPage={setPage} />
+        <SearchBar setSearchTerm={setSearchTerm} setPage={setPage} events={true} />
         <Pagnation setPage={setPage} page={page} next={next} prev={previous}></Pagnation>
         <Container style={{alignContent: "center"}}>
             <EventCard eventsData={searchData}></EventCard>

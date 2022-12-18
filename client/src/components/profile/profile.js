@@ -5,6 +5,7 @@ import noImg from '../../img/notFound.jpg'
 import SpotifyAuth from './spotifyAuth';
 
 import storage from '../firebase/storage';
+import firebaseApp  from '../firebase/Firebase';
 import { ref, uploadBytesResumable, getDownloadURL, getStorage } from "firebase/storage";
 
 
@@ -16,7 +17,8 @@ const Profile = (props) =>{
   const userInfo = useSelector((state) => state.auth).user;
   let email = userInfo.email;
   let userName = userInfo.username
-  const [profilePic, setProfilePic] = useState(noImg)
+  let photoURL = userInfo.photoURL
+  const [profilePic, setProfilePic] = useState(photoURL)
 	const [picBinary, setPicBinary] = useState(null);
 
   function handleFBUpload(file) {
@@ -43,6 +45,10 @@ const Profile = (props) =>{
               // download url
               getDownloadURL(uploadTask.snapshot.ref).then((url) => {
                 setProfilePic(url)
+                firebaseApp.auth().currentUser.updateProfile({
+                  photoURL: url
+                })
+                firebaseApp.firestore().collection("users").doc(userName).update({photoURL: url}).then(() => {console.log("Document successfully written!");}).catch((error) => {console.error("Error writing document: ", error);});
                 console.log(url);
               });
             }
@@ -75,20 +81,32 @@ const Profile = (props) =>{
 
 	};
 
-  useEffect(()=>{
-    //retrieves the profile pic from firebase and sets state. will fire if user uploads new pic
-    const storage = getStorage();
-    getDownloadURL(ref(storage, `profiles/${userInfo.uid}`))
-      .then((url) => {
-        // `url` is the download URL for 'images/stars.jpg'
-        setProfilePic(url)
-      })
-      .catch((error) => {
-        console.log(error)
-        setProfilePic(noImg)
-  });
+  // useEffect(()=>{
+  //   //retrieves the profile pic from firebase and sets state. will fire if user uploads new pic
+  //   const storage = getStorage();
+  //   getDownloadURL(ref(storage, `profiles/${userInfo.uid}`))
+  //     .then((url) => {
+  //       // `url` is the download URL for 'images/stars.jpg'
+  //       setProfilePic(url)
+  //     })
+  //     .catch((error) => {
+  //       console.log(error)
+  //       setProfilePic(noImg)
+  // });
 
-  },[])
+  // }, [])
+  
+
+
+
+
+
+
+
+
+
+
+
 
     return(
             <div className="gradient-custom-2" style={{ backgroundColor: '#9de2ff' }}>

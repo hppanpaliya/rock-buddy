@@ -52,6 +52,7 @@ function App() {
             uid: user._delegate.auth.currentUser.uid,
             email: user._delegate.auth.currentUser.email,
             username: user._delegate.auth.currentUserdisplayName,
+            photoURL: user._delegate.auth.currentUser.photoURL,
           })
         );
       }
