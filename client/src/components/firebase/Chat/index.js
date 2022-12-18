@@ -152,7 +152,7 @@ const Chat = () => {
     const newMessages = (conversationSnapshot.data() && conversationSnapshot.data().messages) || [];
     newMessages.push({
       sender: currentUser.uid,
-      text: `${currentUser.displayName} ${messageText}`,
+      text: `${currentUser.displayName}: ${messageText}`,
       timestamp: firebase.firestore.Timestamp.now(),
     });
     await conversationRef.set({ messages: newMessages });
