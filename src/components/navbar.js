@@ -17,7 +17,7 @@ function Navbarcustom() {
             <Container>
             <Navbar.Brand href="#">
                 <img
-                  alt=""
+                  alt="logo"
                   src={rock}
                   width="30"
                   height="30"
