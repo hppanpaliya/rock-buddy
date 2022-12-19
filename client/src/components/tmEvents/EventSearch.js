@@ -20,6 +20,7 @@ const EventSearch = (props) => {
 
     useEffect(() => {
         console.log('search useEffect fired');
+        setLoading(true)
 
         async function fetchData() {
           try {
@@ -33,6 +34,7 @@ const EventSearch = (props) => {
 
             if(data.data._embedded.events.length === 0){
                 set404Flag(true);
+                setLoading(false)
               }
   
 
@@ -40,13 +42,18 @@ const EventSearch = (props) => {
                 setSearchData(data.data._embedded.events);
                 set404Flag(false);
                 set400Flag(false)
+                setLoading(false);
+
             }
+            console.log('here')
+            console.log(loading)
 
             setNext(data.data._links.next || null);
             setPrevious(data.data._links.prev || null)
             setLoading(false);
 
           } catch (e) {
+            setLoading(false)
             if(e.message.indexOf('404') !== -1){
                 set404Flag(true)
             }
@@ -71,7 +78,9 @@ const EventSearch = (props) => {
     if (loading) {
       return (
           <div>
-            <img src="https://i.gifer.com/ZKZg.gif" alt="loading"></img>
+             <h1>Rock Events Search</h1>
+            <SearchBar setSearchTerm={setSearchTerm} setPage={setPage} events={true} setSearchData={setSearchData} term={"Events"}/>
+            <img src="https://i.gifer.com/ZKZg.gif" alt="loading" id="loading"></img>
           </div>
         );
       }
@@ -116,10 +125,11 @@ const EventSearch = (props) => {
       <div>
         <h1>Rock Events Search</h1>
         <SearchBar setSearchTerm={setSearchTerm} setPage={setPage} events={true} setSearchData={setSearchData} term={"Events"}/>
-        <Pagnation setPage={setPage} page={page} next={next} prev={previous}></Pagnation>
         <Container style={{alignContent: "center"}}>
             <EventCard eventsData={searchData}></EventCard>
-        </Container>    
+        </Container>
+        <Pagnation setPage={setPage} page={page} next={next} prev={previous} setLoading={setLoading}></Pagnation>
+
       </div>
       )
 };

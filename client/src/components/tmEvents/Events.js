@@ -64,7 +64,7 @@ const AllEvents = (props) =>{
     if (loading) {
       return (
           <div>
-            <img src="https://i.gifer.com/ZKZg.gif" alt="loading"></img>
+            <img src="https://i.gifer.com/ZKZg.gif" alt="loading" id="loading"></img>
           </div>
         );
       }
@@ -84,10 +84,10 @@ const AllEvents = (props) =>{
     return(
       <div>
         <h2>Upcoming Rock Events</h2>
-        <Pagnation setPage={setPage} page={page} next={next} prev={previous}></Pagnation>
         <Container style={{alignContent: "center"}}>
           <EventCard eventsData={eventsData}></EventCard>
-        </Container>    
+        </Container>
+        <Pagnation setPage={setPage} page={page} next={next} prev={previous}></Pagnation>
       </div>
       )
 

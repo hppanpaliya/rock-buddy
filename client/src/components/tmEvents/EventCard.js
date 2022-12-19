@@ -29,7 +29,10 @@ const EventCard = (props) =>{
         }
  
          return(
-            <Card style={{ width: '60%' }}>
+            <Card  style={{ width: '60%',
+            align: 'center',
+            marginLeft: 'auto',
+            marginRight: 'auto'}}>
                 <Row>
                 <Col>
                     <Card.Header>{item.name}</Card.Header>

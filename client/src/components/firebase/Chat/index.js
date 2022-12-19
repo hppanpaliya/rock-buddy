@@ -83,8 +83,11 @@ const Chat = () => {
   const filteredUsers = users.filter((user) => user.username.toLowerCase().includes(searchText.toLowerCase()));
 
   return (
+    <div>
+    <h1>Direct Messages</h1>
     <Grid container>
       <Grid item xs={3}>
+        <h2>Users</h2>
         <UserList
           users={filteredUsers}
           selectedUser={selectedUser}
@@ -94,13 +97,14 @@ const Chat = () => {
           handleSearch={handleSearch}
         />
       </Grid>
-      <Grid item xs={9}>
+      <Grid item xs={8}>
         <Conversation conversation={conversation} currentUserId={firebase.auth().currentUser.uid} />
       </Grid>
-      <Grid item xs={9}>
+      <Grid item xs={12}>
         <MessageInput messageText={messageText} setMessageText={setMessageText} sendMessage={sendMessage} />
       </Grid>
     </Grid>
+    </div>
   );
 };
 
