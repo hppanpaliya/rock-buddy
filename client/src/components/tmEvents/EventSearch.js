@@ -40,7 +40,11 @@ const EventSearch = (props) => {
                 setSearchData(data.data._embedded.events);
                 set404Flag(false);
                 set400Flag(false)
+                setLoading(false);
+
             }
+            console.log('here')
+            console.log(loading)
 
             setNext(data.data._links.next || null);
             setPrevious(data.data._links.prev || null)
@@ -116,7 +120,7 @@ const EventSearch = (props) => {
       <div>
         <h1>Rock Events Search</h1>
         <SearchBar setSearchTerm={setSearchTerm} setPage={setPage} events={true} setSearchData={setSearchData} term={"Events"}/>
-        <Pagnation setPage={setPage} page={page} next={next} prev={previous}></Pagnation>
+        <Pagnation setPage={setPage} page={page} next={next} prev={previous} setLoading={setLoading}></Pagnation>
         <Container style={{alignContent: "center"}}>
             <EventCard eventsData={searchData}></EventCard>
         </Container>    
