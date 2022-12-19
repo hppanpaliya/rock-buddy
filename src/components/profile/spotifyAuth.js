@@ -6,6 +6,7 @@ import SignIn from '../firebase/SignIn'
 import Card from "@mui/material/Card";
 import { CardMedia, Typography } from "@mui/material";
 import { CardContent } from "@mui/material";
+import SpotifyPlayLists from '../info/SpotifyPlaylists';
 
 const SpotifyAuth = () =>{
     const CLIENT_ID = "c427fff192174d81a2004d4d9f006507"
@@ -31,23 +32,7 @@ const SpotifyAuth = () =>{
         setToken(token)
     }, [])
 
-    useEffect(() => {
-        async function handleToken() {
-            const {data} = await axios.get("https://api.spotify.com/v1/me/playlists", {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                },
-                params: {
     
-                }
-            })
-            console.log(data);
-            setPlayLists(data.items)
-        }
-        if (token) {
-            handleToken();
-        }
-    }, [token])
 
     const logout = () => {
         setToken("")
@@ -55,40 +40,12 @@ const SpotifyAuth = () =>{
     }
 
 
-    const renderPlayLists = () => {
-        console.log("Playlists Length",playlists.length);
-        return playlists.map(playlist => {
-            return (
-                <div key={playlist.id}>
-        <Card sx={{ maxWidth: 515}} align="center">
-          <CardContent>
-            <Typography gutterBottom variant="h5" component="div">
-              <code> Playlist Name: {playlist.name}</code>
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              <code>
-                {playlist.description.length > 100
-                  ? playlist.description.substring(0, 100) + "..."
-                  : playlist.description}
-              </code>
-            </Typography>
-          </CardContent>
-          <br />
-          <br />
-        </Card>
-        <br />
-      </div>
-    );
-        }
-    )
-    }
-
 
     return (
         <div>
-            {auth.user === null ? <SignIn></SignIn> : !(token) ? <a href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}&scope=streaming%20user-read-email%20user-read-private%20user-library-read%20user-library-modify%20user-read-playback-state%20user-modify-playback-state%20playlist-read-private`}>Login to Spotify</a> : <Button onClick={logout}>Logout</Button> }       
+            {auth.user === null ? <SignIn></SignIn> : !(token) ? <a href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}&scope=streaming%20user-read-email%20user-read-private%20user-library-read%20user-library-modify%20user-read-playback-state%20user-modify-playback-state%20playlist-read-private%20playlist-modify-public%20playlist-modify-private`}>Login to Spotify</a> : <Button onClick={logout}>Logout</Button> }       
             {token ?
-                    renderPlayLists()
+                    <SpotifyPlayLists></SpotifyPlayLists>
                     : <h2>Please login</h2>
                 }
         </div>

@@ -6,13 +6,14 @@ import { useSelector } from "react-redux";
 import Navbar from 'react-bootstrap/Navbar'
 import Container from 'react-bootstrap/Container';
 import rock from '../rock.png'
-
+import Player from './info/Player'
 
 function Navbarcustom() {
     const auth = useSelector((state) => state.auth || null);
 
     if(auth && auth.user){
         return(
+            <div>
             <Navbar bg="light" variant="light" >
             <Container>
             <Navbar.Brand href="#">
@@ -56,7 +57,9 @@ function Navbarcustom() {
             <Nav.Link eventKey="link-8" as={Link} to="/spotify">Spotify</Nav.Link>
            </Nav.Item>
               </Nav>
-              </Navbar>   
+              </Navbar>  
+              <Player accessToken={window.sessionStorage.getItem("token")} trackUri={window.sessionStorage.getItem("spotifyUri")} /> 
+              </div>
         )
     }
 
