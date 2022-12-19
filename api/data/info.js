@@ -44,7 +44,7 @@ async function getArtistById(id) {
 
 		const artist = response.data;
 		// If the artist is not a rock artist, store that result in Redis, and throw an error
-		if(!artist.genres.some(genre => genre.toLowerCase().includes("rock"))) {
+		if(!artist.genres.some(genre => genre.toLowerCase().includes("rock")) && artist.name.toLowerCase() !== "various artists") {
 			await client.hSet("artistById", id, "false");
 			throw new Error("Artist is not a rock artist!");
 		}
@@ -165,6 +165,15 @@ async function getArtistDescription(id, artistName) {
 	}
 }
 
+async function checkRockArtistHelper(id) { 
+	try { 
+		await getArtistById(id);
+		return true;
+	} catch (e) { 
+		return false;
+	}
+}
+
 /**
  * Gets an album given an id
  * 
@@ -196,6 +205,9 @@ async function getAlbumById(id) {
 		let isRock = false;
 		const albumArtists = album.artists.map((artist) => artist.id);
 		const nonRockIndices = [];
+		const nonRockTrackIndices = [];
+
+		const rockArtistIds = [];
 
 		for(let i = 0; i < albumArtists.length; i++) { 
 
@@ -209,7 +221,24 @@ async function getAlbumById(id) {
 			// Otherwise, get the artist. We are able to retrieve the artist, then they are rock. 
 			try { 
 				const curArtist = await getArtistById(albumArtists[i]);
+				// Extreme case; if the Artist is "Various Artists", we must check if every track has a rock artist
+				if(curArtist.name.toLowerCase() === "various artists") {
+					for(let i = 0; i < album.tracks.items.length; i++) { 
+						const trackArtists = album.tracks.items[i].artists;
+						let trackIsRock = false;
+						for(let j = 0; j < trackArtists.length; j++) {
+							if(await checkRockArtistHelper(trackArtists[j].id)) {
+								trackIsRock = true;
+								break;
+							}
+						}
+						if(!trackIsRock) {
+							nonRockTrackIndices.push(i);
+						}
+					}
+				}
 
+				//
 				// Call functions to retrieve the rest of the Artist's data
 				// But do not wait, since this function is not dependent on their execution/return values
 				getArtistTopTracksById(albumArtists[i]);
@@ -219,15 +248,18 @@ async function getAlbumById(id) {
 				isRock = true;
 				await client.hSet("artistById", albumArtists[i], "true");	// Set the artist's rock status to true
 				await client.set(`artist.${curArtist.id}`, JSON.stringify(curArtist));
-			} catch (e) { 
+			} catch (e) {
+				console.log("E", e);
 				nonRockIndices.push(i);
 				await client.hSet("artistById", albumArtists[i], "false");	// Set the artist's rock status to false
 			}
 		}
+		if(nonRockTrackIndices === album.tracks.items.length) isRock = false;	// If the number of non-rock tracks is equal to the number of tracks, the album is not rock
 		if(!isRock) throw new Error("Album is not a rock album!");
 
 		// Remove non-rock artists from the album
 		album.artists = album.artists.filter((artist, index) => !nonRockIndices.includes(index));
+		album.tracks.items = album.tracks.items.filter((track, index) => !nonRockTrackIndices.includes(index));
 
 		await client.hSet("albumById", id, isRock.toString());
 		await client.set(`album.${id}`, JSON.stringify(album));

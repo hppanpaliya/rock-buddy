@@ -28,7 +28,8 @@ const AlbumPage = (props) => {
 					<h2>Artists:</h2>
 					<ul>
 						{
-							albumData.artists.map((artist) => { 
+							albumData.artists.map((artist) => {
+								if(artist.name.toLowerCase() === 'various artists') return <li key={artist.id}>Various Artists</li>
 								return <li key={artist.id}><Link to={`/info/artist/${artist.id}`} >{artist.name}</Link></li>
 							})
 						}
