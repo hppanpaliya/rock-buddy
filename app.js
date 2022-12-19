@@ -4,7 +4,13 @@ const axios = require('axios')
 const express = require('express');
 const app = express();
 const redis = require('redis');
-const client = redis.createClient();
+let client;
+if(process.env.REDISCLOUD_URL){
+  client = redis.createClient(process.env.REDISCLOUD_URL, {no_ready_check: true});
+}
+else{
+  client = redis.createClient();
+}
 client.connect().then(() => {});
 const port = process.env.PORT || 4000;
 
