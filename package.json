@@ -7,7 +7,9 @@
     "start": "node app.js",
     "heroku-postbuild":  "cd client && npm install && npm run build"
   },
-  
+  "engines": {
+    "node": "18.x"
+  },
   "author": "CTRL ALT ELITE",
   "license": "ISC",
   "dependencies": {
