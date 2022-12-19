@@ -4,8 +4,18 @@ const axios = require('axios')
 const express = require('express');
 const app = express();
 const redis = require('redis');
-const client = redis.createClient();
+let client;
+if(process.env.REDISCLOUD_URL){
+  client = redis.createClient(process.env.REDISCLOUD_URL, {no_ready_check: true});
+}
+else{
+  client = redis.createClient();
+}
 client.connect().then(() => {});
+const path = require('path')
+const port = process.env.PORT || 4000;
+
+
 
 //Routing 
 const configRoutes = require('./routes');
@@ -20,7 +30,7 @@ configRoutes(app);
 
 async function generateToken(){
     var client_id = process.env.CLIENT_ID; 
-    var client_secret = process.env.CLIENT_SECRET; 
+    var client_secret = process.env.CLIENT_SCRT; 
     
     console.log("Generating bearer token...")
     const data = await axios.request({
@@ -43,7 +53,7 @@ async function run(){
   process.env.AUTH_TOKEN = token;
 
   //Server start
-  app.listen(4000, () => {
+  app.listen(port, () => {
     console.log("We've now got a server!");
     console.log('Your routes will be running on http://localhost:4000');
   });
