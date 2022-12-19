@@ -32,6 +32,9 @@ const Search = (props) => {
           try {
             console.log(`in fetch searchTerm: ${searchTerm}`);
             console.log(`in fetch searchType: ${searchType}`);
+            console.log(`http://localhost:4000/search/${searchType}?term=${searchTerm}&page=${page}`)
+
+            if(searchTerm.trim().length ==0)return;
      
             const data = await axios({
                 method: 'GET',
@@ -45,7 +48,12 @@ const Search = (props) => {
 
             else{
               setSearchData(data.data.items);
-              setNext(data.data.next);
+              if(page*20 === 980){
+                setNext(null)
+              }
+              else{
+                setNext(data.data.next);
+              }
               setPrevious(data.data.previous);
               set400Flag(false);
               set404Flag(false);
@@ -78,24 +86,46 @@ const Search = (props) => {
     if (loading) {
       return (
           <div>
-            <h2>Loading....</h2>
+            <img src="https://i.gifer.com/ZKZg.gif" alt="loading"></img>
           </div>
         );
       }
-      // else if(searchTerm.trim().length === 0){
-      //   return(
-      //     <div>
-      //       <SearchType setSearchType={setSearchType} searchType={searchType} setSearchData={setSearchData} setPage={setPage}></SearchType>
-      //       <SearchBar setSearchTerm={setSearchTerm}  setPage={setPage} setSearchData={setSearchData} term={searchType}/>
-      //     </div>
-      //     )
-      // }
+      else if(searchTerm.trim().length === 0){
+        return(
+          <div>
+            <Row>
+          <Col>
+            <SearchType setSearchType={setSearchType} setSearchTerm={setSearchTerm} searchType={searchType} setSearchData={setSearchData} setPage={setPage} setLoading={setLoading}></SearchType>
+          </Col>
+        </Row>
+        <Row style={{ width: '60%',
+            align: 'left',
+            marginLeft: 'auto',
+            marginRight: 'auto'}}>
+          <Col>
+          <SearchBar setSearchTerm={setSearchTerm}  setPage={setPage} setSearchData={setSearchData} term={searchType}/>
+          </Col> 
+        </Row>
+          </div>
+          )
+      }
 
     else if(_404Flag){
       return(
         <div>
-            <SearchType setSearchType={setSearchType} searchType={searchType} setSearchData={setSearchData} setPage={setPage}></SearchType>
-            <SearchBar setSearchTerm={setSearchTerm}  setPage={setPage} setSearchData={setSearchData} term={searchType}/>
+            <Row>
+          <Col>
+            <SearchType setSearchType={setSearchType} setSearchTerm={setSearchTerm} searchType={searchType} setSearchData={setSearchData} setPage={setPage} setLoading={setLoading}></SearchType>
+          </Col>
+        </Row>
+        <Row style={{ width: '60%',
+            align: 'left',
+            marginLeft: 'auto',
+            marginRight: 'auto'}}>
+          <Col>
+          <SearchBar setSearchTerm={setSearchTerm}  setPage={setPage} setSearchData={setSearchData} term={searchType}/>
+          </Col> 
+        </Row>
             <br />
             <br />
             <h1>Sorry, no results found</h1>
@@ -107,8 +137,19 @@ const Search = (props) => {
     else if (_400Flag){
       return(
         <div>
-          <SearchType setSearchType={setSearchType} searchType={searchType} setSearchData={setSearchData} setPage={setPage}></SearchType>
+          <Row>
+          <Col>
+            <SearchType setSearchType={setSearchType} setSearchTerm={setSearchTerm} searchType={searchType} setSearchData={setSearchData} setPage={setPage} setLoading={setLoading}></SearchType>
+          </Col>
+        </Row>
+        <Row style={{ width: '60%',
+            align: 'left',
+            marginLeft: 'auto',
+            marginRight: 'auto'}}>
+          <Col>
           <SearchBar setSearchTerm={setSearchTerm}  setPage={setPage} setSearchData={setSearchData} term={searchType}/>
+          </Col> 
+        </Row>
           <br />
           <br />
           <h1>400: Invalid Search Term</h1>
