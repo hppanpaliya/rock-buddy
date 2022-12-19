@@ -6,6 +6,7 @@ import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Carousel from 'react-bootstrap/Carousel';
 import Stack from 'react-bootstrap/Stack';
+import CommentSection from '../profile/comments/artistComments';
 
 
 const ArtistPage = (props) => {
@@ -13,6 +14,7 @@ const ArtistPage = (props) => {
 	const artistTopTracks = props.infoData.foundArtistTopTracks;
 	const artistAlbums = props.infoData.foundArtistAlbums
 	const artistDescription = props.infoData.foundArtistDescription;
+	const artistId = window.location.pathname.split("/")[3];
 
 	const MAX_DESC_LENGTH = 300;
 	const [descShowMore, setDescShowMore] = useState(false);
@@ -165,7 +167,8 @@ const ArtistPage = (props) => {
 							)
 						})
 					}
-				</Carousel>
+			</Carousel>
+			<CommentSection artistId={artistId} />
 		</div>
 	);
 };

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import CommentSection from "./../profile/comments/trackComments.js"
 
 import { useDispatch, useSelector } from "react-redux";
 
@@ -8,6 +9,8 @@ import Card from 'react-bootstrap/Card';
 const TrackPage = (props) => {
 	const trackData = props.infoData.foundTrack;
 	const trackLyrics = props.infoData.foundLyrics;
+	const trackId = window.location.pathname.split("/")[3];
+
 
 	const MAX_LYRIC_LENGTH = 300;
 	const [lyricsShowMore, setLyricsShowMore] = useState(false);
@@ -62,6 +65,7 @@ const TrackPage = (props) => {
 					}
 				</Card.Body>
 
+				<CommentSection trackId={trackId} />
 
 			</Card>
 		</div>
