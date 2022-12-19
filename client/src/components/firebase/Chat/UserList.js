@@ -1,6 +1,8 @@
 import React from "react";
 import { TextField, List, ListItemText, ListItemButton } from "@mui/material";
 import { useState } from "react";
+import Card from 'react-bootstrap/Card';
+import ListGroup from 'react-bootstrap/ListGroup';
 
 const UserList = ({ users, selectedUser, setSelectedUser, searchText, handleSearch }) => {
   const [hoveredItem, setHoveredItem] = useState(null);
@@ -18,8 +20,9 @@ const UserList = ({ users, selectedUser, setSelectedUser, searchText, handleSear
   return (
     <div className="user-list">
       <TextField label="Search users" value={searchText} onChange={handleSearch} />
-      <List>
-        {filteredUsers.map((user) => (
+
+      <Card>
+      {filteredUsers.map((user) => (
           <ListItemButton
             key={user.uid}
             selected={user === hoveredItem || user === selectedUser}
@@ -33,7 +36,8 @@ const UserList = ({ users, selectedUser, setSelectedUser, searchText, handleSear
             <ListItemText primary={user.username} />
           </ListItemButton>
         ))}
-      </List>
+
+      </Card>
     </div>
   );
 };
