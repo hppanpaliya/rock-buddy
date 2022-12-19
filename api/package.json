@@ -4,8 +4,10 @@
   "description": "Rock Buddy",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon app.js"
+    "start": "node app.js",
+    "heroku-postbuild":  "cd client && npm install && npm run build"
   },
+  
   "author": "CTRL ALT ELITE",
   "license": "ISC",
   "dependencies": {

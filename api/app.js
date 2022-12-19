@@ -6,6 +6,8 @@ const app = express();
 const redis = require('redis');
 const client = redis.createClient();
 client.connect().then(() => {});
+const port = process.env.PORT || 4000;
+
 
 //Routing 
 const configRoutes = require('./routes');
@@ -43,7 +45,7 @@ async function run(){
   process.env.AUTH_TOKEN = token;
 
   //Server start
-  app.listen(4000, () => {
+  app.listen(port, () => {
     console.log("We've now got a server!");
     console.log('Your routes will be running on http://localhost:4000');
   });
