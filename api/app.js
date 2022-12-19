@@ -30,7 +30,7 @@ configRoutes(app);
 
 async function generateToken(){
     var client_id = process.env.CLIENT_ID; 
-    var client_secret = process.env.CLIENT_SCRT; 
+    var client_secret = process.env.CLIENT_SECRET; 
     
     console.log("Generating bearer token...")
     const data = await axios.request({
