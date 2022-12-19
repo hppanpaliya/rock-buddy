@@ -4,12 +4,6 @@ import React, {useState, useEffect} from 'react';
 
  const Pagnation = (props) =>{
 
-    useEffect(() => {
-        console.log('here')
-     
-        
-      }, [props.setPage]);
-
 
      const disable = (event) => {
         event.currentTarget.disabled = true;
@@ -30,14 +24,6 @@ import React, {useState, useEffect} from 'react';
     if(props.next && props.prev){
         return(
             <div>
-            {/* <Button onClick={()=> 
-                props.setPage(props.page-1) }>
-                Previous
-            </Button>
-            <Button onClick={()=> 
-                props.setPage(props.page+1)}>
-            Next
-            </Button> */}
             <Button onClick={(event)=>{
                  disable(event);
                  decreasePage(event);
@@ -68,10 +54,6 @@ import React, {useState, useEffect} from 'react';
 
     else if(props.next == null && props.prev){
         return(
-            // <Button onClick={(event)=> 
-            //     props.setPage(props.page-1)}>
-            //     Previous
-            // </Button>
             <Button onClick={(event)=>{
                 disable(event);
                 decreasePage(event);
