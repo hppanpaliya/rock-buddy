@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom';
 import {Card as BCard} from 'react-bootstrap/';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Carousel from 'react-bootstrap/Carousel';
-import Stack from 'react-bootstrap/Stack';
 
 import { 
 	Box,
@@ -21,7 +20,9 @@ import {
 	ImageList,
 	ImageListItem,
 	ImageListItemBar,
-	Grid
+	Grid,
+	Stack,
+	Chip
 } from '@mui/material';
 
 const ArtistPage = (props) => {
@@ -37,15 +38,25 @@ const ArtistPage = (props) => {
 	return (
 		<div>
 			<Box sx={{
-				maxWidth: '50%', marginLeft: 'auto', marginRight: 'auto',
-				display: 'flex', flexDirection: 'row'
+				maxWidth: '70%', marginLeft: 'auto', marginRight: 'auto',
+				display: 'flex', flexDirection: 'row',   alignItems: "center",
+				justifyContent: "center", verticalAlign: "top"
 					
 				}}
 			>
-				<Card sx={{maxWidth: '50%'}}>
+				<Card sx={{maxWidth: '50%', verticalAlign: "top", minHeight: '100vh'}}>
 					<Typography variant="h1" component="h1">{artistData.name}</Typography>
 						<CardMedia sx={{maxWidth: '90%', marginLeft: 'auto', marginRight: 'auto'}} component="img" image={artistData.images[0].url} alt={artistData.name}/>
 					<CardContent>
+						<Stack sx={{justifyContent: "center", paddingBottom: 2}} direction="row" spacing={1}>
+							{
+								artistData.genres.map((genre, index) => {
+									return(
+										<Chip label={genre}></Chip>
+									)
+								})
+							}
+						</Stack>
 						<Typography variant='body1'>
 						{
 							artistDescription.length > MAX_DESC_LENGTH && !descShowMore
@@ -59,10 +70,10 @@ const ArtistPage = (props) => {
 								</span>
 						}
 						</Typography>
-					
+						
 					</CardContent>
 				</Card>
-				<Card sx={{}}>
+				<Card sx={{maxWidth: '30%',minHeight: '100vh'}}>
 					<CardContent>
 					<Typography variant='h2' component='h2'>Top Tracks</Typography>
 						<List>
@@ -92,28 +103,6 @@ const ArtistPage = (props) => {
 					</CardContent>
 				</Card>
 			</Box>
-			{/* <Box sx={{maxWidth: '50%', marginLeft: 'auto', marginRight: 'auto'}}>
-				<Typography variant='h2' component='h2'>Albums</Typography>
-				<ImageList sx={{maxWidth: '90%', marginLeft: 'auto', marginRight: 'auto'}}>
-					{
-						artistAlbums.items.map((album, index) => {
-							return(
-								<ImageListItem key={album.id} sx={{maxWidth: '50%'}}>
-										<img
-											width='50%'
-											height='auto'
-											src={album.images[0].url}
-											alt={album.name}
-										/>
-										<Link to={`/info/album/${album.id}`}>
-											{album.name}
-										</Link>
-								</ImageListItem>
-							)
-						})
-					}
-				</ImageList>
-			</Box> */}
 			<Box sx={{maxWidth: '50%', marginLeft: 'auto', marginRight: 'auto'}}>
 				<Typography variant='h2' component='h2'>Albums</Typography>
 				<Grid container spacing={{xs: 2, mid: 3}} columns={{xs: 4, sm: 8, md: 12}}>
@@ -121,8 +110,8 @@ const ArtistPage = (props) => {
 						artistAlbums.items.map((album, index) => {
 							return(
 								<Grid item xs={2} sm={4} md={4} key={album.id}>
-									<Card sx={{maxWidth: '90%', marginLeft: 'auto', marginRight: 'auto'}}>
-										<CardMedia sx={{maxWidth: '90%', marginLeft: 'auto', marginRight: 'auto'}} component="img" image={album.images[0].url} alt={album.name}/>
+									<Card >
+										<CardMedia component="img" image={album.images[0].url} alt={album.name}/>
 										<CardContent>
 											<Link to={`/info/album/${album.id}`}>
 												{album.name}
