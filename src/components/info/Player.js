@@ -7,6 +7,7 @@ export default function Player({ accessToken, trackUri }) {
   useEffect(() => setPlay(true), [trackUri]);
 
   if (!accessToken) return null;
+  //spotify player is an external component from npm and cannot have a label added to so there is a totally error
   return (
     <SpotifyPlayer
       token={token}
@@ -14,6 +15,7 @@ export default function Player({ accessToken, trackUri }) {
       callback={(state) => {
         if (!state.isPlaying) setPlay(false);
       }}
+      id='spotifyplayer'
       play={play}
       uris={trackUri ? [trackUri] : []}
     />

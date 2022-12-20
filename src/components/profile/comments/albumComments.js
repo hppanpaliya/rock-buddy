@@ -10,6 +10,7 @@ function CommentSection(props) {
   const [comments, setComments] = useState([]);
   const [commentText, setCommentText] = useState("");
   const [commentAuthor, setCommentAuthor] = useState("");
+  const [noError, setNoError] = useState(true)
   const userInfo = useSelector((state) => state.auth).user;
   console.log(userInfo);
 
@@ -29,6 +30,12 @@ function CommentSection(props) {
 
   async function handleCommentSubmit(event) {
     event.preventDefault();
+    if(commentText.trim().length < 3 || typeof(commentText) !== 'string'){
+      setNoError(false);
+      return
+    }
+    setNoError(true);
+
     try {
       await db.collection("comments").add({
         album_id: albumId,
@@ -59,6 +66,7 @@ function CommentSection(props) {
           <Button variant="contained" color="primary" type="submit">
             Submit Comment
           </Button>
+          <div hidden={noError}>Invalid input! Comment must be at least 3 characters!</div>
         </form>
       ) : (
         <p>Please login to comment</p>
