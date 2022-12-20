@@ -24,3 +24,18 @@ code {
   color: black;
 }
 
+h1{
+  font-family: Verdana, sans-serif;
+
+}
+
+#featuresheader{
+  padding: 2%;
+  background-color: rgb(221, 255, 253);
+  box-shadow: inset;
+  color: rgb(0, 0, 0);
+  font-size: xx-large;
+  box-shadow: 2px 2px 5px rgb(0, 0, 0);  
+  font-family: Verdana, sans-serif;
+
+}

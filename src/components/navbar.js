@@ -19,8 +19,8 @@ function Navbarcustom() {
     
     if(auth && auth.user){
         return(
-            <div>
-            <Navbar bg="light" variant="light" >
+            <div >
+            <Navbar bg="light" variant="light" style={{ zIndex: 1400 }} >
             <Container>
             <Navbar.Brand href="#">
                 <img
@@ -63,14 +63,16 @@ function Navbarcustom() {
             <Nav.Link eventKey="link-8" as={Link} to="/spotify">Spotify</Nav.Link>
            </Nav.Item>
               </Nav>
-              </Navbar>  
-              <Player accessToken={window.sessionStorage.getItem("token")} trackUri={window.sessionStorage.getItem("spotifyUri")} />
+                </Navbar>
+                <Navbar style={{ zIndex: 1300 }} >
+                    <Player accessToken={window.sessionStorage.getItem("token")} trackUri={window.sessionStorage.getItem("spotifyUri")} />
+                    </Navbar>
               </div>
         )
     }
 
     return(
-        <Navbar bg="light" variant="light">
+        <Navbar bg="light" variant="light" style={{ zIndex: 1300 }}>
         <Container>
         <Navbar.Brand href="#">
             <img

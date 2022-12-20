@@ -15,11 +15,17 @@ const Conversation = ({ conversation, currentUserId }) => {
                   backgroundColor: message.sender === currentUserId ? "#1982FC" : "#d3d3d3",
                   padding: "8px",
                   color: message.sender === currentUserId ? "#fff" : "#000",
+                  wordWrap: "break-word",
+                  wordBreak: "break-all",
                 }}
               >
                 {message.text}
                 <br />
-                {message.link ? <Link to={message.link} style={{color: "#000"}} >{message.link}</Link> : null}
+                {message.link ? (
+                  <Link to={message.link} style={{ color: "#000" }}>
+                    {message.link}
+                  </Link>
+                ) : null}
               </Box>
             }
           />

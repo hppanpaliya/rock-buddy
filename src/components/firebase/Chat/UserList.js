@@ -1,8 +1,7 @@
 import React from "react";
-import { TextField, List, ListItemText, ListItemButton } from "@mui/material";
+import { TextField, ListItemText, ListItemButton, Toolbar } from "@mui/material";
 import { useState } from "react";
-import Card from 'react-bootstrap/Card';
-import ListGroup from 'react-bootstrap/ListGroup';
+import Card from "react-bootstrap/Card";
 
 const UserList = ({ users, selectedUser, setSelectedUser, searchText, handleSearch }) => {
   const [hoveredItem, setHoveredItem] = useState(null);
@@ -19,24 +18,24 @@ const UserList = ({ users, selectedUser, setSelectedUser, searchText, handleSear
 
   return (
     <div className="user-list">
+        <Toolbar /> 
       <TextField value={searchText} onChange={handleSearch} />
-
+      <br /><br />
       <Card>
-      {filteredUsers.map((user) => (
+        {filteredUsers.map((user) => (
           <ListItemButton
             key={user.uid}
             selected={user === hoveredItem || user === selectedUser}
             onClick={() => setSelectedUser(user)}
             onMouseEnter={() => handleMouseEnter(user)}
             onMouseLeave={handleMouseLeave}
+            style={{ wordWrap: "break-word",
+            wordBreak: "break-all", }} 
           >
-            {user.photoURL && (
-              <img src={user.photoURL} alt={`${user.username} profile picture`} width={32} height={32} />
-            )}
+            {user.photoURL && <img src={user.photoURL} alt={`${user.username} profile picture`} width={64} height={64} />} &nbsp;
             <ListItemText primary={user.username} />
           </ListItemButton>
         ))}
-
       </Card>
     </div>
   );

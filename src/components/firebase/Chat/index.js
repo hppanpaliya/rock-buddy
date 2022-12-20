@@ -4,7 +4,14 @@ import "./Chat.css";
 import UserList from "./UserList";
 import Conversation from "./Conversation";
 import MessageInput from "./MessageInput";
-import { Grid } from "@mui/material";
+import Box from "@mui/material/Box";
+import Drawer from "@mui/material/Drawer";
+import CssBaseline from "@mui/material/CssBaseline";
+import AppBar from "@mui/material/AppBar";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
+import Divider from "@mui/material/Divider";
+const drawerWidth = 240;
 
 const Chat = () => {
   const [users, setUsers] = useState([]);
@@ -82,25 +89,48 @@ const Chat = () => {
 
   return (
     <div>
-      <h1>Direct Messages</h1>
-
-      <div style={{ position: "fixed", top: "10%", left: "0", width: "30%", height: "100%"  }}>
-        <h2>Users</h2>
-        <UserList
-          users={filteredUsers}
-          selectedUser={selectedUser}
-          setSelectedUser={setSelectedUser}
-          searchText={searchText}
-          setSearchText={setSearchText}
-          handleSearch={handleSearch}
-        />
-      </div>
-      <div style={{position: "fixed", top: "10%", right: "0", width: "70%", height: "80%" }}>
-        <Conversation conversation={conversation} currentUserId={firebase.auth().currentUser.uid} />
-      </div>
-      <div style={{ position: "fixed", bottom: "0", right: "5%", width: "70%", height: "20%" }}>
-        <MessageInput messageText={messageText} setMessageText={setMessageText} sendMessage={sendMessage} />
-      </div>
+      <Box sx={{ display: "flex"}}>
+        <CssBaseline />
+        <Drawer
+          sx={{
+            width: drawerWidth,
+            flexShrink: 0,
+            "& .MuiDrawer-paper": {
+              width: drawerWidth,
+              boxSizing: "border-box",
+            },
+          }}
+          variant="permanent"
+          anchor="left"
+          
+        >
+          <Toolbar />
+          <Divider />
+          <UserList
+            users={filteredUsers}
+            selectedUser={selectedUser}
+            setSelectedUser={setSelectedUser}
+            searchText={searchText}
+            setSearchText={setSearchText}
+            handleSearch={handleSearch}
+          />
+        </Drawer>
+        <Box component="main" sx={{ flexGrow: 1, bgcolor: "background.default", p: 3 }}>
+          <Toolbar />
+          <Box
+            sx={{
+              flexGrow: 1,
+              bgcolor: "background.default",
+              p: 3,
+              height: "60%",
+              overflow: "scroll",
+            }}
+          >
+            <Conversation conversation={conversation} currentUserId={firebase.auth().currentUser.uid} />
+          </Box>
+          <MessageInput selectedUser={selectedUser} messageText={messageText} setMessageText={setMessageText} sendMessage={sendMessage} />
+        </Box>
+      </Box>
     </div>
   );
 };

@@ -141,7 +141,7 @@ const SpotifyPlayLists = () => {
     let spotifyUri = window.sessionStorage.getItem("spotifyUri");
     if (spotifyUri !== uri) {
       window.location.hash = "";
-      dispatch(setTrackID(spotifyUri));
+      dispatch(setTrackID(uri));
       window.sessionStorage.setItem("spotifyUri", uri);
       setOpen(false)
     }
@@ -192,7 +192,8 @@ const SpotifyPlayLists = () => {
         fullscreen="true"
       >
         <div>
-          <IconButton style={{ position: "sticky", top: 0}} onClick={() => setOpen(false)}>
+          <label for="closebutton">Close</label>
+          <IconButton id="closebutton" style={{ position: "sticky", top: 0}} onClick={() => setOpen(false)}>
             <CloseIcon sx={{ fontSize: 40 }} />
           </IconButton>
           {tracks.map((item,count) => {
