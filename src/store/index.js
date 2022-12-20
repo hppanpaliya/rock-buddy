@@ -1,33 +1,17 @@
 //import { createStore, applyMiddleware } from "redux";
 
-import { configureStore } from "@reduxjs/toolkit";
-import userReducers from "./features/auth/index";
+import { configureStore, combineReducers } from "@reduxjs/toolkit";
+import userReducers from "./features/auth/authSlice";
+import spotifyReducers from "./features/auth/spotifySlice";
+import spotifyPlayerReducers from "./features/auth/playerSlice";
 
-// import storage from 'redux-persist/lib/storage';
-// import { persistReducer, persistStore } from 'redux-persist';
-// import thunk from 'redux-thunk';
-
-// const persistConfig = {
-//   key: 'root',
-//   storage,
-// }
-
-// const persistedReducer = persistReducer(persistConfig, userReducers)
+const rootReducer = combineReducers({
+  auth: userReducers,
+  spotify: spotifyReducers,
+  spotifyPlayer: spotifyPlayerReducers,
+});
 
 const store = configureStore({
-  reducer: {
-    auth: userReducers,
-  },
-  
+  reducer: rootReducer,
 });
 export default store;
-
-
-// const store1 = configureStore({
-//   reducer: persistedReducer,
-//   middleware: [thunk]
-  
-// });
-
-// const store = persistStore(store1)
-// export default store

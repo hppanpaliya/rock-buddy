@@ -6,6 +6,9 @@ import firebaseApp from "./../firebase/Firebase";
 import firebase from "firebase/compat/app";
 import { TextField, Button } from "@mui/material";
 import validator from "validator";
+import { useDispatch } from "react-redux";
+import { login } from "./../../store/features/auth/authSlice";
+
 
 const SignUp = (props) => {
   const auth = useSelector((state) => state.auth);
@@ -19,6 +22,7 @@ const SignUp = (props) => {
   const [usernameError, setUsernameError] = React.useState("");
   const [passwordError, setPasswordError] = React.useState("");
   const [confirmPasswordError, setConfirmPasswordError] = React.useState("");
+  const dispatch = useDispatch();
 
   const isUsernameAvailable = async (user) => {
     const usernameRef = firebase.firestore().collection("users").doc(user.toLowerCase());
@@ -136,6 +140,7 @@ const SignUp = (props) => {
         // Signed in
         console.log(userCredential);
         console.log("Signed up");
+        dispatch(login({ username: username, uid: userCredential.user.uid, photoURL: "https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg", email: email }));
         setSignUpSuccess(true);
       })
       .catch((error) => {
