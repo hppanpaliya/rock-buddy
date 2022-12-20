@@ -16,29 +16,39 @@ import SkipPreviousIcon from "@mui/icons-material/SkipPrevious";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import SkipNextIcon from "@mui/icons-material/SkipNext";
 
+
 const SpotifyPlayLists = () => {
   const [playlists, setPlayLists] = useState([]);
   const [tracks, setTracks] = useState([]);
   const [playingTrack,setPlayingTracks] = useState([]);
   const auth = useSelector((state) => state.auth || null);
   const dispatch = useDispatch();
+  let offset = 0;
+  let limit = 50;
+  let hasNextPage = true;
+  let playlist = [];
   
   let token = window.sessionStorage.getItem("token");
 
   useEffect(() => {
     async function handleToken() {
-      const { data } = await axios.get(
-        "https://api.spotify.com/v1/me/playlists",
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          params: {},
+      try {
+        while (hasNextPage) {
+          const data = await axios.get(`https://api.spotify.com/v1/me/playlists?limit=${limit}&offset=${offset}`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+
+          playlist = playlist.concat(data.data.items);
+          offset += limit;
+          hasNextPage = data.data.next !== null;
         }
-      );
-      //console.log(data.items.images);
-      console.log(data);
-      setPlayLists(data.items);
+        console.log(playlist);
+        setPlayLists(playlist);
+      } catch (error) {
+        console.error(error);
+      }
     }
     if (token) {
       handleToken();
