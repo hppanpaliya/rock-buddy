@@ -49,8 +49,7 @@ const Profile = (props) =>{
                 firebaseApp.auth().currentUser.updateProfile({
                   photoURL: url
                 })
-                firebaseApp.firestore().collection("users").doc(userName).set({photoURL: url}).then(() => {console.log("Document successfully written!");}).catch((error) => {console.error("Error writing document: ", error);});
-                console.log(url);
+                firebaseApp.firestore().collection("users").doc(userName).update({photoURL: url}).then(() => {console.log("Document successfully written!");}).catch((error) => {console.error("Error writing document: ", error);});
               });
             }
           );
