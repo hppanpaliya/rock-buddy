@@ -12,7 +12,7 @@ const Conversation = ({ conversation, currentUserId }) => {
               <Box
                 sx={{
                   borderRadius: "16px",
-                  backgroundColor: message.sender === currentUserId ? "#1982FC" : "#d3d3d3",
+                  backgroundColor: message.sender === currentUserId ? "#1924fc" : "#d3d3d3",
                   padding: "8px",
                   color: message.sender === currentUserId ? "#fff" : "#000",
                   wordWrap: "break-word",
