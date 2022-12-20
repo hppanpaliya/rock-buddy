@@ -168,7 +168,7 @@ const SignUp = (props) => {
           label="Username"
           onChange={(e) => { e.target.value && e.target.value.trim() ? setUsername(e.target.value.trim().toLowerCase()) : setUsername('') }}
           value={username}
-          error={Boolean(usernameError)}
+          error={usernameError ? true : false}
           helpertext={usernameError}
         />
         <br />
@@ -178,7 +178,7 @@ const SignUp = (props) => {
           label="Email"
           onChange={(e) => setEmail(e.target.value)}
           value={email}
-          error={Boolean(emailError)}
+          error={emailError ? true : false}
           helpertext={emailError}
         />
         <br />
@@ -189,7 +189,7 @@ const SignUp = (props) => {
           type="password"
           onChange={(e) => setPassword(e.target.value)}
           value={password}
-          error={Boolean(passwordError)}
+          error={passwordError ? true : false}
           helpertext={passwordError}
         />
         <br />
@@ -200,7 +200,7 @@ const SignUp = (props) => {
           type="password"
           onChange={(e) => setConfirmPassword(e.target.value)}
           value={confirmPassword}
-          error={Boolean(confirmPasswordError)}
+          error={confirmPasswordError ? true : false}
           helpertext={confirmPasswordError}
         />
         <br />

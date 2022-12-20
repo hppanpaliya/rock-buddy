@@ -111,7 +111,7 @@ const SignIn = (props) => {
           label="Email"
           onChange={(e) => setEmail(e.target.value)}
           value={email}
-          error={Boolean(emailError)}
+          error={emailError ? true : false}
           helpertext={emailError}
         />
         <br /> <br />
@@ -122,7 +122,7 @@ const SignIn = (props) => {
           label="Password"
           onChange={(e) => setPassword(e.target.value)}
           value={password}
-          error={Boolean(passwordError)}
+          error={passwordError ? true : undefined}
           helpertext={passwordError}
         />
         <br />
@@ -133,7 +133,7 @@ const SignIn = (props) => {
           </Typography>
         ) : null}
         <br />
-        <Button type="submit" variant="contained" color="primary" error={Boolean(passwordError)} helpertext={passwordError}>
+        <Button type="submit" variant="contained" color="primary" error={passwordError ? true : undefined} helpertext={passwordError}>
           Sign In
         </Button>
       </form>
@@ -146,7 +146,7 @@ const SignIn = (props) => {
             label="Email to reset password"
             onChange={(e) => setResetEmail(e.target.value)}
             value={resetEmail}
-            error={Boolean(resetPasswordError)}
+            error={resetPasswordError ? true : undefined}
             helpertext={resetPasswordError}
           />
           <Button variant="outlined" type="submit">
