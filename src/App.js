@@ -37,17 +37,17 @@ function App() {
 
   useEffect(() => {
     const Fireauth = getAuth();
-    console.log("App.js");
-    console.log({auth});
+    // console.log("App.js");
+    // console.log({auth});
     
     // if (auth && !auth.user && auth.loading) {
     //   dispatch(logout());
     // }
 
     firebaseApp.auth().onAuthStateChanged(async (user) => {
-      console.log("onAuthStateChanged");
+      // console.log("onAuthStateChanged");
       if (user && user._delegate && user._delegate.auth.currentUser) {
-        console.log("reload user");
+        // console.log("reload user");
         dispatch(
           login({
             uid: user._delegate.auth.currentUser.uid,
