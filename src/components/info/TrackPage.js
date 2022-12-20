@@ -4,7 +4,7 @@ import CommentSection from "./../profile/comments/trackComments.js"
 import AddTrackToPlaylist from "./../profile/addSong"
 import SendLinkMessage from "./../firebase/Chat/SendLinkMessage"
 
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 import {
 	Box,
@@ -28,8 +28,6 @@ const TrackPage = (props) => {
 
 	const MAX_LYRIC_LENGTH = 300;
 	const [lyricsShowMore, setLyricsShowMore] = useState(false);
-
-	const userState = useSelector((state) => state);
 
 	const msToMinutesAndSeconds = (ms) => {
 		let minutes = Math.floor(ms / 60000);

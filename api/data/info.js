@@ -13,16 +13,11 @@ else{
 }
 client.connect().then(() => {});
 
-const https = require('https');
-const fs = require('fs');
-const gm = require('gm');
-
 const lyricsParse = require('lyrics-parse');
 /**
  * Gets an artist given an id
  * 
  * @param {string} id
- * 
  * @returns {object} artist
  * @throws {Error} if artist is not a rock artist
  */
@@ -333,7 +328,11 @@ async function getTrackById(id) {
 		}
 
 		if(!isRock) throw new Error("Track is not a rock track!");
-		getAlbumById(track.album.id);	// Call function to store the album in Redis
+		try { 
+			getAlbumById(track.album.id);	// Call function to store the album in Redis
+		} catch (e) { 
+			console.log(e);
+		}
 		track.artists = track.artists.filter((track, index) => !nonRockIndices.includes(index));
 
 		await client.hSet("trackById", id, isRock.toString());
@@ -365,7 +364,7 @@ async function getTrackLyrics(id, artistName, trackName) {
 	} else {
 		const lyrics = await lyricsParse(trackName, artistName);
 		await client.set(`track.${id}.lyrics`, lyrics || "none");
-		return lyrics || "none";
+		return lyrics || "No lyrics available";
 	}
 }
 

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import axios from 'axios';
 
 import ArtistPage from './ArtistPage';
@@ -12,7 +12,6 @@ const InfoPage = () => {
     
     let { id } = useParams();
     let { category } = useParams();
-    // let nav = useNavigate();
 
     const [infoData, setInfoData] = useState({});
 	const [errorMessage, setErrorMessage] = useState("");
@@ -29,7 +28,6 @@ const InfoPage = () => {
             } catch (e) { 
                 console.log("Invalid Paramter: ", e);
 				setErrorMessage(e.message);
-				// nav("/404")
             }
         }
 

@@ -1,18 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   MDBCol,
   MDBContainer,
   MDBRow,
   MDBCard,
-  MDBCardText,
   MDBCardBody,
   MDBCardImage,
-  MDBBtn,
-  MDBTypography,
+
 } from "mdb-react-ui-kit";
 import { useSelector } from "react-redux";
-import noImg from "../../img/notFound.jpg";
-import SpotifyAuth from "./spotifyAuth";
 import { useTheme } from "@mui/material/styles";
 import storage from "../firebase/storage";
 import firebaseApp from "../firebase/Firebase";
@@ -20,9 +16,7 @@ import {
   ref,
   uploadBytesResumable,
   getDownloadURL,
-  getStorage,
 } from "firebase/storage";
-import { Button } from "react-bootstrap";
 import SpotifyPlayLists from "../info/SpotifyPlaylists";
 
 import axios from "axios";
@@ -35,7 +29,6 @@ const Profile = (props) => {
   let userName = userInfo.username;
   let photoURL = userInfo.photoURL;
   const [profilePic, setProfilePic] = useState(photoURL);
-  const [picBinary, setPicBinary] = useState(null);
   const [noFileError, setFileNoError] = useState(true);
 
   function handleFBUpload(file) {
@@ -105,7 +98,6 @@ const Profile = (props) => {
         responseType: "blob",
       }
     );
-    setPicBinary(URL.createObjectURL(response.data));
 
     //2. upload file to firebase
     handleFBUpload(response.data);
@@ -120,7 +112,7 @@ const Profile = (props) => {
                       <div className="rounded-top text-white d-flex flex-row" style={{ backgroundColor: '#000', height: '200px' }}>
                         <div className="ms-4 mt-5 d-flex flex-column" style={{ width: '150px' }}>
                           <MDBCardImage src={profilePic}
-                            alt="Generic placeholder image" className="mt-4 mb-2 img-thumbnail" fluid style={{ width: '150px', zIndex: '1' }} />
+                            alt="Generic placeholder image" className="mt-4 mb-2 img-thumbnail" fluid style={{ height: '150px', width: '150px', zIndex: '1' }} />
 						</div>
                         <div className="ms-3" style={{ marginTop: '130px' }}>
                           <h1>{email}</h1>

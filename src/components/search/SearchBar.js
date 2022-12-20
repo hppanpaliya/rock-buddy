@@ -33,7 +33,7 @@ const SearchBar = (props) =>{
         
       return (
         <Form
-          method='POST '
+          method='POST'
           onSubmit={(e) => {
             e.preventDefault();
           }}
@@ -47,10 +47,10 @@ const SearchBar = (props) =>{
               type='text'
               name='searchTerm'
               onChange={handleChange}
-              placeHolder={'Search ' + props.term}
+              placeholder={'Search ' + props.term}
               id='searchinput'
             />
-            <Form.Label hidden={true} for='searchinput'>Search</Form.Label>
+            <Form.Label hidden={true} htmlFor='searchinput'>Search</Form.Label>
             <Form.Text className="text-muted">
             Search {props.term}
             </Form.Text>
