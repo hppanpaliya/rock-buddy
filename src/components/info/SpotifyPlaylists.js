@@ -12,9 +12,7 @@ import Player from "./Player";
 import { useDispatch } from "react-redux";
 import { setTrackID } from "../../store/features/auth/playerSlice";
 import IconButton from "@mui/material/IconButton";
-import SkipPreviousIcon from "@mui/icons-material/SkipPrevious";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
-import SkipNextIcon from "@mui/icons-material/SkipNext";
 import CloseIcon from "@mui/icons-material/Close";
 
 const SpotifyPlayLists = () => {
