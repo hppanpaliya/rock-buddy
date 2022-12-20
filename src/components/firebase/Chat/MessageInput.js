@@ -6,7 +6,7 @@ const MessageInput = ({ messageText, setMessageText, sendMessage }) => {
   return (
     <div className="message-input">
       <TextField
-      style={{width: "40%"}}
+      style={{width: "80%"}}
         value={messageText}
         onChange={(event) => setMessageText(event.target.value)}
         onKeyDown={(event) => {

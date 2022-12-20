@@ -1,5 +1,3 @@
-
-
 import React, { useState, useEffect } from "react";
 import firebase from "firebase/compat/app";
 import "./Chat.css";
@@ -42,11 +40,11 @@ const Chat = () => {
       const currentUser = firebase.auth().currentUser.uid;
       if (!selectedUser) return;
       const conversationRef = db
-      .collection("messages")
-      .doc(currentUser < selectedUser.uid ? `${currentUser}_${selectedUser.uid}` : `${selectedUser.uid}_${currentUser}`);
-    conversationRef.onSnapshot((snapshot) => {
-      setConversation((snapshot.data() && snapshot.data().messages) || []);
-    });
+        .collection("messages")
+        .doc(currentUser < selectedUser.uid ? `${currentUser}_${selectedUser.uid}` : `${selectedUser.uid}_${currentUser}`);
+      conversationRef.onSnapshot((snapshot) => {
+        setConversation((snapshot.data() && snapshot.data().messages) || []);
+      });
     };
 
     fetchConversation();
@@ -84,9 +82,9 @@ const Chat = () => {
 
   return (
     <div>
-    <h1>Direct Messages</h1>
-    <Grid container>
-      <Grid item xs={3}>
+      <h1>Direct Messages</h1>
+
+      <div style={{ position: "fixed", top: "10%", left: "0", width: "30%", height: "100%"  }}>
         <h2>Users</h2>
         <UserList
           users={filteredUsers}
@@ -96,14 +94,13 @@ const Chat = () => {
           setSearchText={setSearchText}
           handleSearch={handleSearch}
         />
-      </Grid>
-      <Grid item xs={8}>
+      </div>
+      <div style={{position: "fixed", top: "10%", right: "0", width: "70%", height: "80%" }}>
         <Conversation conversation={conversation} currentUserId={firebase.auth().currentUser.uid} />
-      </Grid>
-      <Grid item xs={12}>
+      </div>
+      <div style={{ position: "fixed", bottom: "0", right: "5%", width: "70%", height: "20%" }}>
         <MessageInput messageText={messageText} setMessageText={setMessageText} sendMessage={sendMessage} />
-      </Grid>
-    </Grid>
+      </div>
     </div>
   );
 };
