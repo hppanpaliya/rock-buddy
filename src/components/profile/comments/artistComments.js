@@ -9,7 +9,6 @@ function CommentSection(props) {
   const { artistId } = props;
   const [comments, setComments] = useState([]);
   const [commentText, setCommentText] = useState("");
-  const [commentAuthor, setCommentAuthor] = useState("");
   const userInfo = useSelector((state) => state.auth).user;
   console.log(userInfo);
 
@@ -36,7 +35,6 @@ function CommentSection(props) {
         comment_author: userInfo.username,
       });
       setCommentText("");
-      setCommentAuthor("");
     } catch (error) {
       console.error(error);
     }

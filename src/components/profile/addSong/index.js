@@ -9,13 +9,14 @@ function AddTrackToPlaylist() {
   const [songId, setSongId] = useState(null);
   const [addError, setAddError] = useState("");
   const access_token = window.sessionStorage.getItem("token");
-  let offset = 0;
-  let limit = 50;
-  let hasNextPage = true;
-  let playlist = [];
+
 
   useEffect(() => {
     async function fetchPlaylists() {
+      let offset = 0;
+      let limit = 50;
+      let hasNextPage = true;
+      let playlist = [];
       try {
         while (hasNextPage) {
           const response = await axios.get(`https://api.spotify.com/v1/me/playlists?limit=${limit}&offset=${offset}`, {
@@ -34,7 +35,7 @@ function AddTrackToPlaylist() {
       }
     }
     fetchPlaylists();
-  }, []);
+  }, [access_token]);
 
   useEffect(() => {
     // Get the song ID from the URL path
@@ -87,20 +88,18 @@ function AddTrackToPlaylist() {
         open={modalIsOpen}
         onClose={closeModal}
         aria-labelledby="simple-modal-title"
-        aria-describedby="simple-modal-description"
-        style={{
+        aria-describedby="simple-modal-description">
+        <div style={{
           width: "500px",
-          maxHeight: "200px",
+          maxHeight: "300px",
           overflowY: "auto",
           margin: "0 auto",
-          position: "absolute",
+          position: "fixed",
           top: "50%",
           left: "50%",
           transform: "translate(-50%, -50%)",
           backgroundColor: "#f2f2f2",
-        }}
-      >
-        <div>
+        }}>
           <h1>Choose a playlist:</h1>
           <Select native value={selectedPlaylist || ""} onChange={handlePlaylistChange}>
             {playlists.map((playlist) => (
@@ -109,12 +108,16 @@ function AddTrackToPlaylist() {
               </option>
             ))}
           </Select>
+          <br /><br />
+          <div style={{ textAlign: "center" }}>
           <Button variant="contained" color="primary" onClick={handleAddSong}>
             Add song
-          </Button>
+          </Button> &nbsp; &nbsp;
           <Button variant="contained" color="secondary" onClick={closeModal}>
             Close
-          </Button>
+            </Button>
+          </div>
+          <br />
         </div>
       </Modal>
     </div>
