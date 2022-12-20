@@ -29,6 +29,10 @@ function AddTrackToPlaylist() {
           offset += limit;
           hasNextPage = response.data.next !== null;
         }
+        if(playlist.length > 0){ //set first playlist in list to selected
+          setSelectedPlaylist(playlist[0].id)
+        }
+
         setPlaylists(playlist);
       } catch (error) {
         console.error(error);
@@ -45,7 +49,9 @@ function AddTrackToPlaylist() {
     setSongId(id);
   }, []);
 
+  
   function handlePlaylistChange(event) {
+    console.log(event.target.value)
     setSelectedPlaylist(event.target.value);
   }
 
@@ -74,7 +80,12 @@ function AddTrackToPlaylist() {
       alert("Song added to playlist!");
       closeModal();
     } catch (error) {
-        alert("Error adding song to this playlist, please try other playlist!");
+        if(error.message.indexOf('403') !== -1){
+          alert("Error - You can only add songs to playlists that you own/created yourself!");
+        }
+        else{
+          alert("Error adding song to this playlist, please try other playlist!");
+        }
       console.error(error);
     }
   }
