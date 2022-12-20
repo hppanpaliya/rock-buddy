@@ -19,7 +19,7 @@ const UserList = ({ users, selectedUser, setSelectedUser, searchText, handleSear
 
   return (
     <div className="user-list">
-      <TextField label="Search users" value={searchText} onChange={handleSearch} />
+      <TextField value={searchText} onChange={handleSearch} />
 
       <Card>
       {filteredUsers.map((user) => (
