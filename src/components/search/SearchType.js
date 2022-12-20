@@ -33,8 +33,8 @@ const SearchType = (props) =>{
             labelId="demo-simple-select-label"
             id="demo-simple-select"
             value={searchType}
-            label="Category"
             onChange={onSiteChanged}
+            placeholder="searchtype"
           >
             <MenuItem value={'artists'}>Artists</MenuItem>
             <MenuItem value={'albums'}>Albums</MenuItem>
