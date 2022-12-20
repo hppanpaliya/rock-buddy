@@ -194,6 +194,9 @@ const SpotifyPlayLists = () => {
         fullscreen="true"
       >
         <div>
+        <br></br>
+        <br></br>
+        <br></br>
           <label for="closebutton">Close</label>
           <IconButton id="closebutton" style={{ position: "sticky", top: 0}} onClick={() => setOpen(false)}>
             <CloseIcon sx={{ fontSize: 40 }} />
