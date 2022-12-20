@@ -28,7 +28,7 @@ const ResultCard = (props) =>{
     let searchType = props.searchType;
     let card = null
 
-     function buildArtst(item){
+     function buildArtst(item,count){
          //genre data
          let genres = ""
          if (item.genres.length === 0){
@@ -42,9 +42,10 @@ const ResultCard = (props) =>{
          let id = item.id
  
          return(
+            <div key={count}>
             <Card style={{ width: '60%',
 				align: 'center',
-				marginLeft: 'auto',
+                marginLeft: 'auto',
 				marginRight: 'auto'}}>            
                 <Row>
                 <Col>
@@ -64,13 +65,13 @@ const ResultCard = (props) =>{
                 </Col>
                 </Row>
              </Card>
-
+            </div>
          )
 
 
      }
 
-     function buildAlbum(item){
+     function buildAlbum(item,count){
 
         //artist data
         let artists = ""
@@ -82,7 +83,8 @@ const ResultCard = (props) =>{
         });
         let id = item.id
 
-        return(
+         return (
+            <div key={count}>
             <Card  style={{ width: '60%',
             align: 'center',
             marginLeft: 'auto',
@@ -106,11 +108,12 @@ const ResultCard = (props) =>{
                     </Col>
                 </Row>
                 
-            </Card>
+                 </Card>
+                 </div>
         )
      }
     
-    function buildSong(item){
+    function buildSong(item,count){
 
         //artist data
         let artists = ""
@@ -122,9 +125,11 @@ const ResultCard = (props) =>{
         });
         let id = item.id;
 
-        return(
+        return (
+            <div key={count}>
             <Card  style={{ width: '60%',
             align: 'center',
+            key: count,
             marginLeft: 'auto',
             marginRight: 'auto'}}>
                 <Row>
@@ -146,25 +151,26 @@ const ResultCard = (props) =>{
                         <Button as={Link} to={`/info/track/${id}`}>Song Details</Button>
                     </Col>
                 </Row>
-            </Card>
+                </Card>
+                </div>
         )
      }
 
     if(searchType === "artists"){
-        card = data.map((item) =>{
-            return buildArtst(item)
+        card = data.map((item,count) =>{
+            return buildArtst(item,count)
          });
      }
 
     else if(searchType === "albums"){
-        card = data.map((item) =>{
-            return buildAlbum(item)
+        card = data.map((item,count) =>{
+            return buildAlbum(item,count)
          });
      }
 
     else if(searchType === "songs"){
-        card = data.map((item) =>{
-            return buildSong(item)
+        card = data.map((item,count) =>{
+            return buildSong(item,count)
          });
      }
 

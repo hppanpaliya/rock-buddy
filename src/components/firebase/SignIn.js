@@ -111,8 +111,8 @@ const SignIn = (props) => {
           label="Email"
           onChange={(e) => setEmail(e.target.value)}
           value={email}
-          error={Boolean(emailError)}
-          helperText={emailError}
+          error={emailError ? true : false}
+          helpertext={emailError}
         />
         <br /> <br />
         <TextField
@@ -122,8 +122,8 @@ const SignIn = (props) => {
           label="Password"
           onChange={(e) => setPassword(e.target.value)}
           value={password}
-          error={Boolean(passwordError)}
-          helperText={passwordError}
+          error={passwordError ? true : undefined}
+          helpertext={passwordError}
         />
         <br />
         {error ? (
@@ -133,7 +133,7 @@ const SignIn = (props) => {
           </Typography>
         ) : null}
         <br />
-        <Button type="submit" variant="contained" color="primary" error={Boolean(passwordError)} helperText={passwordError}>
+        <Button type="submit" variant="contained" color="primary" error={passwordError ? true : undefined} helpertext={passwordError}>
           Sign In
         </Button>
       </form>
@@ -146,8 +146,8 @@ const SignIn = (props) => {
             label="Email to reset password"
             onChange={(e) => setResetEmail(e.target.value)}
             value={resetEmail}
-            error={Boolean(resetPasswordError)}
-            helperText={resetPasswordError}
+            error={resetPasswordError ? true : undefined}
+            helpertext={resetPasswordError}
           />
           <Button variant="outlined" type="submit">
             Forgot Password

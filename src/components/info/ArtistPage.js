@@ -5,6 +5,8 @@ import { Link } from 'react-router-dom';
 import {Card as BCard} from 'react-bootstrap/';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Carousel from 'react-bootstrap/Carousel';
+import Stack from 'react-bootstrap/Stack';
+import CommentSection from '../profile/comments/artistComments';
 
 import { 
 	Box,
@@ -30,6 +32,7 @@ const ArtistPage = (props) => {
 	const artistTopTracks = props.infoData.foundArtistTopTracks;
 	const artistAlbums = props.infoData.foundArtistAlbums
 	const artistDescription = props.infoData.foundArtistDescription;
+	const artistId = window.location.pathname.split("/")[3];
 
 	const MAX_DESC_LENGTH = 300;
 	const [descShowMore, setDescShowMore] = useState(false);

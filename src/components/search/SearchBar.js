@@ -48,7 +48,9 @@ const SearchBar = (props) =>{
               name='searchTerm'
               onChange={handleChange}
               placeHolder={'Search ' + props.term}
+              id='searchinput'
             />
+            <Form.Label hidden={true} for='searchinput'>Search</Form.Label>
             <Form.Text className="text-muted">
             Search {props.term}
             </Form.Text>

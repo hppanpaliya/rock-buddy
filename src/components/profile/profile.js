@@ -7,7 +7,7 @@ import SpotifyAuth from './spotifyAuth';
 import storage from '../firebase/storage';
 import firebaseApp  from '../firebase/Firebase';
 import { ref, uploadBytesResumable, getDownloadURL, getStorage } from "firebase/storage";
-
+import { Button } from 'react-bootstrap';
 
 
 import axios from 'axios';
@@ -20,6 +20,7 @@ const Profile = (props) =>{
   let photoURL = userInfo.photoURL
   const [profilePic, setProfilePic] = useState(photoURL)
 	const [picBinary, setPicBinary] = useState(null);
+  const [noFileError, setFileNoError] = useState(true)
 
   function handleFBUpload(file) {
     //this function uploads the blob to firebase
@@ -49,7 +50,6 @@ const Profile = (props) =>{
                   photoURL: url
                 })
                 firebaseApp.firestore().collection("users").doc(userName).update({photoURL: url}).then(() => {console.log("Document successfully written!");}).catch((error) => {console.error("Error writing document: ", error);});
-                console.log(url);
               });
             }
           );
@@ -57,6 +57,16 @@ const Profile = (props) =>{
 
 	const handlePictureUpload = async (e) => { 
 		const formData = new FormData();
+    if(! e.target.files){
+      setFileNoError(false)
+      return
+    }
+    if(e.target.files[0].type !== 'image/jpeg' && e.target.files[0].type !== 'image/png'){
+      setFileNoError(false)
+      return
+    }
+
+    setFileNoError(true)
 		formData.append('file', e.target.files[0]);
 
     //1. send image to API for imagemagick
@@ -67,36 +77,14 @@ const Profile = (props) =>{
 				responseType: 'blob',
 			}
 		);
-    console.log(response.data)
 		setPicBinary(URL.createObjectURL(response.data));
-		console.log(picBinary);
 
-    //2. convert blob from API to file
-    // let file = new File([response.data], `${userInfo.uid}`, { type: "image/jpeg", lastModified: Date.now() })
+    //2. upload file to firebase
+    handleFBUpload(response.data);
 
-    // console.log(file)
-
-    //3. upload file to firebase
-    handleFBUpload(response.data)
 
 	};
-
-  // useEffect(()=>{
-  //   //retrieves the profile pic from firebase and sets state. will fire if user uploads new pic
-  //   const storage = getStorage();
-  //   getDownloadURL(ref(storage, `profiles/${userInfo.uid}`))
-  //     .then((url) => {
-  //       // `url` is the download URL for 'images/stars.jpg'
-  //       setProfilePic(url)
-  //     })
-  //     .catch((error) => {
-  //       console.log(error)
-  //       setProfilePic(noImg)
-  // });
-
-  // }, [])
   
-
     return(
             <div className="gradient-custom-2" style={{ backgroundColor: '#9de2ff' }}>
               <MDBContainer className="py-5 h-100">
@@ -109,22 +97,20 @@ const Profile = (props) =>{
                             alt="Generic placeholder image" className="mt-4 mb-2 img-thumbnail" fluid style={{ width: '150px', zIndex: '1' }} />
 						</div>
                         <div className="ms-3" style={{ marginTop: '130px' }}>
-                          <MDBTypography tag="h5">{userName}</MDBTypography>
-                          <MDBCardText>{email}</MDBCardText>
+                          <h1>{email}</h1>
                         </div>
+
                       </div>
                       <div className="p-4 text-black" style={{ backgroundColor: '#f8f9fa' }}>
                         <div className="d-flex justify-content-end text-center py-1">
                         <div>
-                          <input type='file' name='file' onChange={(e) => { handlePictureUpload(e)}}/>
+                          <label for="uploadProfile" hidden={true}>Upload</label>
+                          <input id="uploadProfile" type='file' name='file' onChange={(e) => { handlePictureUpload(e)}}/>
+                          <div hidden={noFileError}><p>Error - must submit a png/jpg file</p></div>
 			                   </div>
-
-
-                    
                         </div>
                       </div>
                       <MDBCardBody className="text-black p-4">
-
                       </MDBCardBody>
                     </MDBCard>
                   </MDBCol>

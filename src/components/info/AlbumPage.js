@@ -1,6 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+import CommentSection from "./../profile/comments/albumComments.js"
+
+
 
 import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
@@ -9,6 +12,7 @@ import Stack from 'react-bootstrap/Stack';
 
 const AlbumPage = (props) => {
 	const albumData = props.infoData.foundAlbum;
+	const albumId = window.location.pathname.split("/")[3];
 
 	if(!props || !props.infoData || !albumData) return <p>Loading album, please wait... </p>;
 	return (
@@ -44,6 +48,7 @@ const AlbumPage = (props) => {
 					</ul>
 				</Card.Body>
 
+				<CommentSection albumId={albumId} />
 
 			</Card>
 		</div>
