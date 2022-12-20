@@ -6,7 +6,6 @@ import CommentSection from "./../profile/comments/albumComments.js"
 import {
 	Box,
 	Card,
-	CardHeader,
 	CardContent,
 	CardMedia,
 	Typography,
@@ -14,7 +13,6 @@ import {
 	ListItem,
 	ListItemText,
 	ListItemAvatar,
-	Grid,
 	Stack,
 	Chip
 } from '@mui/material'
@@ -50,8 +48,8 @@ const AlbumPage = (props) => {
 							{
 								albumData.artists.map((artist, index) => { 
 									return(
-										<Card sx={{padding: 2}}>
-											<Link key={artist.id} to={`/info/artist/${artist.id}`}><Typography>{artist.name}</Typography></Link>
+										<Card key={artist.id} sx={{padding: 2}}>
+											<Link to={`/info/artist/${artist.id}`}><Typography>{artist.name}</Typography></Link>
 											<CardMedia
 												sx={{maxHeight: '100px', maxWidth: '100px', marginLeft: 'auto', marginRight: 'auto', borderRadius: '10px'}}
 												component='img'
@@ -88,7 +86,7 @@ const AlbumPage = (props) => {
 												/>
 											</ListItemAvatar>
 											<ListItemText sx={{paddingLeft: 2}}>
-												<Typography className='track-list-title'>
+												<Typography component='span' className='track-list-title'>
 													<Link to={`/info/track/${track.id}`}>
 														{track.name}
 													</Link>

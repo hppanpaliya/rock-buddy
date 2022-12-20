@@ -52,7 +52,7 @@ function CommentSection(props) {
       <CommentList comments={comments} />
       {userInfo && userInfo.username ? (
         <form onSubmit={handleCommentSubmit}>
-		  <InputLabel for='commentField'>Enter your comment</InputLabel>
+		  <InputLabel htmlFor='commentField'>Enter your comment</InputLabel>
           <TextField
 		    id='commentField'
             variant="outlined"

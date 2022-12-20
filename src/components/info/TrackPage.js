@@ -9,17 +9,9 @@ import { useDispatch, useSelector } from "react-redux";
 import {
 	Box,
 	Card,
-	CardHeader,
-	CardContent,
 	CardMedia,
 	Typography,
-	List,
-	ListItem,
-	ListItemText,
-	ListItemAvatar,
-	Grid,
 	Stack,
-	Chip
 } from '@mui/material'
 
 const TrackPage = (props) => {
@@ -63,8 +55,8 @@ const TrackPage = (props) => {
 						{
 							trackData.artists.map((artist, index) => { 
 								return(
-									<Card sx={{padding: 2}}>
-										<Link key={artist.id} to={`/info/artist/${artist.id}`}><Typography>{artist.name}</Typography></Link>
+									<Card key={artist.id} sx={{padding: 2}}>
+										<Link to={`/info/artist/${artist.id}`}><Typography>{artist.name}</Typography></Link>
 										<CardMedia
 											sx={{maxHeight: '100px', maxWidth: '100px', marginLeft: 'auto', marginRight: 'auto', borderRadius: '10px'}}
 											component='img'
