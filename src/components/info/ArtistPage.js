@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom';
 import { 
 	Box,
 	Card,
-	CardHeader,
 	CardContent,
 	CardMedia,
 	Typography,
@@ -13,9 +12,6 @@ import {
 	ListItem,
 	ListItemText,
 	ListItemAvatar,
-	ImageList,
-	ImageListItem,
-	ImageListItemBar,
 	Grid,
 	Stack,
 	Chip
@@ -51,7 +47,7 @@ const ArtistPage = (props) => {
 							{
 								artistData.genres.map((genre, index) => {
 									return(
-										<Chip label={genre}></Chip>
+										<Chip key={genre} label={genre}></Chip>
 									)
 								})
 							}
