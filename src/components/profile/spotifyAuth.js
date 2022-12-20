@@ -1,12 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/esm/Button';
-import axios from 'axios';
 import { useSelector } from "react-redux";
 import SignIn from '../firebase/SignIn'
-import Card from "@mui/material/Card";
-import { CardMedia, Typography } from "@mui/material";
-import { CardContent } from "@mui/material";
-import SpotifyPlayLists from '../info/SpotifyPlaylists';
+import { Link } from 'react-router-dom';
 
 const SpotifyAuth = () =>{
     const CLIENT_ID = "c427fff192174d81a2004d4d9f006507"
@@ -45,7 +41,7 @@ const SpotifyAuth = () =>{
         <div>
             {auth.user === null ? <SignIn></SignIn> : !(token) ? <a href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}&scope=streaming%20user-read-email%20user-read-private%20user-library-read%20user-library-modify%20user-read-playback-state%20user-modify-playback-state%20playlist-read-private%20playlist-modify-public%20playlist-modify-private`}>Login to Spotify</a> : <Button onClick={logout}>Logout</Button> }       
             {token ?
-                    <SpotifyPlayLists></SpotifyPlayLists>
+                    <Link to="/profile">Go to profile</Link>
                     : <h2>Please login</h2>
                 }
         </div>
