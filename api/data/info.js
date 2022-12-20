@@ -251,6 +251,7 @@ async function getAlbumById(id) {
 				getArtistDescription(albumArtists[i], curArtist.name);
 				
 				isRock = true;
+				album.artists[i].image = curArtist.images[0].url;
 				await client.hSet("artistById", albumArtists[i], "true");	// Set the artist's rock status to true
 				await client.set(`artist.${curArtist.id}`, JSON.stringify(curArtist));
 			} catch (e) {

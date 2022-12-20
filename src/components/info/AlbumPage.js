@@ -19,6 +19,7 @@ import {
 	Chip
 } from '@mui/material'
 
+
 const msToMinutesAndSeconds = (ms) => {
 	let minutes = Math.floor(ms / 60000);
 	let seconds = ((ms % 60000) / 1000).toFixed(0);
@@ -41,21 +42,31 @@ const AlbumPage = (props) => {
 			>
 				<Card>
 					<Typography variant='h1' component='h1'>{albumData.name}</Typography>
-					<CardMedia sx={{maxHeight: '60vh', maxWidth: '90%', marginLeft: 'auto', marginRight: 'auto', borderRadius: '10px'}} component='img' image={albumData.images[0].url} alt={albumData.name}/>
+					<CardMedia sx={{maxHeight: '70%', maxWidth: '70%', marginLeft: 'auto', marginRight: 'auto', borderRadius: '10px'}} component='img' image={albumData.images[0].url} alt={albumData.name}/>
 					<CardContent>
-							<Typography variant='h2' component='h2'>Rock Artists</Typography>
-							<Stack>
-								{
-								albumData.artists.map((artist, index) => {
+						<Typography variant='h2' component='h2'>Rock Artists</Typography>
+
+						<Stack direction='row' sx={{justifyContent: "center"}}>
+							{
+								albumData.artists.map((artist, index) => { 
 									return(
-										<Link to={`/info/artist/${artist.id}`}><Typography variant='h5' component='h5'>{artist.name}</Typography></Link>
+										<Card sx={{padding: 2}}>
+											<Link key={artist.id} to={`/info/artist/${artist.id}`}><Typography>{artist.name}</Typography></Link>
+											<CardMedia
+												sx={{maxHeight: '100px', maxWidth: '100px', marginLeft: 'auto', marginRight: 'auto', borderRadius: '10px'}}
+												component='img'
+												image={artist.image}
+												alt={artist.name}/>
+										</Card>
 									)
 								})
 							}
-							</Stack>
+						</Stack>
+						<Typography variant='h2' component='h2'>Album Info</Typography>
 
-						<Typography variant='h5' component='h5'>Release Date: {albumData.release_date}</Typography>
-						
+						<Typography>Release Date: {albumData.release_date}</Typography>
+						<Typography>Total Tracks: {albumData.total_tracks}</Typography>
+						<Typography>Label: {albumData.label}</Typography>
 					</CardContent>
 				</Card>
 				<Card>
@@ -76,12 +87,12 @@ const AlbumPage = (props) => {
 												/>
 											</ListItemAvatar>
 											<ListItemText sx={{paddingLeft: 2}}>
-												<Typography variant='subtitle1'>
+												<Typography className='track-list-title'>
 													<Link to={`/info/track/${track.id}`}>
 														{track.name}
 													</Link>
 												</Typography>
-												<Typography variant='subtitle2'>
+												<Typography component='span' className='track-list-subtitle'>
 													{track.artists[0].name} - {msToMinutesAndSeconds(track.duration_ms)}
 												</Typography>
 												{

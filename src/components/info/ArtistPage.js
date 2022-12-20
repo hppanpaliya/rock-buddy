@@ -45,7 +45,7 @@ const ArtistPage = (props) => {
 			>
 				<Card sx={{maxWidth: '50%', verticalAlign: "top", minHeight: '100vh'}}>
 					<Typography variant="h1" component="h1">{artistData.name}</Typography>
-						<CardMedia sx={{maxHeight: '50vh', maxWidth: '90%', marginLeft: 'auto', marginRight: 'auto', borderRadius: '10px'}} component="img" image={artistData.images[0].url} alt={artistData.name}/>
+					<CardMedia sx={{maxHeight: '70%', maxWidth: '70%', marginLeft: 'auto', marginRight: 'auto', borderRadius: '10px'}} component="img" image={artistData.images[0].url} alt={artistData.name}/>
 					<CardContent>
 						<Stack sx={{justifyContent: "center", paddingBottom: 2}} direction="row" spacing={1}>
 							{
