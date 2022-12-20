@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import CommentSection from "./../profile/comments/trackComments.js"
+import AddTrackToPlaylist from "./../profile/addSong"
+import SendLinkMessage from "./../firebase/Chat/SendLinkMessage"
 
 import { useDispatch, useSelector } from "react-redux";
 
@@ -10,6 +12,12 @@ const TrackPage = (props) => {
 	const trackData = props.infoData.foundTrack;
 	const trackLyrics = props.infoData.foundLyrics;
 	const trackId = window.location.pathname.split("/")[3];
+	const auth = useSelector((state) => state.auth.user);
+	const spotify = useSelector((state) => state.spotify.token);
+	console.log(auth);
+	console.log("spotify");
+	console.log(spotify);
+	console.log(auth);
 
 
 	const MAX_LYRIC_LENGTH = 300;
@@ -37,10 +45,12 @@ const TrackPage = (props) => {
 				marginLeft: 'auto',
 				marginRight: 'auto'
 			}}>
+
 				<Card.Header>
 					<h1>{trackData.name}</h1>
 				</Card.Header>
 				<Card.Body>
+					
 					<Card.Img style={{ width: '66%' }} src={trackData.album.images[0].url} alt={trackData.name}/>
 					<h2>Album:<Link to={`/info/album/${trackData.album.id}`}>{trackData.album.name}</Link> </h2>
 					<h2>Artists:</h2>
@@ -65,6 +75,10 @@ const TrackPage = (props) => {
 					}
 				</Card.Body>
 
+				{auth && auth.uid ? <SendLinkMessage trackId={trackId} />: null}
+				<br />
+				{spotify ? <AddTrackToPlaylist trackId={trackId} /> : null}
+				<br />
 				<CommentSection trackId={trackId} />
 
 			</Card>
