@@ -9,17 +9,9 @@ import { useDispatch, useSelector } from "react-redux";
 import {
 	Box,
 	Card,
-	CardHeader,
-	CardContent,
 	CardMedia,
 	Typography,
-	List,
-	ListItem,
-	ListItemText,
-	ListItemAvatar,
-	Grid,
 	Stack,
-	Chip
 } from '@mui/material'
 
 const TrackPage = (props) => {
