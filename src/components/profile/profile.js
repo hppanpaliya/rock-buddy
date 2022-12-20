@@ -8,6 +8,7 @@ import storage from '../firebase/storage';
 import firebaseApp  from '../firebase/Firebase';
 import { ref, uploadBytesResumable, getDownloadURL, getStorage } from "firebase/storage";
 import { Button } from 'react-bootstrap';
+import SpotifyPlayLists from '../info/SpotifyPlaylists';
 
 
 import axios from 'axios';
@@ -17,7 +18,7 @@ const Profile = (props) =>{
   const userInfo = useSelector((state) => state.auth).user;
   let email = userInfo.email;
   let userName = userInfo.username
-  let photoURL = userInfo.photoURL
+  let photoURL = userInfo.photoURL;
   const [profilePic, setProfilePic] = useState(photoURL)
 	const [picBinary, setPicBinary] = useState(null);
   const [noFileError, setFileNoError] = useState(true)
@@ -116,6 +117,7 @@ const Profile = (props) =>{
                   </MDBCol>
                 </MDBRow>
               </MDBContainer>
+              <SpotifyPlayLists></SpotifyPlayLists>
             </div>
     )
     

@@ -58,7 +58,7 @@ function Navbarcustom() {
            </Nav.Item>
               </Nav>
               </Navbar>  
-              <Player accessToken={window.sessionStorage.getItem("token")} trackUri={window.sessionStorage.getItem("spotifyUri")} /> 
+              <Player accessToken={window.sessionStorage.getItem("token")} trackUri={window.sessionStorage.getItem("spotifyUri")} />
               </div>
         )
     }
