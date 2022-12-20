@@ -45,7 +45,7 @@ const SpotifyPlayLists = () => {
           offset += limit;
           hasNextPage = data.data.next !== null;
         }
-        console.log(playlist);
+        // console.log(playlist);
         setPlayLists(playlist);
       } catch (error) {
         console.error(error);
@@ -179,7 +179,7 @@ const SpotifyPlayLists = () => {
             <CloseIcon sx={{ fontSize: 40 }} />
           </IconButton>
           {tracks.map((item,count) => {
-            console.log(item);
+            // console.log(item);
             return (
               <div key={count} >
                 <Card sx={{ maxWidth: "100%", marginLeft: "15%", marginRight: "15%", verticalAlign: "top", minHeight: "10vh" }}>

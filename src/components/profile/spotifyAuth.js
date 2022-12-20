@@ -47,7 +47,7 @@ const SpotifyAuth = () =>{
             dispatch(setBearerToken({ token : token}))
             window.sessionStorage.setItem("token", token)
         }
-        console.log(token);
+        // console.log(token);
         setToken(token)
     }, [])
 

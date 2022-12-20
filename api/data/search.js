@@ -121,8 +121,8 @@ async function searchAlbums(searchTerm, page=0){
     };
 
     //3. otherwise configure tolken and query API
-    let offset = page*30;
-    const api_url = `https://api.spotify.com/v1/search?query=${searchTerm}%20&type=album&limit=30&offset=${offset}`;
+    let offset = page*20;
+    const api_url = `https://api.spotify.com/v1/search?query=${searchTerm}%20&type=album&limit=20&offset=${offset}`;
 
     const data = await axios.get(api_url, {
       headers: {
