@@ -64,9 +64,11 @@ router.route("/albums")
             let data = await searchAlbums(term, page)
            
             //3. check if no results
-            if(data.items.length === 0){
+            console.log(data)
+            if(data.next === null && data.previous === null && data.items.length === 0){
                 return response.status(404).json({error: `No albums found for search term ${term}`})
             }
+            data['album'] = true
 
             response.status(200).json(data)
             return

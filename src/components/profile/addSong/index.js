@@ -45,13 +45,13 @@ function AddTrackToPlaylist() {
     // Get the song ID from the URL path
     const urlParams = window.location.href;
     const id = urlParams.substring(urlParams.lastIndexOf("/") + 1);
-    console.log(id);
+    // console.log(id);
     setSongId(id);
   }, []);
 
   
   function handlePlaylistChange(event) {
-    console.log(event.target.value)
+    // console.log(event.target.value)
     setSelectedPlaylist(event.target.value);
   }
 
