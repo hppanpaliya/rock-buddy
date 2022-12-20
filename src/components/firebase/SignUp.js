@@ -1,6 +1,5 @@
-
 import React from "react";
-import {  useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
 import firebaseApp from "./../firebase/Firebase";
 import firebase from "firebase/compat/app";
@@ -8,7 +7,6 @@ import { TextField, Button } from "@mui/material";
 import validator from "validator";
 import { useDispatch } from "react-redux";
 import { login } from "./../../store/features/auth/authSlice";
-
 
 const SignUp = (props) => {
   const auth = useSelector((state) => state.auth);
@@ -33,7 +31,6 @@ const SignUp = (props) => {
     }
     return true;
   };
-  
 
   const validateForm = async () => {
     let isValid = true;
@@ -45,7 +42,7 @@ const SignUp = (props) => {
       setEmailError("");
     } else {
       setEmailError("Invalid email address");
-      return isValid = false;
+      return (isValid = false);
     }
 
     if (!username) {
@@ -61,7 +58,7 @@ const SignUp = (props) => {
     } else {
       setPasswordError("");
     }
-    
+
     if (password.length < 6) {
       setPasswordError("Password must be at least 6 characters");
       isValid = false;
@@ -77,16 +74,15 @@ const SignUp = (props) => {
       setConfirmPasswordError("");
     }
 
-    if (!validator.isAlpha(username))
-    {
+    if (!validator.isAlpha(username)) {
       setUsernameError("Username must contain only letters");
-      return isValid = false;
+      return (isValid = false);
     } else if (username.length < 3) {
       setUsernameError("Username must be at least 3 characters");
-      return isValid = false;
+      return (isValid = false);
     } else if (username.length > 15) {
       setUsernameError("Username must be less than 15 characters");
-      return isValid = false;
+      return (isValid = false);
     } else {
       setUsernameError("");
     }
@@ -140,7 +136,14 @@ const SignUp = (props) => {
         // Signed in
         console.log(userCredential);
         console.log("Signed up");
-        dispatch(login({ username: username, uid: userCredential.user.uid, photoURL: "https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg", email: email }));
+        dispatch(
+          login({
+            username: username,
+            uid: userCredential.user.uid,
+            photoURL: "https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg",
+            email: email,
+          })
+        );
         setSignUpSuccess(true);
       })
       .catch((error) => {
@@ -173,8 +176,8 @@ const SignUp = (props) => {
           label="Username"
           onChange={(e) => { e.target.value && e.target.value.trim() ? setUsername(e.target.value.trim().toLowerCase()) : setUsername('') }}
           value={username}
-          error={usernameError ? true : false}
-          helpertext={usernameError}
+          error={Boolean(usernameError)}
+          helperText={usernameError}
         />
         <br />
         <br />
@@ -183,8 +186,8 @@ const SignUp = (props) => {
           label="Email"
           onChange={(e) => setEmail(e.target.value)}
           value={email}
-          error={emailError ? true : false}
-          helpertext={emailError}
+          error={Boolean(emailError)}
+          helperText={emailError}
         />
         <br />
         <br />
@@ -194,8 +197,8 @@ const SignUp = (props) => {
           type="password"
           onChange={(e) => setPassword(e.target.value)}
           value={password}
-          error={passwordError ? true : false}
-          helpertext={passwordError}
+          error={Boolean(passwordError)}
+          helperText={passwordError}
         />
         <br />
         <br />
@@ -205,8 +208,8 @@ const SignUp = (props) => {
           type="password"
           onChange={(e) => setConfirmPassword(e.target.value)}
           value={confirmPassword}
-          error={confirmPasswordError ? true : false}
-          helpertext={confirmPasswordError}
+          error={Boolean(confirmPasswordError)}
+          helperText={confirmPasswordError}
         />
         <br />
         {signUpError ? <span style={{ color: "red" }}>{signUpError.replace("Firebase: ", "")}</span> : null}
