@@ -83,7 +83,7 @@ const AllEvents = (props) =>{
         
     return(
       <div>
-        <h2>Upcoming Rock Events</h2>
+        <h1>Upcoming Rock Events</h1>
         <Container style={{alignContent: "center"}}>
           <EventCard eventsData={eventsData}></EventCard>
         </Container>
