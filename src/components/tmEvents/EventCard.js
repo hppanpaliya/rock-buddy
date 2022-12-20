@@ -17,7 +17,7 @@ const EventCard = (props) =>{
     
     let card = null
 
-     function buildEventCard(item){
+     function buildEventCard(item,count){
          //dates
          let startDate = item.dates.start && item.dates.start.localDate || "Unknown Date";
          let startTime = item.dates.start && item.dates.start.localTime || "Unknown Time"
@@ -28,7 +28,8 @@ const EventCard = (props) =>{
             location = city + ", " + country
         }
  
-         return(
+         return (
+             <div key={count}>
             <Card  style={{ width: '60%',
             align: 'center',
             marginLeft: 'auto',
@@ -52,7 +53,8 @@ const EventCard = (props) =>{
                 </Col>
                 </Row>
                  
-             </Card>
+                 </Card>
+                 </div>
          )
 
 
@@ -60,8 +62,8 @@ const EventCard = (props) =>{
 
 
 
-    card = data.map((item) =>{
-        return buildEventCard(item)
+    card = data.map((item,count) =>{
+        return buildEventCard(item,count)
     });
      
 

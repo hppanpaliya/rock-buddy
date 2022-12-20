@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import firebase from "firebase/compat/app";
 import { TextField, Button } from "@mui/material";
 import { useSelector } from "react-redux";
-import { validateComments } from "../../../helper";
 
 const db = firebase.firestore();
 
@@ -10,7 +9,6 @@ function CommentSection(props) {
   const { trackId } = props;
   const [comments, setComments] = useState([]);
   const [commentText, setCommentText] = useState("");
-  const [commentAuthor, setCommentAuthor] = useState("");
   const userInfo = useSelector((state) => state.auth).user;
   console.log(userInfo);
 
@@ -30,8 +28,6 @@ function CommentSection(props) {
 
   async function handleCommentSubmit(event) {
     event.preventDefault();
-    console.log("commentText", commentText);
-    console.log(validateComments(commentText));
     try {
       await db.collection("comments").add({
         track_id: trackId,
@@ -39,7 +35,6 @@ function CommentSection(props) {
         comment_author: userInfo.username,
       });
       setCommentText("");
-      setCommentAuthor("");
     } catch (error) {
       console.error(error);
     }
