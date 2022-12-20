@@ -93,7 +93,11 @@ const ArtistPage = (props) => {
 												<Link to={`/info/track/${track.id}`}>
 													{track.name}
 												</Link>
-												
+												{
+													track.explicit
+													? <Chip label="Explicit"></Chip>
+													: null
+												}
 											</ListItemText>
 										</ListItem>
 									)

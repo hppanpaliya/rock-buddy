@@ -15,8 +15,15 @@ import {
 	ListItemText,
 	ListItemAvatar,
 	Grid,
-	Stack
+	Stack,
+	Chip
 } from '@mui/material'
+
+const msToMinutesAndSeconds = (ms) => {
+	let minutes = Math.floor(ms / 60000);
+	let seconds = ((ms % 60000) / 1000).toFixed(0);
+	return minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
+}
 
 const AlbumPage = (props) => {
 	const albumData = props.infoData.foundAlbum;
@@ -74,7 +81,15 @@ const AlbumPage = (props) => {
 														{track.name}
 													</Link>
 												</Typography>
-												<Typography variant='subtitle2'>{track.artists[0].name}</Typography>
+												<Typography variant='subtitle2'>
+													{track.artists[0].name} - {msToMinutesAndSeconds(track.duration_ms)}
+												</Typography>
+												{
+													track.explicit
+													? <Chip label='Explicit'></Chip> 
+													: null
+
+												}
 											</ListItemText>
 										</ListItem>
 									)
