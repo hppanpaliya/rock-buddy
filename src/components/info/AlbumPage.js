@@ -86,21 +86,24 @@ const AlbumPage = (props) => {
 												/>
 											</ListItemAvatar>
 											<ListItemText sx={{paddingLeft: 2}}>
-												<Typography component='span' className='track-list-title'>
-													<Link to={`/info/track/${track.id}`}>
-														{track.name}
-													</Link>
-												</Typography>
-												<Typography component='span' className='track-list-subtitle'>
-													{track.artists[0].name} - {msToMinutesAndSeconds(track.duration_ms)}
-												</Typography>
-												{
-													track.explicit
-													? <Chip label='Explicit'></Chip> 
-													: null
+												<Stack direction="column">
+													<Typography sx={{fontSize: 20 }} component='span' className='track-list-title'>
+														<Link to={`/info/track/${track.id}`}>
+															{track.name}
+														</Link>
+													</Typography>
+													<Typography component='span' className='track-list-subtitle'>
+														{"\t" + track.artists[0].name} - {msToMinutesAndSeconds(track.duration_ms)}
+													</Typography>
+													{
+														track.explicit
+														? <Chip label='Explicit'></Chip> 
+														: null
 
-												}
+													}
+												</Stack>
 											</ListItemText>
+
 										</ListItem>
 									)
 								})
