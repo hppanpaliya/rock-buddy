@@ -150,6 +150,25 @@ const SpotifyPlayLists = () => {
     //setPlayerTrack(uri);
   };
 
+  if(! token){
+    return(
+      <div>
+      <h1> User Playlists</h1>
+      <p>Please sign in to Spotify to view playlists</p>
+
+      </div>
+    )
+  }
+  if(playlists.length === 0){
+    return(
+      <div>
+      <h1> User Playlists</h1>
+      <p>No playlists found</p>
+      </div>
+
+    )
+  }
+
   return (
     <div>
       <Box sx={{ maxWidth: "75%", marginLeft: "auto", marginRight: "auto" }}>
