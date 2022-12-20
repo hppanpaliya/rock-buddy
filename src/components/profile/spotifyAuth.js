@@ -115,11 +115,11 @@ const SpotifyAuth = () => {
   const setPlayerTrack = (uri) => {
     console.log("Clicked Play");
     const hash = window.location.hash;
-    let spotifyUri = window.sessionStorage.getItem("spotifyUri");
+    let spotifyUri = window.localStorage.getItem("spotifyUri");
     if (spotifyUri !== uri) {
       window.location.hash = "";
       dispatch(setTrackID(spotifyUri));
-      window.sessionStorage.setItem("spotifyUri", uri);
+      window.localStorage.setItem("spotifyUri", uri);
       setOpen(false);
     }
     //setPlayerTrack(uri);
