@@ -2,173 +2,129 @@ import React, { useState } from 'react';
 
 import { Link } from 'react-router-dom';
 
-import Card from 'react-bootstrap/Card';
+import {Card as BCard} from 'react-bootstrap/';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Carousel from 'react-bootstrap/Carousel';
-import Stack from 'react-bootstrap/Stack';
 import CommentSection from '../profile/comments/artistComments';
 
+import { 
+	Box,
+	Card,
+	CardHeader,
+	CardContent,
+	CardMedia,
+	Typography,
+	List,
+	ListItem,
+	ListItemText,
+	ListItemAvatar,
+	ImageList,
+	ImageListItem,
+	ImageListItemBar,
+	Grid,
+	Stack,
+	Chip
+} from '@mui/material';
 
 const ArtistPage = (props) => {
 	const artistData = props.infoData.foundArtist;
 	const artistTopTracks = props.infoData.foundArtistTopTracks;
 	const artistAlbums = props.infoData.foundArtistAlbums
 	const artistDescription = props.infoData.foundArtistDescription;
-	const artistId = window.location.pathname.split("/")[3];
 
 	const MAX_DESC_LENGTH = 300;
 	const [descShowMore, setDescShowMore] = useState(false);
 	
-
 	if(!props || !props.infoData || !artistData) return <p>Loading artist, please wait... </p>;
 	return (
 		<div>
-		<Card style={{ 
-			width: '52rem',
-			align: 'center',
-			marginLeft: 'auto',
-			marginRight: 'auto',
-		}}>
-			<Card.Header>
-				<h1>{artistData.name}</h1>
-			</Card.Header>
-			<Card.Body>
-				<Card.Img style={{width: '66%'}} src={artistData.images[0].url} alt={artistData.name} />
-					<h2>Genres</h2>
-					<ListGroup style={{width: '12rem', align: 'center', marginLeft: 'auto', marginRight: 'auto',}}>
-						{ 
-							artistData.genres.map((genre) => { 
-								genre = genre.split(" ").map(word => { return word[0].toUpperCase() + word.substring(1)}).join(" ")
-								return(
-									<ListGroup.Item key={genre}>{genre}</ListGroup.Item>
-								)									
-							})
+			<Box sx={{
+				maxWidth: '70%', marginLeft: 'auto', marginRight: 'auto',
+				display: 'flex', flexDirection: 'row',   alignItems: "center",
+				justifyContent: "center", verticalAlign: "top"
+					
+				}}
+			>
+				<Card sx={{maxWidth: '50%', verticalAlign: "top", minHeight: '100vh'}}>
+					<Typography variant="h1" component="h1">{artistData.name}</Typography>
+						<CardMedia sx={{maxHeight: '50%', maxWidth: '90%', marginLeft: 'auto', marginRight: 'auto'}} component="img" image={artistData.images[0].url} alt={artistData.name}/>
+					<CardContent>
+						<Stack sx={{justifyContent: "center", paddingBottom: 2}} direction="row" spacing={1}>
+							{
+								artistData.genres.map((genre, index) => {
+									return(
+										<Chip label={genre}></Chip>
+									)
+								})
+							}
+						</Stack>
+						<Typography variant='body1'>
+						{
+							artistDescription.length > MAX_DESC_LENGTH && !descShowMore
+							? 	<span style={{whiteSpace: 'pre-line'}}>
+									{artistDescription.substring(0, MAX_DESC_LENGTH)}...{ "\n" }
+									<a  style={{color: 'blue' }} onClick={() => setDescShowMore(true)}>Show More</a>
+								</span>
+							: 	<span style={{whiteSpace: 'pre-line'}}>
+									{artistDescription + "\n"}
+									<a style={{color: 'blue' }} onClick={() => setDescShowMore(false)}>Show Less</a>
+								</span>
 						}
-					</ListGroup>
-					<h2>Followers: {artistData.followers.total}</h2>
-					<h2>Description:</h2>
-					{ 
-						artistDescription.length > MAX_DESC_LENGTH && !descShowMore
-						? 	<span style={{whiteSpace: 'pre-line'}}>
-								{artistDescription.substring(0, MAX_DESC_LENGTH)}...{ "\n" }
-								<a  style={{color: 'blue' }} onClick={() => setDescShowMore(true)}>Show More</a>
-							</span>
-						: 	<span style={{whiteSpace: 'pre-line'}}>
-								{artistDescription + "\n"}
-								<a style={{color: 'blue' }} onClick={() => setDescShowMore(false)}>Show Less</a>
-							</span>
-					}
-				</Card.Body>
-			</Card>
-				<h2>Top Tracks</h2>
-				<Carousel
-					style={{
-						width: '42rem',
-						align: 'center',
-						marginLeft: 'auto',
-						marginRight: 'auto',
-					}}
-				>
-					{
-						artistTopTracks.tracks.reduce( (acc, track, index, array) => {
-							if( index % 2 === 0) acc.push(array.slice(index, index + 2));
-							return acc;
-						}, [])
-						.map((track) => {
-							return (
-									<Carousel.Item key={track[0].id}>
-										<Stack
-											direction="horizontal"
-											className="h-100 justify-content-center align-items-center"
-											gap={3}
-											max-width="10%"
-											max-height="10%"
-										>
-											<Card>
+						</Typography>
+						
+					</CardContent>
+				</Card>
+				<Card sx={{maxWidth: '30%',minHeight: '100vh'}}>
+					<CardContent>
+					<Typography variant='h2' component='h2'>Top Tracks</Typography>
+						<List>
+							{
+								artistTopTracks.tracks.map((track, index) => {
+									return(
+										<ListItem key={track.id}>
+											<ListItemAvatar>
 												<img
-													src={track[0].album.images[0].url}
-													alt="First slide"
-													/>
-													<Carousel.Caption>
-														<Link to={`/info/track/${track[0].id}`}>{track[0].name}</Link>
-													</Carousel.Caption>
-											</Card>
-											{
-												track.length === 2
-												?
-												<Card>
-													<img
-														src={track[1].album.images[0].url}
-														alt="First slide"
-														/>
-													<Carousel.Caption>
-														<Link to={`/info/track/${track[1].id}`}>{track[1].name}</Link>
-													</Carousel.Caption>
-												</Card>
-												: null
-											}
-
-										</Stack>
-									</Carousel.Item>
+													width={50}
+													height={50}
+													src={track.album.images[0].url}
+													alt={"Album Cover"}
+												/>
+											</ListItemAvatar>
+											<ListItemText>
+												<Link to={`/info/track/${track.id}`}>
+													{track.name}
+												</Link>
+												
+											</ListItemText>
+										</ListItem>
+									)
+								})
+							}
+						</List>
+					</CardContent>
+				</Card>
+			</Box>
+			<Box sx={{maxWidth: '50%', marginLeft: 'auto', marginRight: 'auto'}}>
+				<Typography variant='h2' component='h2'>Albums</Typography>
+				<Grid container spacing={{xs: 2, mid: 3}} columns={{xs: 4, sm: 8, md: 12}}>
+					{
+						artistAlbums.items.map((album, index) => {
+							return(
+								<Grid item xs={2} sm={4} md={4} key={album.id}>
+									<Card >
+										<CardMedia component="img" image={album.images[0].url} alt={album.name}/>
+										<CardContent>
+											<Link to={`/info/album/${album.id}`}>
+												{album.name}
+											</Link>
+										</CardContent>
+									</Card>
+								</Grid>
 							)
 						})
 					}
-				</Carousel>
-				<h3>Albums</h3>
-				<Carousel
-					style={{
-						width: '42rem',
-						align: 'center',
-						marginLeft: 'auto',
-						marginRight: 'auto',
-					}}
-				>
-					{
-						artistAlbums.items.reduce( (acc, track, index, array) => {
-							if( index % 2 === 0) acc.push(array.slice(index, index + 2));
-							return acc;
-						}, [])
-						.map((album) => {
-							return (
-									<Carousel.Item key={`${album[0].id}`}>
-										<Stack
-											direction="horizontal"
-											className="h-100 justify-content-center align-items-center"
-											gap={3}
-											max-width="10%"
-											max-height="10%"
-										>
-											<Card>
-												<img
-													src={album[0].images[0].url}
-													alt="First slide"
-													/>
-													<Carousel.Caption>
-														<Link to={`/info/album/${album[0].id}`}>{album[0].name}</Link>
-													</Carousel.Caption>
-											</Card>
-											{
-												album.length === 2
-												?
-												<Card>
-													<img
-														src={album[1].images[0].url}
-														alt="First slide"
-														/>
-													<Carousel.Caption>
-														<Link to={`/info/album/${album[1].id}`}>{album[1].name}</Link>
-													</Carousel.Caption>
-												</Card>
-												: null
-											}
-
-										</Stack>
-									</Carousel.Item>
-							)
-						})
-					}
-			</Carousel>
-			<CommentSection artistId={artistId} />
+				</Grid>
+			</Box>
 		</div>
 	);
 };
