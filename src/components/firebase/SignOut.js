@@ -14,6 +14,7 @@ const SignOut = () => {
 
   const logOut = async () => {
     window.localStorage.removeItem("token");
+    window.localStorage.removeItem("spotifyUri")
     firebaseApp
       .auth()
       .signOut()
