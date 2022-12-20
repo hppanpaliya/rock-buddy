@@ -1,0 +1,15 @@
+.album-cover-thumbnail { 
+	border-radius: 10%;
+}
+
+.spotify-follower-count { 
+	font-size: 1.5em;
+}
+
+.track-list-title { 
+	font-size: 12px;	
+}
+
+.track-list-subtitle { 
+	font-size: 10px;
+}

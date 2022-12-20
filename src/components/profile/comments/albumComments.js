@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import firebase from "firebase/compat/app";
-import { TextField, Button } from "@mui/material";
+import { TextField, Button, InputLabel } from "@mui/material";
 import { useSelector } from "react-redux";
 
 const db = firebase.firestore();
@@ -47,8 +47,10 @@ function CommentSection(props) {
       <CommentList comments={comments} />
       {userInfo && userInfo.username ? (
         <form onSubmit={handleCommentSubmit}>
+		  <InputLabel for='commentField'>Enter your comment</InputLabel>
+
           <TextField
-            label="Enter your comment"
+		    id='commentField'
             variant="outlined"
             fullWidth
             value={commentText}
