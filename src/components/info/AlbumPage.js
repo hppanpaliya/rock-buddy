@@ -3,12 +3,28 @@ import { Link } from 'react-router-dom';
 
 import CommentSection from "./../profile/comments/albumComments.js"
 
+import {
+	Box,
+	Card,
+	CardHeader,
+	CardContent,
+	CardMedia,
+	Typography,
+	List,
+	ListItem,
+	ListItemText,
+	ListItemAvatar,
+	Grid,
+	Stack,
+	Chip
+} from '@mui/material'
 
 
-import Card from 'react-bootstrap/Card';
-import ListGroup from 'react-bootstrap/ListGroup';
-import Carousel from 'react-bootstrap/Carousel';
-import Stack from 'react-bootstrap/Stack';
+const msToMinutesAndSeconds = (ms) => {
+	let minutes = Math.floor(ms / 60000);
+	let seconds = ((ms % 60000) / 1000).toFixed(0);
+	return minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
+}
 
 const AlbumPage = (props) => {
 	const albumData = props.infoData.foundAlbum;
@@ -17,40 +33,86 @@ const AlbumPage = (props) => {
 	if(!props || !props.infoData || !albumData) return <p>Loading album, please wait... </p>;
 	return (
 		<div>
-			<Card style={{
-				width: '52rem',
-				align: 'center',
-				marginLeft: 'auto',
-				marginRight: 'auto'
-			}}>
-				<Card.Header>
-					<h1>{albumData.name}</h1>
-				</Card.Header>
-				<Card.Body>
-					<Card.Img style={{ width: '66%' }} src={albumData.images[0].url} alt={albumData.name}/>
-					<h2>Release Date: {albumData.release_date}</h2>
-					<h2>Artists:</h2>
-					<ul>
-						{
-							albumData.artists.map((artist) => {
-								if(artist.name.toLowerCase() === 'various artists') return <li key={artist.id}>Various Artists</li>
-								return <li key={artist.id}><Link to={`/info/artist/${artist.id}`} >{artist.name}</Link></li>
-							})
-						}
-					</ul>
-					<h2>Tracks:</h2>
-					<ul>
-						{
-							albumData.tracks.items.map((track) => {
-								return <li key={track.id}><Link to={`/info/track/${track.id}`} >{track.name}</Link></li>
-							})
-						}
-					</ul>
-				</Card.Body>
+			<Box sx={{
+				maxWidth: '50%',
+				marginLeft: 'auto', 
+				marginRight: 'auto',
+				justifyContent: 'center'
+				}}
+			>
+				<Card>
+					<Typography variant='h1' component='h1'>{albumData.name}</Typography>
+					<CardMedia sx={{maxHeight: '70%', maxWidth: '70%', marginLeft: 'auto', marginRight: 'auto', borderRadius: '10px'}} component='img' image={albumData.images[0].url} alt={albumData.name}/>
+					<CardContent>
+						<Typography variant='h2' component='h2'>Rock Artists</Typography>
 
-				<CommentSection albumId={albumId} />
+						<Stack direction='row' sx={{justifyContent: "center"}}>
+							{
+								albumData.artists.map((artist, index) => { 
+									return(
+										<Card sx={{padding: 2}}>
+											<Link key={artist.id} to={`/info/artist/${artist.id}`}><Typography>{artist.name}</Typography></Link>
+											<CardMedia
+												sx={{maxHeight: '100px', maxWidth: '100px', marginLeft: 'auto', marginRight: 'auto', borderRadius: '10px'}}
+												component='img'
+												image={artist.image}
+												alt={artist.name}/>
+										</Card>
+									)
+								})
+							}
+						</Stack>
+						<Typography variant='h2' component='h2'>Album Info</Typography>
 
-			</Card>
+						<Typography>Release Date: {albumData.release_date}</Typography>
+						<Typography>Popularity Index: {albumData.popularity}%</Typography>
+						<Typography>Total Tracks: {albumData.total_tracks}</Typography>
+						<Typography>Label: {albumData.label}</Typography>
+					</CardContent>
+				</Card>
+				<Card>
+					<CardContent>
+						<Typography variant='h2' component='h2'>Rock Tracks</Typography>
+						<List>
+							{
+								albumData.tracks.items.map((track, index) => {
+									return(
+										<ListItem key={index}>
+											<ListItemAvatar>
+												<img
+													className="album-cover-thumbnail"
+													width={100}
+													height={100}
+												 	src={albumData.images[0].url} 
+													alt={track.name} 
+												/>
+											</ListItemAvatar>
+											<ListItemText sx={{paddingLeft: 2}}>
+												<Typography className='track-list-title'>
+													<Link to={`/info/track/${track.id}`}>
+														{track.name}
+													</Link>
+												</Typography>
+												<Typography component='span' className='track-list-subtitle'>
+													{track.artists[0].name} - {msToMinutesAndSeconds(track.duration_ms)}
+												</Typography>
+												{
+													track.explicit
+													? <Chip label='Explicit'></Chip> 
+													: null
+
+												}
+											</ListItemText>
+										</ListItem>
+									)
+								})
+							}
+						</List>
+					</CardContent>
+				</Card>
+			</Box>
+
+			<CommentSection albumId={albumId} />
 		</div>
 	);
 }
