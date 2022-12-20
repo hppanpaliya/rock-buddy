@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Button from "react-bootstrap/esm/Button";
 import { useSelector } from "react-redux";
+
 import SignIn from "../firebase/SignIn";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -30,9 +31,9 @@ const SpotifyAuth = () => {
   const auth = useSelector((state) => state.auth || null);
   const [open, setOpen] = useState(false);
 
-  useEffect(() => {
+    useEffect(() => {
     const hash = window.location.hash;
-    let token = window.sessionStorage.getItem("token");
+    let token = window.localStorage.getItem("token");
 
     if (!token && hash) {
       token = hash
@@ -43,7 +44,7 @@ const SpotifyAuth = () => {
 
       window.location.hash = "";
       dispatch(setBearerToken({ token: token }));
-      window.sessionStorage.setItem("token", token);
+      window.localStorage.setItem("token", token);
     }
     // console.log(token);
     setToken(token);
@@ -71,8 +72,8 @@ const SpotifyAuth = () => {
   const logout = () => {
     setToken("");
     dispatch(deleteToken());
-    window.sessionStorage.removeItem("token");
-    window.sessionStorage.removeItem("spotifyUri");
+    window.localStorage.removeItem("token");
+    window.localStorage.removeItem("spotifyUri");
   };
 
   const renderSpotifyLogin = () => {

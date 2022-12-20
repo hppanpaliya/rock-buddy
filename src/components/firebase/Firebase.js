@@ -1,20 +1,8 @@
 import firebase from "firebase/compat/app";
 import "firebase/compat/auth";
 import "firebase/compat/firestore";
-import { getStorage } from "firebase/storage";
+//import { getStorage } from "firebase/storage";
 
-
-/* import {
-  REACT_APP_FIREBASE_KEY,
-  REACT_APP_FIREBASE_DOMAIN,
-  REACT_APP_FIREBASE_DATABASE,
-  REACT_APP_FIREBASE_PROJECT_ID,
-  REACT_APP_FIREBASE_STORAGE_BUCKET,
-  REACT_APP_FIREBASE_SENDER_ID,
-  REACT_APP_FIREBASE_APP_ID,
-  REACT_APP_FIREBASE_MEASUREMENT_ID,
-  
-} from "@env"; */
 
 let app = firebase.initializeApp({
   // apiKey: REACT_APP_FIREBASE_KEY,
@@ -34,6 +22,6 @@ let app = firebase.initializeApp({
   appId: "1:43403153573:web:c6790b8135258c5f173d4c",
   measurementId: "G-XDMSZ61PKR",
 });
-// firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION);
-app.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION);
+// firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION); // or LOCAL
+app.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL);
 export default app;

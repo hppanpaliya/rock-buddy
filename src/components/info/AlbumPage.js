@@ -1,6 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+import SendLinkMessage from "./../firebase/Chat/SendLinkMessage"
+
+import { useSelector } from "react-redux";
+
 import CommentSection from "./../profile/comments/albumComments.js"
 
 import {
@@ -27,6 +31,9 @@ const msToMinutesAndSeconds = (ms) => {
 const AlbumPage = (props) => {
 	const albumData = props.infoData.foundAlbum;
 	const albumId = window.location.pathname.split("/")[3];
+
+	const auth = useSelector((state) => state.auth.user);
+	const spotify = useSelector((state) => state.spotify.token);
 
 	if(!props || !props.infoData || !albumData) return <p>Loading album, please wait... </p>;
 	return (
@@ -65,7 +72,9 @@ const AlbumPage = (props) => {
 						<Typography>Release Date: {albumData.release_date}</Typography>
 						<Typography>Popularity Index: {albumData.popularity}%</Typography>
 						<Typography>Total Tracks: {albumData.total_tracks}</Typography>
-						<Typography>Label: {albumData.label}</Typography>
+						<Typography>Label: {albumData.label}</Typography>			
+						{auth && auth.uid ? <SendLinkMessage trackId={albumData.id} />: null}
+
 					</CardContent>
 				</Card>
 				<Card>
