@@ -1,5 +1,5 @@
 import React from "react";
-import { logout } from "./../../store/features/auth/";
+import { logout } from "./../../store/features/auth/authSlice";
 import firebaseApp from "./../firebase/Firebase";
 import { Navigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -13,7 +13,7 @@ const SignOut = () => {
   }
 
   const logOut = async () => {
-    window.sessionStorage.removeItem("token")
+    window.sessionStorage.removeItem("token");
     firebaseApp
       .auth()
       .signOut()

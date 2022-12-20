@@ -2,7 +2,7 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
 import firebaseApp from "./../firebase/Firebase";
-import { login } from "./../../store/features/auth/";
+import { login } from "./../../store/features/auth/authSlice";
 import { Button, Typography, TextField } from "@mui/material";
 import validator from "validator";
 

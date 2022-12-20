@@ -3,6 +3,9 @@ import Button from 'react-bootstrap/esm/Button';
 import { useSelector } from "react-redux";
 import SignIn from '../firebase/SignIn'
 import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { setToken as setBearerToken, deleteToken } from "../../store/features/auth/spotifySlice";
+import { login } from "./../../store/features/auth/authSlice";
 import { 
 	Box,
 	Card,
@@ -27,6 +30,7 @@ const SpotifyAuth = () =>{
     const REDIRECT_URI = "http://localhost:3000/spotify"
     const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize"
     const RESPONSE_TYPE = "token"
+    const dispatch = useDispatch();
 
     const [token, setToken] = useState("")
     const [playlists, setPlayLists] = useState([])
@@ -38,22 +42,20 @@ const SpotifyAuth = () =>{
 
         if (!token && hash) {
             token = hash.substring(1).split("&").find(elem => elem.startsWith("access_token")).split("=")[1]
-            
+
             window.location.hash = ""
+            dispatch(setBearerToken({ token : token}))
             window.sessionStorage.setItem("token", token)
         }
         console.log(token);
         setToken(token)
     }, [])
 
-    
-
     const logout = () => {
         setToken("")
+        dispatch(deleteToken())
         window.sessionStorage.removeItem("token")
     }
-
-
 
     return (
         <Box>

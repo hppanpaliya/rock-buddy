@@ -9,6 +9,8 @@ import { CardContent,Grid } from "@mui/material";
 import { Box } from "@mui/system";
 import rock from "../rock.png";
 import Player from "./Player";
+import { useDispatch } from "react-redux";
+import { setTrackID } from "../../store/features/auth/playerSlice";
 import IconButton from "@mui/material/IconButton";
 import SkipPreviousIcon from "@mui/icons-material/SkipPrevious";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
@@ -19,6 +21,8 @@ const SpotifyPlayLists = () => {
   const [tracks, setTracks] = useState([]);
   const [playingTrack,setPlayingTracks] = useState([]);
   const auth = useSelector((state) => state.auth || null);
+  const dispatch = useDispatch();
+  
   let token = window.sessionStorage.getItem("token");
 
   useEffect(() => {
@@ -116,6 +120,7 @@ const SpotifyPlayLists = () => {
     let spotifyUri = window.sessionStorage.getItem("spotifyUri");
     if(spotifyUri !== uri){
       window.location.hash = ""
+      dispatch(setTrackID(spotifyUri));
       window.sessionStorage.setItem("spotifyUri", uri)
     }
     //setPlayerTrack(uri);
