@@ -37,9 +37,12 @@ const SignUp = (props) => {
     let isUsername = false;
     if (!email) {
       setEmailError("Email is required");
-      isValid = false;
+      return (isValid = false);
     } else if (validator.isEmail(email)) {
       setEmailError("");
+    } else if (email.length > 100) {
+      setEmailError("Email must be less than 100 characters");
+      return (isValid = false);
     } else {
       setEmailError("Invalid email address");
       return (isValid = false);
@@ -47,7 +50,7 @@ const SignUp = (props) => {
 
     if (!username) {
       setUsernameError("Username is required");
-      isValid = false;
+      return (isValid = false);
     } else {
       setUsernameError("");
     }
@@ -61,6 +64,10 @@ const SignUp = (props) => {
 
     if (password.length < 6) {
       setPasswordError("Password must be at least 6 characters");
+      return (isValid = false);
+    }
+    if (password.length > 50) {
+      setPasswordError("Password must be less than 50 characters");
       isValid = false;
     }
 
@@ -74,8 +81,8 @@ const SignUp = (props) => {
       setConfirmPasswordError("");
     }
 
-    if (!validator.isAlpha(username)) {
-      setUsernameError("Username must contain only letters");
+    if (!validator.isAlphanumeric(username)) {
+      setUsernameError("Username must contain only letters and numbers");
       return (isValid = false);
     } else if (username.length < 3) {
       setUsernameError("Username must be at least 3 characters");
@@ -174,7 +181,9 @@ const SignUp = (props) => {
         <TextField
           name="username"
           label="Username"
-          onChange={(e) => { e.target.value && e.target.value.trim() ? setUsername(e.target.value.trim().toLowerCase()) : setUsername('') }}
+          onChange={(e) => {
+            e.target.value && e.target.value.trim() ? setUsername(e.target.value.trim().toLowerCase()) : setUsername("");
+          }}
           value={username}
           error={Boolean(usernameError)}
           helperText={usernameError}

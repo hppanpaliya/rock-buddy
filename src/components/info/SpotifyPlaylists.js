@@ -143,7 +143,7 @@ const SpotifyPlayLists = () => {
     let spotifyUri = window.sessionStorage.getItem("spotifyUri");
     if (spotifyUri !== uri) {
       window.location.hash = "";
-      dispatch(setTrackID(spotifyUri));
+      dispatch(setTrackID(uri));
       window.sessionStorage.setItem("spotifyUri", uri);
       setOpen(false)
     }
