@@ -18,6 +18,11 @@ import {
   getDownloadURL,
 } from "firebase/storage";
 import SpotifyPlayLists from "../info/SpotifyPlaylists";
+import { login } from "../../store/features/auth/authSlice";
+import { useDispatch } from "react-redux";
+import noImg from "../../img/notFound.jpg"
+
+import {getStorage} from "firebase/storage";
 
 import axios from "axios";
 
@@ -25,11 +30,13 @@ const Profile = (props) => {
   const theme = useTheme();
 
   const userInfo = useSelector((state) => state.auth).user;
+  let uid = userInfo.uid;
   let email = userInfo.email;
   let userName = userInfo.username;
   let photoURL = userInfo.photoURL;
-  const [profilePic, setProfilePic] = useState(photoURL);
+  const [profilePic, setProfilePic] = useState(noImg);
   const [noFileError, setFileNoError] = useState(true);
+  const dispatch = useDispatch();
 
   function handleFBUpload(file) {
     //this function uploads the blob to firebase
@@ -57,6 +64,10 @@ const Profile = (props) => {
           firebaseApp.auth().currentUser.updateProfile({
             photoURL: url,
           });
+          dispatch({uid: uid,
+            email: email,
+            username: userName,
+            photoURL: photoURL,})
           firebaseApp
             .firestore()
             .collection("users")
@@ -72,6 +83,21 @@ const Profile = (props) => {
       }
     );
   }
+  
+    React.useEffect(()=>{
+    //retrieves the profile pic from firebase and sets state. will fire if user uploads new pic
+    const storage = getStorage();
+    getDownloadURL(ref(storage, `profiles/${userInfo.uid}`))
+      .then((url) => {
+        // `url` is the download URL for 'images/stars.jpg'
+        setProfilePic(url)
+      })
+      .catch((error) => {
+        console.log(error)
+        setProfilePic(noImg)
+  });
+
+  }, [])
 
   const handlePictureUpload = async (e) => {
     const formData = new FormData();
