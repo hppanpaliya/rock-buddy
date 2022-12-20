@@ -7,10 +7,18 @@ import Navbar from 'react-bootstrap/Navbar'
 import Container from 'react-bootstrap/Container';
 import rock from '../rock.png'
 import Player from './info/Player'
+import { useEffect } from 'react';
+
 
 function Navbarcustom() {
     const auth = useSelector((state) => state.auth || null);
+    const spotifyPlayer = useSelector((state) => state.spotifyPlayer || null);
+    const spotify = useSelector((state) => state.spotify || null);
+    console.log(spotifyPlayer.trackID );
+    console.log( spotify.token );
+        
 
+    
     if(auth && auth.user){
         return(
             <div>

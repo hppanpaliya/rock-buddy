@@ -17,7 +17,7 @@ import PrivateRoute from "./components/firebase/PrivateRoute";
 import Chat from "./components/firebase/Chat";
 import firebaseApp from './components/firebase/Firebase';
 import { useSelector } from 'react-redux';
-import { login,logout } from "./store/features/auth/";
+import { login,logout } from "./store/features/auth/authSlice";
 import InfoPage from './components/info/InfoPage';
 import AllEvents from './components/tmEvents/Events';
 import Profile from './components/profile/profile';
@@ -25,15 +25,18 @@ import EventSearch from './components/tmEvents/EventSearch';
 import { getAuth } from "firebase/auth";
 import firebase from "firebase/compat/app";
 import Spotify from "./components/profile/spotifyAuth"
+import Spotifyauth from "./components/profile/spotify"
+import { setToken, deleteToken } from './store/features/auth/spotifySlice';
 
 
 function App() {
   const auth = useSelector((state) => state.auth);
   const dispatch = useDispatch();
+  const token = window.sessionStorage.getItem("token")
+
 
 
   useEffect(() => {
-
     const Fireauth = getAuth();
     console.log("App.js");
     console.log({auth});
@@ -42,7 +45,6 @@ function App() {
     //   dispatch(logout());
     // }
 
-    
     firebaseApp.auth().onAuthStateChanged(async (user) => {
       console.log("onAuthStateChanged");
       if (user && user._delegate && user._delegate.auth.currentUser) {
@@ -55,7 +57,13 @@ function App() {
             photoURL: user._delegate.auth.currentUser.photoURL,
           })
         );
+        let settoken = true;
+        if (token && token !== "null" && token !== "undefined" && settoken) {
+          dispatch(setToken({ token: token }))
+          settoken = false;
+        }
       } else {
+        dispatch(deleteToken())
         window.sessionStorage.removeItem("token") //remove Spotify token from session storage on onAuthStateChanged
         dispatch(logout());
       }
@@ -88,6 +96,7 @@ function App() {
             <Route exact path="/signUp" element={<SignUp />} />
             <Route exact path='*' element={<Error404/>}/>
             <Route exact path="/spotify" element={<Spotify />} />
+            <Route exact path="/callback" element={<Spotifyauth />} />
           </Routes>
         </div>
       </div>
