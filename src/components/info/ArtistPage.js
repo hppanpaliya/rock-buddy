@@ -2,6 +2,10 @@ import React, { useState } from 'react';
 
 import { Link } from 'react-router-dom';
 
+import SendLinkMessage from "./../firebase/Chat/SendLinkMessage"
+
+import { useSelector } from "react-redux";
+
 import { 
 	Box,
 	Card,
@@ -22,6 +26,9 @@ const ArtistPage = (props) => {
 	const artistTopTracks = props.infoData.foundArtistTopTracks;
 	const artistAlbums = props.infoData.foundArtistAlbums
 	const artistDescription = props.infoData.foundArtistDescription;
+
+	const auth = useSelector((state) => state.auth.user);
+	const spotify = useSelector((state) => state.spotify.token);
 
 	const MAX_DESC_LENGTH =  500;
 	const [descShowMore, setDescShowMore] = useState(false);
@@ -102,6 +109,8 @@ const ArtistPage = (props) => {
 						</List>
 						<Typography className='spotify-follower-count' variant='p'>Spotify Followers: {artistData.followers.total}</Typography>
 						<Typography>Popularity Index: {artistData.popularity}%</Typography>
+						{auth && auth.uid ? <SendLinkMessage trackId={artistData.id} />: null}
+
 					</CardContent>
 				</Card>
 			</Box>
