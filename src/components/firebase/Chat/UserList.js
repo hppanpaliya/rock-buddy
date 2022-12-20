@@ -18,9 +18,10 @@ const UserList = ({ users, selectedUser, setSelectedUser, searchText, handleSear
 
   return (
     <div className="user-list">
-        <Toolbar /> 
+      <Toolbar />
       <TextField value={searchText} onChange={handleSearch} />
-      <br /><br />
+      <br />
+      <br />
       <Card>
         {filteredUsers.map((user) => (
           <ListItemButton
@@ -29,8 +30,7 @@ const UserList = ({ users, selectedUser, setSelectedUser, searchText, handleSear
             onClick={() => setSelectedUser(user)}
             onMouseEnter={() => handleMouseEnter(user)}
             onMouseLeave={handleMouseLeave}
-            style={{ wordWrap: "break-word",
-            wordBreak: "break-all", }} 
+            style={{ wordWrap: "break-word", wordBreak: "break-all" }}
           >
             {user.photoURL && <img src={user.photoURL} alt={`${user.username} profile picture`} width={64} height={64} />} &nbsp;
             <ListItemText primary={user.username} />

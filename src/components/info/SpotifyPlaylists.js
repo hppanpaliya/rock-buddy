@@ -29,7 +29,7 @@ const SpotifyPlayLists = () => {
   let hasNextPage = true;
   let playlist = [];
 
-  let token = window.sessionStorage.getItem("token");
+  let token = window.localStorage.getItem("token");
 
   useEffect(() => {
     async function handleToken() {
@@ -140,11 +140,11 @@ const SpotifyPlayLists = () => {
   const setPlayerTrack = (uri) => {
     console.log("Clicked Play");
     const hash = window.location.hash;
-    let spotifyUri = window.sessionStorage.getItem("spotifyUri");
+    let spotifyUri = window.localStorage.getItem("spotifyUri");
     if (spotifyUri !== uri) {
       window.location.hash = "";
       dispatch(setTrackID(uri));
-      window.sessionStorage.setItem("spotifyUri", uri);
+      window.localStorage.setItem("spotifyUri", uri);
       setOpen(false)
     }
     //setPlayerTrack(uri);

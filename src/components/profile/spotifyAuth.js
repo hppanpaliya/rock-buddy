@@ -5,25 +5,7 @@ import SignIn from '../firebase/SignIn'
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setToken as setBearerToken, deleteToken } from "../../store/features/auth/spotifySlice";
-import { login } from "./../../store/features/auth/authSlice";
-import { 
-	Box,
-	Card,
-	CardHeader,
-	CardContent,
-	CardMedia,
-	Typography,
-	List,
-	ListItem,
-	ListItemText,
-	ListItemAvatar,
-	ImageList,
-	ImageListItem,
-	ImageListItemBar,
-	Grid,
-	Stack,
-	Chip
-} from '@mui/material';
+import { Box,} from '@mui/material';
 
 const SpotifyAuth = () =>{
     const CLIENT_ID = "c427fff192174d81a2004d4d9f006507"
@@ -38,14 +20,14 @@ const SpotifyAuth = () =>{
 
     useEffect(() => {
         const hash = window.location.hash
-        let token = window.sessionStorage.getItem("token")
+        let token = window.localStorage.getItem("token")
 
         if (!token && hash) {
             token = hash.substring(1).split("&").find(elem => elem.startsWith("access_token")).split("=")[1]
 
             window.location.hash = ""
             dispatch(setBearerToken({ token : token}))
-            window.sessionStorage.setItem("token", token)
+            window.localStorage.setItem("token", token)
         }
         // console.log(token);
         setToken(token)
@@ -54,7 +36,7 @@ const SpotifyAuth = () =>{
     const logout = () => {
         setToken("")
         dispatch(deleteToken())
-        window.sessionStorage.removeItem("token")
+        window.localStorage.removeItem("token")
     }
 
     return (

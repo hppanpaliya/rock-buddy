@@ -8,7 +8,7 @@ function AddTrackToPlaylist() {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [songId, setSongId] = useState(null);
   const [addError, setAddError] = useState("");
-  const access_token = window.sessionStorage.getItem("token");
+  const access_token = window.localStorage.getItem("token");
 
 
   useEffect(() => {

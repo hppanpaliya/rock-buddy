@@ -31,7 +31,7 @@ import { setToken, deleteToken } from './store/features/auth/spotifySlice';
 function App() {
   const auth = useSelector((state) => state.auth);
   const dispatch = useDispatch();
-  const token = window.sessionStorage.getItem("token")
+  const token = window.localStorage.getItem("token")
 
 
 
@@ -63,7 +63,7 @@ function App() {
         }
       } else {
         dispatch(deleteToken())
-        window.sessionStorage.removeItem("token") //remove Spotify token from session storage on onAuthStateChanged
+        window.localStorage.removeItem("token") //remove Spotify token from local storage on onAuthStateChanged
         dispatch(logout());
       }
     });

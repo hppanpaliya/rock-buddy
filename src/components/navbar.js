@@ -65,7 +65,7 @@ function Navbarcustom() {
               </Nav>
                 </Navbar>
                 <Navbar style={{ zIndex: 1300 }} >
-                    <Player accessToken={window.sessionStorage.getItem("token")} trackUri={window.sessionStorage.getItem("spotifyUri")} />
+                    <Player accessToken={window.localStorage.getItem("token")} trackUri={window.localStorage.getItem("spotifyUri")} />
                     </Navbar>
               </div>
         )
