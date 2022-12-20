@@ -31,7 +31,6 @@ const ArtistPage = (props) => {
 	const artistTopTracks = props.infoData.foundArtistTopTracks;
 	const artistAlbums = props.infoData.foundArtistAlbums
 	const artistDescription = props.infoData.foundArtistDescription;
-	const artistId = window.location.pathname.split("/")[3];
 
 	const MAX_DESC_LENGTH = 300;
 	const [descShowMore, setDescShowMore] = useState(false);
@@ -48,7 +47,7 @@ const ArtistPage = (props) => {
 			>
 				<Card sx={{maxWidth: '50%', verticalAlign: "top", minHeight: '100vh'}}>
 					<Typography variant="h1" component="h1">{artistData.name}</Typography>
-						<CardMedia sx={{maxWidth: '90%', marginLeft: 'auto', marginRight: 'auto'}} component="img" image={artistData.images[0].url} alt={artistData.name}/>
+						<CardMedia sx={{maxHeight: '50%', maxWidth: '90%', marginLeft: 'auto', marginRight: 'auto'}} component="img" image={artistData.images[0].url} alt={artistData.name}/>
 					<CardContent>
 						<Stack sx={{justifyContent: "center", paddingBottom: 2}} direction="row" spacing={1}>
 							{
