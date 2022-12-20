@@ -65,6 +65,7 @@ const AlbumPage = (props) => {
 						<Typography variant='h2' component='h2'>Album Info</Typography>
 
 						<Typography>Release Date: {albumData.release_date}</Typography>
+						<Typography>Popularity Index: {albumData.popularity}%</Typography>
 						<Typography>Total Tracks: {albumData.total_tracks}</Typography>
 						<Typography>Label: {albumData.label}</Typography>
 					</CardContent>

@@ -105,7 +105,7 @@ const ArtistPage = (props) => {
 							}
 						</List>
 						<Typography className='spotify-follower-count' variant='p'>Spotify Followers: {artistData.followers.total}</Typography>
-					
+						<Typography>Popularity Index: {artistData.popularity}%</Typography>
 					</CardContent>
 				</Card>
 			</Box>

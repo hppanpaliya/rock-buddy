@@ -323,6 +323,7 @@ async function getTrackById(id) {
 				getArtistDescription(trackArtists[i], curArtist.name);
 
 				isRock = true;
+				track.artists[i].image = curArtist.images[0].url;
 				await client.hSet("artistById", trackArtists[i], "true");	// Set the artist's rock status to true
 				await client.set(`artist.${curArtist.id}`, JSON.stringify(curArtist));
 			} catch (e) {

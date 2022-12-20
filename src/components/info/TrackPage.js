@@ -6,7 +6,21 @@ import SendLinkMessage from "./../firebase/Chat/SendLinkMessage"
 
 import { useDispatch, useSelector } from "react-redux";
 
-import Card from 'react-bootstrap/Card';
+import {
+	Box,
+	Card,
+	CardHeader,
+	CardContent,
+	CardMedia,
+	Typography,
+	List,
+	ListItem,
+	ListItemText,
+	ListItemAvatar,
+	Grid,
+	Stack,
+	Chip
+} from '@mui/material'
 
 const TrackPage = (props) => {
 	const trackData = props.infoData.foundTrack;
@@ -25,43 +39,49 @@ const TrackPage = (props) => {
 
 	const userState = useSelector((state) => state);
 
-	console.log(userState);
-
-	const handleGetUserPlaylists =(e) => { 
-		e.preventDefault();
-		console.log("Getting user playlists");
-
-		
-
-
-	};
+	const msToMinutesAndSeconds = (ms) => {
+		let minutes = Math.floor(ms / 60000);
+		let seconds = ((ms % 60000) / 1000).toFixed(0);
+		return minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
+	}
 
 	if(!props || !props.infoData || !trackData) return <p>Loading track, please wait... </p>;
 	return (
 		<div>
-			<Card style={{
-				width: '52rem',
-				align: 'center',
-				marginLeft: 'auto',
-				marginRight: 'auto'
-			}}>
-
-				<Card.Header>
-					<h1>{trackData.name}</h1>
-				</Card.Header>
-				<Card.Body>
-					
-					<Card.Img style={{ width: '66%' }} src={trackData.album.images[0].url} alt={trackData.name}/>
-					<h2>Album:<Link to={`/info/album/${trackData.album.id}`}>{trackData.album.name}</Link> </h2>
-					<h2>Artists:</h2>
-					<ul>
+			<Box sx={{
+				maxWidth: '50%',
+				marginLeft: 'auto', 
+				marginRight: 'auto',
+				justifyContent: 'center'
+				}}
+			>
+				<Card>
+					<Typography variant='h1' component='h1'>{trackData.name}</Typography>
+					<CardMedia sx={{maxHeight: '70%', maxWidth: '70%', marginLeft: 'auto', marginRight: 'auto', borderRadius: '10px'}} component='img' image={trackData.album.images[0].url} alt={trackData.name}/>
+					<Typography variant='h2' component='h2'>Rock Artists</Typography>
+					<Stack direction='row' sx={{justifyContent: "center"}}>
 						{
-							trackData.artists.map((artist) => { 
-								return <li key={artist.id}><Link to={`/info/artist/${artist.id}`} >{artist.name}</Link></li>
+							trackData.artists.map((artist, index) => { 
+								return(
+									<Card sx={{padding: 2}}>
+										<Link key={artist.id} to={`/info/artist/${artist.id}`}><Typography>{artist.name}</Typography></Link>
+										<CardMedia
+											sx={{maxHeight: '100px', maxWidth: '100px', marginLeft: 'auto', marginRight: 'auto', borderRadius: '10px'}}
+											component='img'
+											image={artist.image}
+											alt={artist.name}
+										/>
+									</Card>
+								)
 							})
 						}
-					</ul>
-					<h2>Lyrics: </h2>
+					</Stack>
+					<Typography variant='h2' component='h2'>Track Info</Typography>
+					<Typography>Album: {<Link to={`/info/album/${trackData.album.id}`}>{trackData.album.name}</Link>}</Typography>
+					<Typography>Duration: {msToMinutesAndSeconds(trackData.duration_ms)}</Typography>
+					<Typography>Track Number: {trackData.track_number}</Typography>
+					<Typography>Popularity Index: {trackData.popularity}%</Typography>
+					<Typography variant='h2' component='h2'>Lyrics</Typography>
 					{
 						trackLyrics.length > MAX_LYRIC_LENGTH && !lyricsShowMore
 						? 	<span style={{whiteSpace: 'pre-line'}}>
@@ -73,15 +93,14 @@ const TrackPage = (props) => {
 							<a style={{color: 'blue'}} onClick={() => setLyricsShowMore(false)}>Show Less</a>
 						</span >
 					}
-				</Card.Body>
+				</Card>
+			</Box>
 
 				{auth && auth.uid ? <SendLinkMessage trackId={trackId} />: null}
 				<br />
 				{spotify ? <AddTrackToPlaylist trackId={trackId} /> : null}
 				<br />
 				<CommentSection trackId={trackId} />
-
-			</Card>
 		</div>
 	);
 }
