@@ -20,7 +20,7 @@ function Navbarcustom() {
     if(auth && auth.user){
         return(
             <div >
-            <Navbar bg="light" variant="light" style={{ zIndex: 1300 }} >
+            <Navbar bg="light" variant="light" style={{ zIndex: 1400 }} >
             <Container>
             <Navbar.Brand href="#">
                 <img
