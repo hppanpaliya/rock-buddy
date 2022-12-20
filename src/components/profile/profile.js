@@ -120,7 +120,7 @@ const Profile = (props) => {
                       <div className="rounded-top text-white d-flex flex-row" style={{ backgroundColor: '#000', height: '200px' }}>
                         <div className="ms-4 mt-5 d-flex flex-column" style={{ width: '150px' }}>
                           <MDBCardImage src={profilePic}
-                            alt="Generic placeholder image" className="mt-4 mb-2 img-thumbnail" fluid style={{ width: '150px', zIndex: '1' }} />
+                            alt="Generic placeholder image" className="mt-4 mb-2 img-thumbnail" fluid style={{ height: '150px', width: '150px', zIndex: '1' }} />
 						</div>
                         <div className="ms-3" style={{ marginTop: '130px' }}>
                           <h1>{email}</h1>

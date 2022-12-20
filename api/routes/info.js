@@ -6,8 +6,6 @@ const { checkString } = helper.validations;
 const data = require('../data');
 const info = data.info;
 
-const axios = require('axios');
-
 router.get('/:type(artist|album|track)/:id', async (req, res, next) => { 
 	try { 
 		req.params.id = checkString(req.params.id);
@@ -69,20 +67,6 @@ router.get('/track/:id', async (req, res) => {
 			return res.status(e.response.status).json({error: e.message || e});
 		}
 		return res.status(500).json({error: e});
-	}
-});
-
-router.get('/test/:songTitle', async (req, res) => { 
-	try { 
-		const response = await axios.get(`https://api.genius.com/search/lyrics=${req.params.songTitle}`,
-			{ 
-				headers: { 'Authorization': `Bearer ${process.env.GENIUS_ACCESS_TOKEN}` }
-		 	}
-		)
-		return res.json(response.data);
-	} catch(e) { 
-		console.log(e);
-		return res.json({error: e});
 	}
 });
 
