@@ -25,7 +25,6 @@ import EventSearch from './components/tmEvents/EventSearch';
 import { getAuth } from "firebase/auth";
 import firebase from "firebase/compat/app";
 import Spotify from "./components/profile/spotifyAuth"
-import Spotifyauth from "./components/profile/spotify"
 import { setToken, deleteToken } from './store/features/auth/spotifySlice';
 
 
@@ -96,7 +95,6 @@ function App() {
             <Route exact path="/signUp" element={<SignUp />} />
             <Route exact path='*' element={<Error404/>}/>
             <Route exact path="/spotify" element={<Spotify />} />
-            <Route exact path="/callback" element={<Spotifyauth />} />
           </Routes>
         </div>
       </div>
