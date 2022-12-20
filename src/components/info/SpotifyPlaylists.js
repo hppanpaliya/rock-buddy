@@ -57,11 +57,22 @@ const SpotifyPlayLists = () => {
   }, [token]);
 
   async function playlistItems(id) {
-    const { data } = await axios.get(`https://api.spotify.com/v1/playlists/${id}/tracks`, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    //console.log(data.items);
-    setTracks(data.items);
+    if (id === "") {
+      setTracks([]);
+      return;
+    }
+    try {
+      const { data } = await axios.get(`https://api.spotify.com/v1/playlists/${id}/tracks`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      //console.log(data.items);
+      setTracks(data.items);
+    } catch (error) {
+      console.error(error);
+    }
+
+
   }
 
   // const buildPlaylist = (playlistItems) => {
@@ -107,6 +118,7 @@ const SpotifyPlayLists = () => {
               */
               <Button
                 onClick={() => {
+                  playlistItems("")
                   setOpen(true);
                   playlistItems(playlist.id);
                 }}
@@ -133,6 +145,7 @@ const SpotifyPlayLists = () => {
       window.location.hash = "";
       dispatch(setTrackID(spotifyUri));
       window.sessionStorage.setItem("spotifyUri", uri);
+      setOpen(false)
     }
     //setPlayerTrack(uri);
   };
@@ -157,19 +170,18 @@ const SpotifyPlayLists = () => {
         style={{
           overflowY: "auto",
           position: "absolute",
-
-          backgroundColor: "#f2f2f2",
+          backgroundColor: "#f2f2f2dd",
         }}
-        fullScreen
+        fullscreen="true"
       >
         <div>
           <IconButton style={{ position: "sticky", top: 0}} onClick={() => setOpen(false)}>
             <CloseIcon sx={{ fontSize: 40 }} />
           </IconButton>
-          {tracks.map((item) => {
+          {tracks.map((item,count) => {
             console.log(item);
             return (
-              <div>
+              <div key={count} >
                 <Card sx={{ maxWidth: "100%", marginLeft: "15%", marginRight: "15%", verticalAlign: "top", minHeight: "10vh" }}>
                   <Box
                     sx={{

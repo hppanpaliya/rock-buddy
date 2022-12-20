@@ -130,7 +130,7 @@ const Profile = (props) => {
                       <div className="p-4 text-black" style={{ backgroundColor: '#f8f9fa' }}>
                         <div className="d-flex justify-content-end text-center py-1">
                         <div>
-                          <label for="uploadProfile" hidden={true}>Upload</label>
+                          <label htmlFor="uploadProfile" hidden={true}>Upload</label>
                           <input id="uploadProfile" type='file' name='file' onChange={(e) => { handlePictureUpload(e)}}/>
                           <div hidden={noFileError}><p>Error - must submit a png/jpg file</p></div>
 			                   </div>
