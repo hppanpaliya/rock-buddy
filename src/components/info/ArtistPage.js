@@ -2,11 +2,6 @@ import React, { useState } from 'react';
 
 import { Link } from 'react-router-dom';
 
-import {Card as BCard} from 'react-bootstrap/';
-import ListGroup from 'react-bootstrap/ListGroup';
-import Carousel from 'react-bootstrap/Carousel';
-import CommentSection from '../profile/comments/artistComments';
-
 import { 
 	Box,
 	Card,
@@ -32,22 +27,25 @@ const ArtistPage = (props) => {
 	const artistAlbums = props.infoData.foundArtistAlbums
 	const artistDescription = props.infoData.foundArtistDescription;
 
-	const MAX_DESC_LENGTH = 300;
+	const MAX_DESC_LENGTH =  500;
 	const [descShowMore, setDescShowMore] = useState(false);
 	
 	if(!props || !props.infoData || !artistData) return <p>Loading artist, please wait... </p>;
 	return (
 		<div>
 			<Box sx={{
-				maxWidth: '70%', marginLeft: 'auto', marginRight: 'auto',
-				display: 'flex', flexDirection: 'row',   alignItems: "center",
-				justifyContent: "center", verticalAlign: "top"
-					
+				maxWidth: '80%',
+				marginLeft: 'auto', 
+				marginRight: 'auto',
+				display: 'flex', 
+				flexDirection: 'row',   
+				justifyContent: "center", 
+				verticalAlign: "top"
 				}}
 			>
 				<Card sx={{maxWidth: '50%', verticalAlign: "top", minHeight: '100vh'}}>
 					<Typography variant="h1" component="h1">{artistData.name}</Typography>
-						<CardMedia sx={{maxHeight: '50%', maxWidth: '90%', marginLeft: 'auto', marginRight: 'auto'}} component="img" image={artistData.images[0].url} alt={artistData.name}/>
+						<CardMedia sx={{maxHeight: '50vh', maxWidth: '90%', marginLeft: 'auto', marginRight: 'auto', borderRadius: '10px'}} component="img" image={artistData.images[0].url} alt={artistData.name}/>
 					<CardContent>
 						<Stack sx={{justifyContent: "center", paddingBottom: 2}} direction="row" spacing={1}>
 							{
@@ -76,7 +74,7 @@ const ArtistPage = (props) => {
 				</Card>
 				<Card sx={{maxWidth: '30%',minHeight: '100vh'}}>
 					<CardContent>
-					<Typography variant='h2' component='h2'>Top Tracks</Typography>
+						<Typography variant='h2' component='h2'>Top Tracks</Typography>
 						<List>
 							{
 								artistTopTracks.tracks.map((track, index) => {
@@ -84,6 +82,7 @@ const ArtistPage = (props) => {
 										<ListItem key={track.id}>
 											<ListItemAvatar>
 												<img
+													className="album-cover-thumbnail"
 													width={50}
 													height={50}
 													src={track.album.images[0].url}
@@ -101,10 +100,12 @@ const ArtistPage = (props) => {
 								})
 							}
 						</List>
+						<Typography className='spotify-follower-count' variant='p'>Spotify Followers: {artistData.followers.total}</Typography>
+					
 					</CardContent>
 				</Card>
 			</Box>
-			<Box sx={{maxWidth: '50%', marginLeft: 'auto', marginRight: 'auto'}}>
+			<Box sx={{maxWidth: '60%', marginLeft: 'auto', marginRight: 'auto'}}>
 				<Typography variant='h2' component='h2'>Albums</Typography>
 				<Grid container spacing={{xs: 2, mid: 3}} columns={{xs: 4, sm: 8, md: 12}}>
 					{
@@ -114,9 +115,7 @@ const ArtistPage = (props) => {
 									<Card >
 										<CardMedia component="img" image={album.images[0].url} alt={album.name}/>
 										<CardContent>
-											<Link to={`/info/album/${album.id}`}>
-												{album.name}
-											</Link>
+											<Link to={`/info/album/${album.id}`}>{album.name}</Link>
 										</CardContent>
 									</Card>
 								</Grid>
