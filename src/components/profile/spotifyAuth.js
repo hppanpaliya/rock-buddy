@@ -3,6 +3,24 @@ import Button from 'react-bootstrap/esm/Button';
 import { useSelector } from "react-redux";
 import SignIn from '../firebase/SignIn'
 import { Link } from 'react-router-dom';
+import { 
+	Box,
+	Card,
+	CardHeader,
+	CardContent,
+	CardMedia,
+	Typography,
+	List,
+	ListItem,
+	ListItemText,
+	ListItemAvatar,
+	ImageList,
+	ImageListItem,
+	ImageListItemBar,
+	Grid,
+	Stack,
+	Chip
+} from '@mui/material';
 
 const SpotifyAuth = () =>{
     const CLIENT_ID = "c427fff192174d81a2004d4d9f006507"
@@ -38,13 +56,13 @@ const SpotifyAuth = () =>{
 
 
     return (
-        <div>
-            {auth.user === null ? <SignIn></SignIn> : !(token) ? <a href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}&scope=streaming%20user-read-email%20user-read-private%20user-library-read%20user-library-modify%20user-read-playback-state%20user-modify-playback-state%20playlist-read-private%20playlist-modify-public%20playlist-modify-private`}>Login to Spotify</a> : <Button onClick={logout}>Logout</Button> }       
+        <Box>
+            {auth.user === null ? <SignIn></SignIn> : !(token) ? <a href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}&scope=streaming%20user-read-email%20user-read-private%20user-library-read%20user-library-modify%20user-read-playback-state%20user-modify-playback-state%20playlist-read-private%20playlist-modify-public%20playlist-modify-private`}>Login to Spotify</a> : <Button onClick={logout}>Logout of Spotify</Button> }       
             {token ?
                     <Link to="/profile">Go to profile</Link>
                     : <h2>Please login</h2>
                 }
-        </div>
+        </Box>
     );
 
 }
