@@ -103,7 +103,7 @@ const SignIn = (props) => {
 
   return (
     <div>
-      <h2>Sign In</h2>
+      <h1>Sign In</h1>
       <form onSubmit={handleSubmit}>
         <TextField
           id="email"
