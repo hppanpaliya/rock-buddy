@@ -24,6 +24,7 @@ const Search = (props) => {
     const [searchData, setSearchData] = useState(undefined)
     const [_404Flag, set404Flag] = useState(false);
     const [_400Flag, set400Flag] = useState(false);
+    const [albumFlag, setAlbumFlag] = useState(false)
 
     useEffect(() => {
         console.log('search useEffect fired');
@@ -40,7 +41,20 @@ const Search = (props) => {
                 headers: { "Content-Type": "application/json" }, 
             });
 
-            if(data.data.items.length === 0){
+            if(data.data.items.length === 0 && data.data.album){
+              setAlbumFlag(true)
+              if(page*20 === 980){
+                setNext(null)
+              }
+              else{
+                setNext(data.data.next);
+              }
+              setPrevious(data.data.previous);
+              set400Flag(false);
+              set404Flag(false);
+            }
+
+            else if(data.data.items.length === 0){
               set404Flag(true);
             }
 
@@ -55,6 +69,7 @@ const Search = (props) => {
               setPrevious(data.data.previous);
               set400Flag(false);
               set404Flag(false);
+              setAlbumFlag(false)
             }
 
             setLoading(false);
@@ -104,7 +119,8 @@ const Search = (props) => {
           </div>
         );
       }
-      else if(searchTerm.trim().length === 0){
+
+    else if(searchTerm.trim().length === 0){
         return(
           <div>
             <br>
@@ -125,6 +141,37 @@ const Search = (props) => {
           </div>
           )
       }
+    
+    else if(albumFlag){
+      return(
+        <div>
+          <br>
+       </br>
+            <Row>
+          <Col>
+            <SearchType setSearchType={setSearchType} setSearchTerm={setSearchTerm} searchType={searchType} setSearchData={setSearchData} setPage={setPage} setLoading={setLoading}></SearchType>
+          </Col>
+        </Row>
+        <Row style={{ width: '60%',
+            align: 'left',
+            marginLeft: 'auto',
+            marginRight: 'auto'}}>
+          <Col>
+          <SearchBar setSearchTerm={setSearchTerm}  setPage={setPage} setSearchData={setSearchData} term={searchType}/>
+          </Col> 
+        </Row>
+            <br />
+            <br />
+            <p>We filter out albums to only show you rock content - looks like there arent any rock albums on this page from spotify. Click next or previous to keep looking!</p>
+            <Row>
+          <Col>
+            <Pagnation setPage={setPage} page={page} next={next} prev={previous}></Pagnation>
+          </Col>
+        </Row>
+        </div>
+        )
+
+    }
 
     else if(_404Flag){
       return(
