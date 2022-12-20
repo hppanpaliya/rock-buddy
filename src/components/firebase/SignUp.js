@@ -169,7 +169,7 @@ const SignUp = (props) => {
           onChange={(e) => { e.target.value && e.target.value.trim() ? setUsername(e.target.value.trim().toLowerCase()) : setUsername('') }}
           value={username}
           error={Boolean(usernameError)}
-          helperText={usernameError}
+          helpertext={usernameError}
         />
         <br />
         <br />
@@ -179,7 +179,7 @@ const SignUp = (props) => {
           onChange={(e) => setEmail(e.target.value)}
           value={email}
           error={Boolean(emailError)}
-          helperText={emailError}
+          helpertext={emailError}
         />
         <br />
         <br />
@@ -190,7 +190,7 @@ const SignUp = (props) => {
           onChange={(e) => setPassword(e.target.value)}
           value={password}
           error={Boolean(passwordError)}
-          helperText={passwordError}
+          helpertext={passwordError}
         />
         <br />
         <br />
@@ -201,7 +201,7 @@ const SignUp = (props) => {
           onChange={(e) => setConfirmPassword(e.target.value)}
           value={confirmPassword}
           error={Boolean(confirmPasswordError)}
-          helperText={confirmPasswordError}
+          helpertext={confirmPasswordError}
         />
         <br />
         {signUpError ? <span style={{ color: "red" }}>{signUpError.replace("Firebase: ", "")}</span> : null}
