@@ -28,7 +28,6 @@ const SpotifyAuth = () =>{
             window.location.hash = ""
             dispatch(setBearerToken({ token : token}))
             window.localStorage.setItem("token", token)
-			window.localStorage.setItem("time", Date.now());
         }
         // console.log(token);
         setToken(token)

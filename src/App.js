@@ -35,20 +35,6 @@ function App()
   const dispatch = useDispatch();
   let token = window.localStorage.getItem("token")
 
-  const [timer, setTimer] = useState(0);
-  useEffect(() => { 
-	const interval = setInterval(() => { 
-		token = window.localStorage.getItem("token")
-		if(token) {
-			dispatch(deleteToken({ token: token }));
-			window.localStorage.removeItem("token");
-		}
-		setTimer(new Date());
-	}, 3000000);
-	return () => clearInterval(interval);
-
-
-  }, [])
 
   useEffect(() => {
     const Fireauth = getAuth();
