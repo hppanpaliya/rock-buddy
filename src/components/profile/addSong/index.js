@@ -84,7 +84,7 @@ function AddTrackToPlaylist() {
           alert("Error - You can only add songs to playlists that you own/created yourself!");
         }
         else{
-          alert("Error adding song to this playlist, please try other playlist!");
+          alert("Error adding song to this playlist, please try re-authenticating with Spotify!");
         }
       console.error(error);
     }
