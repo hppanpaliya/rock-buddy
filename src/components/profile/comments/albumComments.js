@@ -30,7 +30,7 @@ function CommentSection(props) {
 
   async function handleCommentSubmit(event) {
     event.preventDefault();
-    if(commentText.trim().length < 3 || typeof(commentText) !== 'string'){
+    if(commentText.trim().length < 3 || typeof(commentText) !== 'string' || commentText.trim().length > 250){
       setNoError(false);
       return
     }
@@ -66,7 +66,7 @@ function CommentSection(props) {
           <Button variant="contained" color="primary" type="submit">
             Submit Comment
           </Button>
-          <div hidden={noError}>Invalid input! Comment must be at least 3 characters!</div>
+          <div hidden={noError}>Invalid input! Comment must be at least 3 characters and no longer than 250!</div>
         </form>
       ) : (
         <p>Please login to comment</p>
