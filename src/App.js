@@ -27,13 +27,28 @@ import firebase from "firebase/compat/app";
 import Spotify from "./components/profile/spotifyAuth"
 import { setToken, deleteToken } from './store/features/auth/spotifySlice';
 
+// import { setInterval } from 'timers';
 
-function App() {
+function App() 
+{
   const auth = useSelector((state) => state.auth);
   const dispatch = useDispatch();
-  const token = window.localStorage.getItem("token")
+  let token = window.localStorage.getItem("token")
+
+  const [timer, setTimer] = useState(0);
+  useEffect(() => { 
+	const interval = setInterval(() => { 
+		token = window.localStorage.getItem("token")
+		if(token) {
+			dispatch(deleteToken({ token: token }));
+			window.localStorage.removeItem("token");
+		}
+		setTimer(new Date());
+	}, 3000000);
+	return () => clearInterval(interval);
 
 
+  }, [])
 
   useEffect(() => {
     const Fireauth = getAuth();
