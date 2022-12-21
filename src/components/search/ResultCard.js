@@ -119,10 +119,17 @@ const ResultCard = (props) =>{
         let artists = ""
         if (item.artists.length === 0){
             artists = "No artists found"
-            };
-        item.artists.forEach(artist => {
-            artists += ", " + artist.name.toString(); 
-        });
+            }
+        else{
+            item.artists.forEach((artist, i) => {
+            if(i==0){
+                artists += artist.name.toString(); 
+            }
+            else{
+                artists += ", " + artist.name.toString(); 
+            }
+        })
+        };
         let id = item.id;
 
         return (
