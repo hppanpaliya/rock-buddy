@@ -78,7 +78,7 @@ function CommentList(props) {
     <ul>
       {comments.map((comment) => (
         <li key={comment.id}>
-          <b>{comment.comment_author}:</b> {comment.comment_text}
+          {comment.comment_author}: {comment.comment_text}
         </li>
       ))}
     </ul>
