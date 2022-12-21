@@ -81,7 +81,9 @@ function CommentList(props) {
     <ul>
       {comments.map((comment) => (
         <li key={comment.id}>
-          {comment.comment_author}: {comment.comment_text}
+          {comment.comment_author}: <span style={{ wordWrap: "break-word",
+                  wordBreak: "break-all"}}>{comment.comment_text}</span>
+
         </li>
       ))}
     </ul>
