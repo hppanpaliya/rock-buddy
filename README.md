@@ -21,7 +21,7 @@ After downloading the zip:
 
 7. Now to view the client, there are two options
    a. Run the client locally
-      i. In the root directory of the project, run ‘npm build’ and build the app
+      i. In the root directory of the project, run ‘npm run build’ and build the app
       ii. In the root directory of the project, run the command ‘npm start’ to boot the react app
   b. Access our hosted react app on heroku via https://rock-buddy.herokuapp.com/
     (Notes: You MUST have the API running locally when using the heroku link. Also, if you have the latest version of chrome, disable experimental features. If   experimental features are enabled, you may encounter CORS errors when the hosted client makes API requests to the local server)
