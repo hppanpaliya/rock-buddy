@@ -23,6 +23,7 @@ function CommentSection(props) {
           id: doc.id,
           ...doc.data(),
         }));
+        newComments.sort((a, b) => b.created_at - a.created_at);
         setComments(newComments);
       });
     return () => unsubscribe();
@@ -41,6 +42,7 @@ function CommentSection(props) {
         album_id: albumId,
         comment_text: commentText,
         comment_author: userInfo.username,
+        created_at: Date.now(),
       });
       setCommentText("");
       setCommentAuthor("");

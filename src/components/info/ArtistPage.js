@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import SendLinkMessage from "./../firebase/Chat/SendLinkMessage"
 
 import { useSelector } from "react-redux";
+import CommentSection from "./../profile/comments/artistComments"
 
 import { 
 	Box,
@@ -133,6 +134,8 @@ const ArtistPage = (props) => {
 					}
 				</Grid>
 			</Box>
+			
+			<CommentSection artistId={artistData.id} />
 		</div>
 	);
 };

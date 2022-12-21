@@ -22,7 +22,7 @@ const Conversation = ({ conversation, currentUserId }) => {
                 {message.text}
                 <br />
                 {message.link ? (
-                  <Link to={message.link} style={{ color: "#000" }}>
+                  <Link to={message.link} style={{ color: message.sender === currentUserId ? "#FFF" : "#000" }}>
                     {message.link}
                   </Link>
                 ) : null}
