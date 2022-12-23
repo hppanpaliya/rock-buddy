@@ -1,5 +1,5 @@
 
-![alt text]("https://raw.githubusercontent.com/frankappolonia/rock-buddy/main/rockbuddyspotifysmall.png")
+![logo](https://raw.githubusercontent.com/frankappolonia/rock-buddy/main/rockbuddyspotifysmall.png)
 
 
 
