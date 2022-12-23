@@ -1,5 +1,5 @@
 
-![alt text](https://imgur.com/7zBl86V)
+![alt text](https://raw.githubusercontent.com/frankappolonia/rock-buddy/main/rockbuddyspotify small.png)
 
 
 
