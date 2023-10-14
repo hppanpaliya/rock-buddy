@@ -4,16 +4,19 @@
 
 ## Table of Contents
 
-- [Overview](#overview)
-- [Getting Started](#getting-started)
-- [Frontend](#frontend)
-  - [React Components](#react-components)
-  - [Redux Store](#redux-store)
-  - [Dependencies](#frontend-dependencies)
-- [Backend](#backend)
-  - [Express Routes](#express-routes)
-  - [Data Access](#data-access)
-  - [Dependencies](#backend-dependencies)
+- [Rock Buddy](#rock-buddy)
+  - [Table of Contents](#table-of-contents)
+  - [Overview](#overview)
+  - [Demo](#demo)
+  - [Getting Started](#getting-started)
+  - [Frontend](#frontend)
+    - [React Components](#react-components)
+    - [Redux Store](#redux-store)
+    - [Frontend Dependencies](#frontend-dependencies)
+  - [Backend](#backend)
+    - [Express Routes](#express-routes)
+    - [Data Access](#data-access)
+    - [Backend Dependencies](#backend-dependencies)
 
 ## Overview
 
@@ -27,17 +30,26 @@ Rock Buddy is a comprehensive web application built with React, Redux, Express, 
 
 The frontend leverages the power of React and Redux, while the backend is powered by Node/Express, which interfaces with the Spotify API and Firebase. Performance is amped up with data caching via Redis.
 
+Now, both the backend and frontend are hosted together on Vercel at [https://rock-buddy.vercel.app/](https://rock-buddy.vercel.app/).
+
+## Demo
+
+Watch a live demo of the project in the video below:
+
+[![Watch the demo](http://img.youtube.com/vi/VgJJ44f4KBM/0.jpg)](https://www.youtube.com/watch?v=VgJJ44f4KBM)
+
+
 ## Getting Started
 
 To set up Rock Buddy on your local environment:
 
 After cloning the repo:
 
-1. In the root directory, run ‘npm i’ to install the node modules for the client (react)
+1. In the root directory, run ‘npm i’ to install the node modules for the client (react).
 
 2. cd (change directory) to the /api folder. Run ‘npm i’ to install the node modules for our server (express.js).
 
-3. While you are in the /api folder, place the .env file in the root level of the folder (where the package.json is)
+3. While you are in the /api folder, place the .env file in the root level of the folder (where the package.json is).
 
 4. Install Graphics Magick CLI (NOT IMAGE MAGICK) on your machine
    - Follow the install instructions based on your OS here http://www.graphicsmagick.org/README.html
@@ -55,7 +67,7 @@ After cloning the repo:
       - In the root directory, run ‘npm run build’ and build the app
       - In the root directory, run the command ‘npm start’ to boot the react app
       
-   b) Access our hosted react app on heroku via https://rock-buddy.herokuapp.com/
+   b) Access the hosted react app on Vercel via [https://rock-buddy.vercel.app/](https://rock-buddy.vercel.app/)
       - You MUST have the API running locally when using this link
       - Disable experimental features in Chrome to avoid CORS errors
 
@@ -140,3 +152,4 @@ Cached data is stored in Redis to ensure faster access.
 ---
 
 For additional details or queries regarding the application, please refer to the official documentation or get in touch with the development team.
+
