@@ -118,7 +118,7 @@ const Profile = (props) => {
 
     //1. send image to API for imagemagick
     const response = await axios.post(
-      "http://localhost:4000/users/profilepic",
+      `${process.env.REACT_APP_BACKEND_URL}/users/profilepic`,
       formData,
       {
         responseType: "blob",

@@ -1,10 +1,21 @@
 .App {
   text-align: center;
+  overflow-x: hidden;
 }
 
 .App-logo {
   height: 40vmin;
   pointer-events: none;
+}
+.App-body {
+  margin: 0;
+  padding: 1rem;
+  font-family: sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #333;
+  background-color: #fff;
+  overflow-x: hidden;
 }
 
 @media (prefers-reduced-motion: no-preference) {

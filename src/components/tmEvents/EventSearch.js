@@ -28,7 +28,7 @@ const EventSearch = (props) => {
     
             const data = await axios({
                 method: 'GET',
-                url: `http://localhost:4000/events/search?keyword=${searchTerm}&page=${page}`,
+                url: `${process.env.REACT_APP_BACKEND_URL}/events/search?keyword=${searchTerm}&page=${page}`,
                 headers: { "Content-Type": "application/json" }, 
             });
 

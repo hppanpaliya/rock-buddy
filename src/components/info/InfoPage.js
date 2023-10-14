@@ -34,7 +34,7 @@ const InfoPage = () => {
         async function fetchData() { 
             console.log("Fetching data");
             try { 
-                const response = await axios.get(`http://localhost:4000/info/${category}/${id}`,
+                const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/info/${category}/${id}`,
                     { headers: { "Content-Type": "application/json"}} );
                 setInfoData(response.data);
             } catch (e) { 

@@ -37,7 +37,7 @@ const Search = (props) => {
      
             const data = await axios({
                 method: 'GET',
-                url: `http://localhost:4000/search/${searchType}?term=${searchTerm}&page=${page}`,
+                url: `${process.env.REACT_APP_BACKEND_URL}/search/${searchType}?term=${searchTerm}&page=${page}`,
                 headers: { "Content-Type": "application/json" }, 
             });
 

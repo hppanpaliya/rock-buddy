@@ -1,7 +1,18 @@
 const express = require("express");
 const router = express.Router();
 const redis = require('redis');
-const client = redis.createClient();
+if(process.env.REDISCLOUD_URL){
+	client = redis.createClient({
+		password: process.env.REDISCLOUD_PASSWORD,
+		socket: {
+			host: process.env.REDISCLOUD_URL,
+			port: process.env.REDISCLOUD_PORT
+		}
+	})
+}
+else{
+  client = redis.createClient();
+}
 client.connect().then(() => {});
 
 const helper = require('../helper')

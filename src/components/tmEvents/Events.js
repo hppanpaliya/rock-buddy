@@ -21,7 +21,7 @@ const AllEvents = (props) =>{
 
             const data = await axios({
                 method: 'GET',
-                url: `http://localhost:4000/events/all?page=${page}`,
+                url: `${process.env.REACT_APP_BACKEND_URL}/events/all?page=${page}`,
                 headers: { "Content-Type": "application/json" }, 
             });
 

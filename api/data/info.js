@@ -6,7 +6,13 @@ const { checkString } = helper.validations;
 const redis = require('redis');
 let client;
 if(process.env.REDISCLOUD_URL){
-  client = redis.createClient(process.env.REDISCLOUD_URL, {no_ready_check: true});
+	client = redis.createClient({
+		password: process.env.REDISCLOUD_PASSWORD,
+		socket: {
+			host: process.env.REDISCLOUD_URL,
+			port: process.env.REDISCLOUD_PORT
+		}
+	})
 }
 else{
   client = redis.createClient();
