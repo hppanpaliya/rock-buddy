@@ -8,7 +8,7 @@ import { setToken as setBearerToken, deleteToken } from "../../store/features/au
 import { Box,} from '@mui/material';
 
 const SpotifyAuth = () =>{
-    const CLIENT_ID = "c427fff192174d81a2004d4d9f006507"
+    const CLIENT_ID = process.env.REACT_APP_SPOTIFY_CLIENT_ID
     const REDIRECT_URI = "http://localhost:3000/spotify"
     const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize"
     const RESPONSE_TYPE = "token"
